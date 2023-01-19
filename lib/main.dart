@@ -1,6 +1,7 @@
 import 'package:driver_app/screens/home_screen.dart';
 import 'package:driver_app/screens/login_screen.dart';
 import 'package:driver_app/screens/phone_verification_screens/phone_number_setup.dart';
+import 'package:driver_app/screens/profile_screen.dart';
 import 'package:driver_app/screens/registration_screen.dart';
 import 'package:driver_app/screens/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -17,7 +18,7 @@ void main() async {
       theme: ThemeData(
         appBarTheme: AppBarTheme(color: Colors.grey[800]),
       ),
-      home: HomeScreen(),
+      home: ProfileScreen(),
     ),
   );
 }
@@ -28,6 +29,7 @@ final Map<String, Widget Function(BuildContext)> appPageRoutes = {
   '/phoneNumberSetup': (_) => const PhoneNumberSetup(),
   '/registrationScreen': (_) => const RegistrationScreen(),
   '/homeScreen': (_) => const HomeScreen(),
+  '/profileScreen': (_) => const ProfileScreen(),
   // '/mapScreen': (_) => MapsScreen(),
   // '/permissionScreen': (_) => const PermissionScreen(),
 };
