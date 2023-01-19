@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 Color secondaryColor = Color(0xFF602467);
-Color primaryColor = Color(0xFFe7d9e9);
+Color primaryColor = Color(0xFFddc9e0);
 
 extension ShowSnackBar on BuildContext {
   void showSnackBar({
