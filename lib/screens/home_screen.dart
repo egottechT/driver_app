@@ -127,7 +127,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         SecondRow(),
                         ElevatedButton(
-                          onPressed: (){},
+                          onPressed: (){
+                            Navigator.of(context)
+                                .pushNamed("/profileScreen");
+                          },
                           child: Text("Reset & Cancel"),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.black

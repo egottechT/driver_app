@@ -74,7 +74,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   ElevatedButton(
                     onPressed: () {
                       if (_ownerFormKey.currentState!.validate()) {
-                        Navigator.of(context).pushNamed("/permissionScreen");
+                        Navigator.of(context)
+                            .pushNamed("/homeScreen");
                       }
                     },
                     child: Text("Next"),

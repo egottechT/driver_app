@@ -99,16 +99,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                       });
                                       User? result = await doGmailLogin();
                                       if (result != null) {
-                                        List<String> values = await readData();
-                                        if (values.contains(result.uid)) {
-                                          Navigator.of(context)
-                                              .pushNamed("/permissionScreen");
-                                        } else {
+                                        // List<String> values = await readData();
+                                        // if (values.contains(result.uid)) {
+                                        //   Navigator.of(context)
+                                        //       .pushNamed("/permissionScreen");
+                                        // } else {
                                           addUserToDatabase(
                                               result.uid.toString());
                                           Navigator.of(context)
                                               .pushNamed("/registrationScreen");
-                                        }
+                                        // }
                                       } else {
                                         context.showErrorSnackBar(
                                             message:

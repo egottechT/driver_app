@@ -179,7 +179,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 height: 20,
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushNamed("/selectVehicleScreen");
+                },
                 child: Text("LogOut"),
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
               )

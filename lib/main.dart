@@ -19,7 +19,7 @@ void main() async {
       theme: ThemeData(
         appBarTheme: AppBarTheme(color: Colors.grey[800]),
       ),
-      home: SelectVehicleScreen(),
+      home: SplashScreen(),
     ),
   );
 }
