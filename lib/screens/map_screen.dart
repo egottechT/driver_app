@@ -25,35 +25,26 @@ class _MapScreenState extends State<MapScreen> {
   void getCurrentLocation() async {
     locate.Location currentLocation = locate.Location();
     var location = await currentLocation.getLocation();
+    markIcons = await getImages('assets/images/car.png', 200);
+
+    Marker tmpMarker = Marker(
+      markerId: MarkerId("My location"),
+      position: LatLng((location.latitude!) as double,
+          (location.longitude!) as double),
+      infoWindow: InfoWindow(title: "My Location", snippet: "My car"),
+      icon: BitmapDescriptor.fromBytes(markIcons!),
+    );
+
+    setState(() {
+      _makers.add(tmpMarker);
+    });
+
     CameraPosition _home = CameraPosition(
         target:
             LatLng(location.latitude as double, location.longitude as double),
         zoom: zoomLevel);
 
     mapController.animateCamera(CameraUpdate.newCameraPosition(_home));
-    setTheMarkers(location);
-  }
-
-  void setTheMarkers(locate.LocationData location) async {
-    Set<Marker> values = {};
-    double diff = 0.001000;
-    markIcons = await getImages('assets/images/car.png', 300);
-
-    for (int i = 0; i < 2; i++) {
-      Marker tmpMarker = Marker(
-        markerId: MarkerId("Car ${i + 1}"),
-        position: LatLng((location.latitude! + diff) as double,
-            (location.longitude! + diff) as double),
-        infoWindow: InfoWindow(title: "Car ${i + 1}", snippet: "Book the car"),
-        icon: BitmapDescriptor.fromBytes(markIcons!),
-      );
-
-      values.add(tmpMarker);
-      diff -= 0.000500;
-    }
-    setState(() {
-      _makers = values;
-    });
   }
 
   Future<Uint8List> getImages(String path, int width) async {
@@ -258,7 +249,6 @@ class _MapScreenState extends State<MapScreen> {
                 },
                 body: Stack(children: <Widget>[
                   GoogleMap(
-                    myLocationEnabled: true,
                     myLocationButtonEnabled: false,
                     onMapCreated: _onMapCreated,
                     initialCameraPosition: CameraPosition(
@@ -269,6 +259,10 @@ class _MapScreenState extends State<MapScreen> {
                   ),
                   Positioned(top: 0, child: topNavigationBar()),
                   Positioned(bottom: 250, right: 10, child: buildFAB(context))
-                ]))));
+                ]
+                )
+            )
+        )
+    );
   }
 }
