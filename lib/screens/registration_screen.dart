@@ -75,7 +75,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     onPressed: () {
                       if (_ownerFormKey.currentState!.validate()) {
                         Navigator.of(context)
-                            .pushNamed("/homeScreen");
+                            .pushNamed("/permissionScreen");
                       }
                     },
                     child: Text("Next"),

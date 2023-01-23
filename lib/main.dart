@@ -1,5 +1,6 @@
 import 'package:driver_app/screens/home_screen.dart';
 import 'package:driver_app/screens/login_screen.dart';
+import 'package:driver_app/screens/map_screen.dart';
 import 'package:driver_app/screens/permission_screen.dart';
 import 'package:driver_app/screens/phone_verification_screens/phone_number_setup.dart';
 import 'package:driver_app/screens/profile_screen.dart';
@@ -34,5 +35,5 @@ final Map<String, Widget Function(BuildContext)> appPageRoutes = {
   '/profileScreen': (_) => const ProfileScreen(),
   '/selectVehicleScreen': (_) => const SelectVehicleScreen(),
   '/permissionScreen': (_) => const PermissionScreen(),
-
+  '/mapScreen': (_) => const MapScreen(),
 };

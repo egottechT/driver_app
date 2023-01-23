@@ -10,7 +10,7 @@ class PermissionScreen extends StatefulWidget {
 }
 
 class _PermissionScreenState extends State<PermissionScreen> {
-  late bool location,phone;
+  late bool location, phone;
 
   @override
   void initState() {
@@ -26,24 +26,31 @@ class _PermissionScreenState extends State<PermissionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: Scaffold(
+    return SafeArea(
+        child: Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColor,
-        title: Text("Allow Storage/Location/Phone Permission Required",
-        style: TextStyle(color: Colors.black,fontSize: 12),),
-        iconTheme: IconThemeData(
-          color: Colors.black
+        title: Text(
+          "Allow Storage/Location/Phone Permission Required",
+          style: TextStyle(color: Colors.black, fontSize: 12),
         ),
+        iconTheme: IconThemeData(color: Colors.black),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Expanded(flex: 3,child: Image.asset("assets/images/splash_screen.png")),
-          Expanded(flex: 2,child: Center(child: Padding(
-            padding: const EdgeInsets.all(50.0),
-            child: Text("For us to download/Location/Phone and training content on your device's by giving us permission",
-            style: TextStyle(fontSize: 18),),
-          ))),
+          Expanded(
+              flex: 3, child: Image.asset("assets/images/splash_screen.png")),
+          Expanded(
+              flex: 2,
+              child: Center(
+                  child: Padding(
+                padding: const EdgeInsets.all(50.0),
+                child: Text(
+                  "For us to download/Location/Phone and training content on your device's by giving us permission",
+                  style: TextStyle(fontSize: 18),
+                ),
+              ))),
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: ElevatedButton(
@@ -61,8 +68,8 @@ class _PermissionScreenState extends State<PermissionScreen> {
                       message: "Contact Permission is Granted");
                   phone = true;
                 }
-                // if(location && phone)
-                //     Navigator.of(context).pushNamed("/mapScreen");
+                if (location && phone)
+                  Navigator.of(context).pushNamed("/mapScreen");
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
             ),
