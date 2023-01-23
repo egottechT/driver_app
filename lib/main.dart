@@ -1,5 +1,6 @@
 import 'package:driver_app/screens/home_screen.dart';
 import 'package:driver_app/screens/login_screen.dart';
+import 'package:driver_app/screens/permission_screen.dart';
 import 'package:driver_app/screens/phone_verification_screens/phone_number_setup.dart';
 import 'package:driver_app/screens/profile_screen.dart';
 import 'package:driver_app/screens/registration_screen.dart';
@@ -19,7 +20,7 @@ void main() async {
       theme: ThemeData(
         appBarTheme: AppBarTheme(color: Colors.grey[800]),
       ),
-      home: SplashScreen(),
+      home: PermissionScreen(),
     ),
   );
 }
@@ -32,5 +33,6 @@ final Map<String, Widget Function(BuildContext)> appPageRoutes = {
   '/homeScreen': (_) => const HomeScreen(),
   '/profileScreen': (_) => const ProfileScreen(),
   '/selectVehicleScreen': (_) => const SelectVehicleScreen(),
+  '/permissionScreen': (_) => const PermissionScreen(),
 
 };
