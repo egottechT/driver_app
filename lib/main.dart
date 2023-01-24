@@ -1,4 +1,5 @@
-import 'package:driver_app/Utils/notification_service.dart';
+import 'package:driver_app/service/background_service.dart';
+import 'package:driver_app/service/notification_service.dart';
 import 'package:driver_app/screens/home_screen.dart';
 import 'package:driver_app/screens/login_screen.dart';
 import 'package:driver_app/screens/map_screen.dart';
@@ -10,11 +11,13 @@ import 'package:driver_app/screens/select_vehicle_screen.dart';
 import 'package:driver_app/screens/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await LocalNoticeService().setup();
+  await FlutterBackgroundService();
   runApp(
     MaterialApp(
       title: 'Book My taxi Driver',

@@ -1,8 +1,10 @@
 import 'dart:typed_data';
 import 'dart:ui' as ui;
-import 'package:driver_app/Utils/notification_service.dart';
+import 'package:driver_app/service/background_service.dart';
+import 'package:driver_app/service/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as locate;
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -28,6 +30,7 @@ class _MapScreenState extends State<MapScreen> {
     LocalNoticeService().readData();
     super.initState();
   }
+
   void getCurrentLocation() async {
     locate.Location currentLocation = locate.Location();
     var location = await currentLocation.getLocation();
@@ -35,8 +38,8 @@ class _MapScreenState extends State<MapScreen> {
 
     Marker tmpMarker = Marker(
       markerId: MarkerId("My location"),
-      position: LatLng((location.latitude!) as double,
-          (location.longitude!) as double),
+      position: LatLng(
+          (location.latitude!) as double, (location.longitude!) as double),
       infoWindow: InfoWindow(title: "My Location", snippet: "My car"),
       icon: BitmapDescriptor.fromBytes(markIcons!),
     );
@@ -82,7 +85,7 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   int currentIndex = 0;
-  bool toggleValue = true;
+  bool toggleValue = false;
 
   Widget topNavigationBar() {
     return Container(
@@ -145,7 +148,20 @@ class _MapScreenState extends State<MapScreen> {
                       // boolean variable value
                       value: toggleValue,
                       // changes the state of the switch
-                      onChanged: (value) => setState(() => toggleValue = value),
+                      onChanged: (value) async {
+                        setState(() {
+                          toggleValue = value;
+                        });
+                        if (toggleValue)
+                          initializeService();
+                        else {
+                          final service = FlutterBackgroundService();
+                          var isRunning = await service.isRunning();
+                          if (isRunning) {
+                            service.invoke("stopService");
+                          }
+                        }
+                      },
                     ),
                     toggleValue
                         ? Text("Online", style: TextStyle(color: Colors.white))
@@ -271,10 +287,6 @@ class _MapScreenState extends State<MapScreen> {
                   ),
                   Positioned(top: 0, child: topNavigationBar()),
                   Positioned(bottom: 250, right: 10, child: buildFAB(context))
-                ]
-                )
-            )
-        )
-    );
+                ]))));
   }
 }
