@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:driver_app/Utils/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -22,6 +23,11 @@ class _MapScreenState extends State<MapScreen> {
   List<dynamic> list = [];
   final _panelcontroller = PanelController();
 
+  @override
+  void initState() {
+    LocalNoticeService().readData();
+    super.initState();
+  }
   void getCurrentLocation() async {
     locate.Location currentLocation = locate.Location();
     var location = await currentLocation.getLocation();
@@ -157,6 +163,12 @@ class _MapScreenState extends State<MapScreen> {
         setState(() {
           currentIndex = index;
         });
+        LocalNoticeService().addNotification(
+          'Notification Title',
+          'Notification Body',
+          DateTime.now().millisecondsSinceEpoch + 1000,
+          'testing',
+        );
       },
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

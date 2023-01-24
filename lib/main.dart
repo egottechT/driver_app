@@ -1,3 +1,4 @@
+import 'package:driver_app/Utils/notification_service.dart';
 import 'package:driver_app/screens/home_screen.dart';
 import 'package:driver_app/screens/login_screen.dart';
 import 'package:driver_app/screens/map_screen.dart';
@@ -13,6 +14,7 @@ import 'package:flutter/material.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await LocalNoticeService().setup();
   runApp(
     MaterialApp(
       title: 'Book My taxi Driver',

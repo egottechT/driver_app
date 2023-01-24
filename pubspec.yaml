@@ -36,7 +36,8 @@ dependencies:
   intl_phone_number_input: ^0.7.1
   firebase_database: ^10.0.9
   permission_handler: ^10.2.0
-
+  flutter_local_notifications: ^13.0.0
+  
   sliding_up_panel: ^2.0.0+1
   geocoding: ^2.0.5
   google_maps_flutter: ^2.2.3
