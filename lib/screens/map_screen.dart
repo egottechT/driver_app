@@ -4,7 +4,7 @@ import 'package:driver_app/service/background_service.dart';
 import 'package:driver_app/service/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
+// import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as locate;
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -152,15 +152,20 @@ class _MapScreenState extends State<MapScreen> {
                         setState(() {
                           toggleValue = value;
                         });
-                        if (toggleValue)
-                          initializeService();
-                        else {
-                          final service = FlutterBackgroundService();
-                          var isRunning = await service.isRunning();
-                          if (isRunning) {
-                            service.invoke("stopService");
-                          }
-                        }
+                        // var service = FlutterBackgroundService();
+                        // var isRunning = await service.isRunning();
+                        // if (toggleValue){
+                        //   if(!isRunning){
+                        //     await initializeService();
+                        //     service.startService();
+                        //     service.invoke("setAsBackground");
+                        //   }
+                        // }
+                        // else {
+                        //   if (isRunning) {
+                        //     service.invoke("stopService");
+                        //   }
+                        // }
                       },
                     ),
                     toggleValue
@@ -179,12 +184,6 @@ class _MapScreenState extends State<MapScreen> {
         setState(() {
           currentIndex = index;
         });
-        LocalNoticeService().addNotification(
-          'Notification Title',
-          'Notification Body',
-          DateTime.now().millisecondsSinceEpoch + 1000,
-          'testing',
-        );
       },
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
