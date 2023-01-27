@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_beep/flutter_beep.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_notification_channel/flutter_notification_channel.dart';
 import 'package:flutter_notification_channel/notification_importance.dart';
@@ -80,12 +81,13 @@ class LocalNoticeService {
       var values = snapshot.first;
       Map map = values.value as Map;
       if (sendNotification) {
+        FlutterBeep.playSysSound(41);
         showDialog(
             barrierDismissible: false,
             context: context,
             builder: (_) {
               return AlertDialog(
-                title: Text(
+                title: const Text(
                   "Pickup Request",
                   style: TextStyle(color: Colors.black),
                 ),
@@ -99,7 +101,7 @@ class LocalNoticeService {
                         color: Colors.grey[300],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
@@ -127,11 +129,11 @@ class LocalNoticeService {
                         color: Colors.grey[300],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
-                    Text("77 Color Extension Apt. 690"),
-                    SizedBox(
+                    const Text("77 Color Extension Apt. 690"),
+                    const SizedBox(
                       height: 10,
                     ),
                     Image.asset("assets/images/map_image.png")
@@ -141,7 +143,7 @@ class LocalNoticeService {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white, elevation: 0),
-                    child: Text(
+                    child: const Text(
                       "REJECT",
                       style: TextStyle(color: Colors.grey),
                     ),
@@ -152,7 +154,7 @@ class LocalNoticeService {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white, elevation: 0),
-                    child: Text(
+                    child: const Text(
                       "ACCEPT",
                       style: TextStyle(color: Colors.black),
                     ),
@@ -163,38 +165,38 @@ class LocalNoticeService {
                 ],
               );
             });
-        LocalNoticeService().addNotification(
-          map['title'],
-          map['body'],
-          DateTime.now().millisecondsSinceEpoch + 1000,
-          'testing',
-        );
+        // LocalNoticeService().addNotification(
+        //   map['title'],
+        //   map['body'],
+        //   DateTime.now().millisecondsSinceEpoch + 1000,
+        //   'testing',
+        // );
       }
     });
   }
 
   iconWithText(Image icon, String s, String t) {
-    TextStyle largeText = TextStyle(
+    TextStyle largeText = const TextStyle(
         color: Colors.black, fontSize: 21, fontWeight: FontWeight.bold);
     TextStyle smallText = TextStyle(color: Colors.grey, fontSize: 15);
     return Column(
       children: [
         icon,
-        SizedBox(
+        const SizedBox(
           height: 5,
         ),
         Text(
           s,
           style: largeText,
         ),
-        SizedBox(
+        const SizedBox(
           height: 5,
         ),
         Text(
           t,
           style: smallText,
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
       ],

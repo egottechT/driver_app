@@ -5,6 +5,7 @@ import 'package:driver_app/service/notification_service.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_beep/flutter_beep.dart';
 
 // import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -70,8 +71,8 @@ class _MapScreenState extends State<MapScreen> {
 
   Widget buildFAB(BuildContext context) {
     return FloatingActionButton(
-      onPressed: () {
-        // getCurrentLocation();
+      onPressed: () async {
+        getCurrentLocation();
       },
       backgroundColor: Colors.white,
       child: Icon(
