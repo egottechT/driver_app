@@ -34,7 +34,7 @@ class _MapScreenState extends State<MapScreen> {
   void getCurrentLocation() async {
     locate.Location currentLocation = locate.Location();
     var location = await currentLocation.getLocation();
-    markIcons = await getImages('assets/images/car.png', 200);
+    markIcons = await getImages('assets/icons/driver_car.png', 150);
 
     Marker tmpMarker = Marker(
       markerId: MarkerId("My location"),
