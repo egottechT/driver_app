@@ -36,15 +36,16 @@ class LocalNoticeService {
     });
   }
 
-  void addNotification(String title, String body, int endTime, String channel) async {
+  void addNotification(
+      String title, String body, int endTime, String channel) async {
     tzData.initializeTimeZones();
     final scheduleTime =
         tz.TZDateTime.fromMillisecondsSinceEpoch(tz.local, endTime);
 
     const androidDetail = AndroidNotificationDetails(
-        "driver", // channel Id
-        "Request driver", // channel Name
-        );
+      "driver", // channel Id
+      "Request driver", // channel Name
+    );
 
     final iosDetail = DarwinNotificationDetails();
 
@@ -72,21 +73,131 @@ class LocalNoticeService {
               "https://book-my-etaxi-default-rtdb.asia-southeast1.firebasedatabase.app")
       .ref();
 
-  void readData() {
+  void readData(BuildContext context) {
     databaseReference.child('active_driver').onValue.listen((event) {
       debugPrint("Inside here ${sendNotification}");
       var snapshot = event.snapshot.children;
-      for (var values in snapshot) {
-        Map map = values.value as Map;
-        if (sendNotification) {
-          LocalNoticeService().addNotification(
-            map['title'],
-            map['body'],
-            DateTime.now().millisecondsSinceEpoch + 1000,
-            'testing',
-          );
-        }
+      var values = snapshot.first;
+      Map map = values.value as Map;
+      if (sendNotification) {
+        showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (_) {
+              return AlertDialog(
+                title: Text(
+                  "Pickup Request",
+                  style: TextStyle(color: Colors.black),
+                ),
+                content: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(
+                      height: 2,
+                      child: Container(
+                        color: Colors.grey[300],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        iconWithText(
+                            Image.asset(
+                              "assets/icons/watch.png",
+                              scale: 2.5,
+                            ),
+                            "5 min",
+                            "Min. Time"),
+                        iconWithText(
+                            Image.asset(
+                              "assets/icons/money_bag.png",
+                              scale: 2.5,
+                            ),
+                            "4.49 \$",
+                            "Esti. Earn"),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 2,
+                      child: Container(
+                        color: Colors.grey[300],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text("77 Color Extension Apt. 690"),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Image.asset("assets/images/map_image.png")
+                  ],
+                ),
+                actions: <Widget>[
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white, elevation: 0),
+                    child: Text(
+                      "REJECT",
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white, elevation: 0),
+                    child: Text(
+                      "ACCEPT",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            });
+        LocalNoticeService().addNotification(
+          map['title'],
+          map['body'],
+          DateTime.now().millisecondsSinceEpoch + 1000,
+          'testing',
+        );
       }
     });
+  }
+
+  iconWithText(Image icon, String s, String t) {
+    TextStyle largeText = TextStyle(
+        color: Colors.black, fontSize: 21, fontWeight: FontWeight.bold);
+    TextStyle smallText = TextStyle(color: Colors.grey, fontSize: 15);
+    return Column(
+      children: [
+        icon,
+        SizedBox(
+          height: 5,
+        ),
+        Text(
+          s,
+          style: largeText,
+        ),
+        SizedBox(
+          height: 5,
+        ),
+        Text(
+          t,
+          style: smallText,
+        ),
+        SizedBox(
+          height: 10,
+        ),
+      ],
+    );
   }
 }

@@ -2,8 +2,10 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:driver_app/service/background_service.dart';
 import 'package:driver_app/service/notification_service.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 // import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as locate;
@@ -27,7 +29,7 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   void initState() {
-    LocalNoticeService().readData();
+    LocalNoticeService().readData(context);
     super.initState();
   }
 
@@ -69,7 +71,7 @@ class _MapScreenState extends State<MapScreen> {
   Widget buildFAB(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {
-        getCurrentLocation();
+        // getCurrentLocation();
       },
       backgroundColor: Colors.white,
       child: Icon(
@@ -153,7 +155,8 @@ class _MapScreenState extends State<MapScreen> {
                           toggleValue = value;
                         });
                         LocalNoticeService.sendNotification = value;
-                        debugPrint("Values are:- ${LocalNoticeService.sendNotification} ${value}");
+                        debugPrint(
+                            "Values are:- ${LocalNoticeService.sendNotification} ${value}");
                         // var service = FlutterBackgroundService();
                         // var isRunning = await service.isRunning();
                         // if (toggleValue){
@@ -288,6 +291,10 @@ class _MapScreenState extends State<MapScreen> {
                   ),
                   Positioned(top: 0, child: topNavigationBar()),
                   Positioned(bottom: 250, right: 10, child: buildFAB(context))
-                ]))));
+                ]
+                )
+            )
+        )
+    );
   }
 }
