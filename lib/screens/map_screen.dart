@@ -152,6 +152,8 @@ class _MapScreenState extends State<MapScreen> {
                         setState(() {
                           toggleValue = value;
                         });
+                        LocalNoticeService.sendNotification = value;
+                        debugPrint("Values are:- ${LocalNoticeService.sendNotification} ${value}");
                         // var service = FlutterBackgroundService();
                         // var isRunning = await service.isRunning();
                         // if (toggleValue){
