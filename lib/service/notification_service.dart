@@ -74,7 +74,7 @@ class LocalNoticeService {
               "https://book-my-etaxi-default-rtdb.asia-southeast1.firebasedatabase.app")
       .ref();
 
-  void readData(BuildContext context) {
+  void readData(BuildContext context, Function function) {
     databaseReference.child('active_driver').onValue.listen((event) {
       debugPrint("Inside here ${sendNotification}");
       var snapshot = event.snapshot.children;
@@ -160,6 +160,7 @@ class LocalNoticeService {
                     ),
                     onPressed: () {
                       Navigator.of(context).pop();
+                      function(map);
                     },
                   ),
                 ],

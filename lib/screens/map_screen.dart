@@ -30,7 +30,7 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   void initState() {
-    LocalNoticeService().readData(context);
+    LocalNoticeService().readData(context, onAcceptRequest);
     super.initState();
   }
 
@@ -80,6 +80,26 @@ class _MapScreenState extends State<MapScreen> {
         color: Colors.blue,
       ),
     );
+  }
+
+  void setTheMarkers(LatLng location) async {
+    Marker marker = Marker(
+      markerId: MarkerId("Pickup"),
+      position: location,
+      infoWindow: InfoWindow(title: "Pickup", snippet: "Aryan Bisht"),
+    );
+
+    setState(() {
+      _makers.add(marker);
+    });
+  }
+
+  void onAcceptRequest(Map map) {
+    var location = LatLng(double.parse(map["lat"]), double.parse(map["long"]));
+    setTheMarkers(location);
+
+    CameraPosition _cameraPosition = CameraPosition(target: location, zoom: zoomLevel);
+    mapController.animateCamera(CameraUpdate.newCameraPosition(_cameraPosition));
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -292,10 +312,6 @@ class _MapScreenState extends State<MapScreen> {
                   ),
                   Positioned(top: 0, child: topNavigationBar()),
                   Positioned(bottom: 250, right: 10, child: buildFAB(context))
-                ]
-                )
-            )
-        )
-    );
+                ]))));
   }
 }
