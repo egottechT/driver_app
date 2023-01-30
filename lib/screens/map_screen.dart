@@ -1,13 +1,8 @@
 import 'dart:typed_data';
 import 'dart:ui' as ui;
-import 'package:driver_app/service/background_service.dart';
 import 'package:driver_app/service/notification_service.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_beep/flutter_beep.dart';
-
-// import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as locate;
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -121,42 +116,26 @@ class _MapScreenState extends State<MapScreen> {
                 flex: 1,
                 child: searchBarWidget(
                     0,
-                    Icon(
-                      Icons.home,
-                      size: 30,
-                      color: Colors.white,
-                    ),
+                    ImageIcon(AssetImage("assets/icons/home.png"),size: 30,color: Colors.white,),
                     "Home")),
             Expanded(
                 flex: 1,
                 child: searchBarWidget(
                     1,
-                    Icon(
-                      Icons.money_outlined,
-                      size: 30,
-                      color: Colors.white,
-                    ),
-                    "Home")),
+                    ImageIcon(AssetImage("assets/icons/money.png"),size: 30,color: Colors.white,),
+                    "Earning")),
             Expanded(
                 flex: 1,
                 child: searchBarWidget(
                     2,
-                    Icon(
-                      Icons.star_half,
-                      size: 30,
-                      color: Colors.white,
-                    ),
-                    "Home")),
+                    ImageIcon(AssetImage("assets/icons/rating.png"),size: 30,color: Colors.white,),
+                    "Rating")),
             Expanded(
                 flex: 1,
                 child: searchBarWidget(
                     3,
-                    Icon(
-                      Icons.person_4_outlined,
-                      size: 30,
-                      color: Colors.white,
-                    ),
-                    "Home")),
+                    ImageIcon(AssetImage("assets/icons/account_person.png"),size: 30,color: Colors.white,),
+                    "Account")),
             Expanded(
                 flex: 1,
                 child: Column(
@@ -168,6 +147,7 @@ class _MapScreenState extends State<MapScreen> {
                       inactiveThumbColor: Colors.blueGrey.shade600,
                       inactiveTrackColor: Colors.grey.shade400,
                       splashRadius: 50.0,
+                      activeThumbImage: Image.asset("assets/icons/active_button.png").image,
                       // boolean variable value
                       value: toggleValue,
                       // changes the state of the switch
@@ -204,7 +184,7 @@ class _MapScreenState extends State<MapScreen> {
         ));
   }
 
-  Widget searchBarWidget(int index, Icon icon, String text) {
+  Widget searchBarWidget(int index, ImageIcon icon, String text) {
     return InkWell(
       onTap: () {
         setState(() {

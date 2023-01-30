@@ -16,6 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
+            flex: 1,
             child: Text.rich(TextSpan(children: [
               TextSpan(
                   text: "Welcome ${name}!",
@@ -35,8 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
               TextSpan(
                   text: "Partner",
                   style: TextStyle(color: secondaryColor, fontSize: 18)),
-            ])),
-            flex: 1),
+            ]))),
         Expanded(
             child: Align(
                 alignment: Alignment.bottomRight,
@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget SecondRow(){
+  Widget SecondRow() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -56,58 +56,69 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Text.rich(TextSpan(children: [
               TextSpan(
                 text: "Your profile is ",
-                style: TextStyle(
-                    color: secondaryColor, fontSize: 16),
+                style: TextStyle(color: secondaryColor, fontSize: 16),
               ),
               TextSpan(
                 text: "active Now!",
                 style: TextStyle(
                     color: secondaryColor,
-                    fontWeight: FontWeight.bold, fontSize: 16),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16),
               ),
               TextSpan(
                 text: "\nPlease Verify your ",
-                style: TextStyle(
-                    color: secondaryColor, fontSize: 16),
+                style: TextStyle(color: secondaryColor, fontSize: 16),
               ),
               TextSpan(
                 text: "Email id ",
                 style: TextStyle(
                     color: secondaryColor,
-                    fontWeight: FontWeight.bold, fontSize: 16),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16),
               ),
               TextSpan(
                 text: "to continue your",
-                style: TextStyle(
-                    color: secondaryColor, fontSize: 16),
+                style: TextStyle(color: secondaryColor, fontSize: 16),
               ),
               TextSpan(
                 text: "\nregistration account",
-                style: TextStyle(
-                    color: secondaryColor, fontSize: 16),
+                style: TextStyle(color: secondaryColor, fontSize: 16),
               ),
             ])),
           ),
         ),
-        SizedBox(height: 40,),
-        ElevatedButton(onPressed: () {}, child: ListTile(
-          title: Text("Start the application",style: TextStyle(fontWeight: FontWeight.bold),),
-          trailing: Icon(Icons.arrow_forward_ios),
+        SizedBox(
+          height: 40,
         ),
-          style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white
-          ),),
-        SizedBox(height: 40,),
-        ElevatedButton(onPressed: () {}, child: ListTile(
-          title: Text("Profile Settings",style: TextStyle(fontWeight: FontWeight.bold),),
-          trailing: Icon(Icons.arrow_forward_ios),
+        ElevatedButton(
+          onPressed: () {},
+          child: ListTile(
+            title: Text(
+              "Start the application",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            trailing: Icon(Icons.arrow_forward_ios),
+          ),
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
         ),
-          style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white
-          ),),
+        SizedBox(
+          height: 40,
+        ),
+        ElevatedButton(
+          onPressed: () {},
+          child: ListTile(
+            title: Text(
+              "Profile Settings",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            trailing: Icon(Icons.arrow_forward_ios),
+          ),
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+        ),
       ],
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -127,14 +138,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         SecondRow(),
                         ElevatedButton(
-                          onPressed: (){
-                            Navigator.of(context)
-                                .pushNamed("/profileScreen");
+                          onPressed: () {
+                            Navigator.of(context).pushNamed("/profileScreen");
                           },
                           child: Text("Reset & Cancel"),
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.black
-                          ),
+                              backgroundColor: Colors.black),
                         )
                       ],
                     ),

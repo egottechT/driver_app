@@ -16,7 +16,7 @@ import 'package:flutter/material.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await LocalNoticeService().setup();
+  // await LocalNoticeService().setup();
   runApp(
     MaterialApp(
       title: 'Book My taxi Driver',
