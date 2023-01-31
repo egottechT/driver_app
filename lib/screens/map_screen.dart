@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as locate;
+import 'package:location/location.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
@@ -29,7 +31,7 @@ class _MapScreenState extends State<MapScreen> {
     super.initState();
   }
 
-  void getCurrentLocation() async {
+  Future<LocationData> getCurrentLocation() async {
     locate.Location currentLocation = locate.Location();
     var location = await currentLocation.getLocation();
     markIcons = await getImages('assets/icons/driver_car.png', 150);
@@ -52,6 +54,7 @@ class _MapScreenState extends State<MapScreen> {
         zoom: zoomLevel);
 
     mapController.animateCamera(CameraUpdate.newCameraPosition(_home));
+    return location;
   }
 
   Future<Uint8List> getImages(String path, int width) async {
@@ -93,8 +96,20 @@ class _MapScreenState extends State<MapScreen> {
     var location = LatLng(double.parse(map["lat"]), double.parse(map["long"]));
     setTheMarkers(location);
 
-    CameraPosition _cameraPosition = CameraPosition(target: location, zoom: zoomLevel);
-    mapController.animateCamera(CameraUpdate.newCameraPosition(_cameraPosition));
+    // CameraPosition _cameraPosition = CameraPosition(target: location, zoom: zoomLevel);
+    // mapController.animateCamera(CameraUpdate.newCameraPosition(_cameraPosition));
+    openMap(double.parse(map["lat"]), double.parse(map["long"]));
+  }
+
+  Future<void> openMap(double latitude, double longitude) async {
+    var location = await getCurrentLocation();
+    String routeUrl = "https://www.google.com/maps/dir/${location.latitude},${location.longitude}/$latitude,$longitude";
+    // String googleUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    if (await canLaunch(routeUrl)) {
+      await launch(routeUrl);
+    } else {
+      throw 'Could not open the map.';
+    }
   }
 
   void _onMapCreated(GoogleMapController controller) {
