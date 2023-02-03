@@ -1,7 +1,9 @@
 
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/provider/otp_listener.dart';
 import 'package:driver_app/service/authentication.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class OTPVerifyScreen extends StatefulWidget {
   final String phoneNumber;
@@ -14,10 +16,14 @@ class OTPVerifyScreen extends StatefulWidget {
 }
 
 class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
+  TextEditingController controller= TextEditingController();
   String otp = "";
+  bool showLoading = false;
 
   @override
   Widget build(BuildContext context) {
+    otp = controller.text = Provider.of<OtpProvider>(context).text;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -59,12 +65,20 @@ class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
               ],
             )),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (otp.length != 0) {
-                  checkOTP(otp, context);
+                  setState(() {
+                    showLoading = true;
+                  });
+                  await checkOTP(otp, context);
+                  setState(() {
+                    showLoading = false;
+                  });
                 }
               },
-              child: Text("Submit"),
+              child: showLoading
+                  ? const CircularProgressIndicator()
+                  : Text("Submit"),
               style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
             ),
             const SizedBox(

@@ -1,4 +1,5 @@
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/provider/otp_listener.dart';
 import 'package:driver_app/screens/phone_verification_screens/otp_verify_screen.dart';
 import 'package:driver_app/service/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -51,12 +53,8 @@ Future<void> signInWithPhoneNumber(String number, BuildContext context) async {
     phoneNumber: number,
     verificationCompleted: (PhoneAuthCredential credential) async {
       await _auth.signInWithCredential(credential).then((dynamic result) async {
-        if(values.contains(phoneNumber)){
-          Navigator.of(context).pushNamed("/permissionScreen");
-        }
-        else{
-          Navigator.of(context).pushReplacementNamed("/registrationScreen");
-        }
+        Provider.of<OtpProvider>(context,listen: false).setString(credential.smsCode.toString());
+
       });
     },
     verificationFailed: (FirebaseAuthException e) {

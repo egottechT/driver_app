@@ -17,7 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget CenterCircularWidget() {
     return Flexible(
         child: Row(
-      children: [
+      children: const [
         SizedBox(
           width: 150,
         ),
@@ -57,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Text.rich(TextSpan(children: <TextSpan>[
+                        const Text.rich(TextSpan(children: <TextSpan>[
                           TextSpan(
                             text: "Sign up to start your trip with ",
                             style: TextStyle(fontSize: 18),

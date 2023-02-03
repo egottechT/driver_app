@@ -1,31 +1,34 @@
-import 'package:driver_app/service/background_service.dart';
-import 'package:driver_app/service/notification_service.dart';
+import 'package:driver_app/provider/otp_listener.dart';
+import 'package:driver_app/screens/starting_screens/login_screen.dart';
+import 'package:driver_app/screens/starting_screens/permission_screen.dart';
+import 'package:driver_app/screens/starting_screens/select_vehicle_screen.dart';
 import 'package:driver_app/screens/home_screen.dart';
-import 'package:driver_app/screens/login_screen.dart';
 import 'package:driver_app/screens/map_screen.dart';
-import 'package:driver_app/screens/permission_screen.dart';
 import 'package:driver_app/screens/phone_verification_screens/phone_number_setup.dart';
 import 'package:driver_app/screens/profile_screen.dart';
 import 'package:driver_app/screens/registration_screen.dart';
-import 'package:driver_app/screens/select_vehicle_screen.dart';
-import 'package:driver_app/screens/splash_screen.dart';
+import 'package:driver_app/screens/starting_screens/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_background_service/flutter_background_service.dart';
-
+import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   // await LocalNoticeService().setup();
   runApp(
-    MaterialApp(
-      title: 'Book My taxi Driver',
-      routes: appPageRoutes,
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(color: Colors.grey[800]),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_)=> OtpProvider())
+      ],
+      child: MaterialApp(
+        title: 'Book My taxi Driver',
+        routes: appPageRoutes,
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          appBarTheme: AppBarTheme(color: Colors.grey[800]),
+        ),
+        home: SplashScreen(),
       ),
-      home: SplashScreen(),
     ),
   );
 }
