@@ -116,10 +116,10 @@ class LocalNoticeService {
                             "Min. Time"),
                         iconWithText(
                             Image.asset(
-                              "assets/icons/money_bag.png",
-                              scale: 2.5,
+                              "assets/icons/rupee_bag.png",
+                              scale: 8,
                             ),
-                            "4.49 \$",
+                            "4.49 \₹",
                             "Esti. Earn"),
                       ],
                     ),
@@ -166,12 +166,6 @@ class LocalNoticeService {
                 ],
               );
             });
-        // LocalNoticeService().addNotification(
-        //   map['title'],
-        //   map['body'],
-        //   DateTime.now().millisecondsSinceEpoch + 1000,
-        //   'testing',
-        // );
       }
     });
   }
