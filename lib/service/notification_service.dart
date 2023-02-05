@@ -74,98 +74,101 @@ class LocalNoticeService {
               "https://book-my-etaxi-default-rtdb.asia-southeast1.firebasedatabase.app")
       .ref();
 
-  void readData(BuildContext context, Function function) {
-    databaseReference.child('active_driver').onValue.listen((event) {
-      debugPrint("Inside here ${sendNotification}");
-      var snapshot = event.snapshot.children;
-      var values = snapshot.first;
-      Map map = values.value as Map;
-      if (sendNotification) {
-        FlutterBeep.playSysSound(41);
-        showDialog(
-            barrierDismissible: false,
-            context: context,
-            builder: (_) {
-              return AlertDialog(
-                title: const Text(
-                  "Pickup Request",
-                  style: TextStyle(color: Colors.black),
-                ),
-                content: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(
-                      height: 2,
-                      child: Container(
-                        color: Colors.grey[300],
-                      ),
+  void showNotificationSystem(Map map,BuildContext context,Function function){
+
+      FlutterBeep.playSysSound(41);
+      showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (_) {
+            return AlertDialog(
+              title: const Text(
+                "Pickup Request",
+                style: TextStyle(color: Colors.black),
+              ),
+              content: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    height: 2,
+                    child: Container(
+                      color: Colors.grey[300],
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        iconWithText(
-                            Image.asset(
-                              "assets/icons/watch.png",
-                              scale: 2.5,
-                            ),
-                            "5 min",
-                            "Min. Time"),
-                        iconWithText(
-                            Image.asset(
-                              "assets/icons/rupee_bag.png",
-                              scale: 8,
-                            ),
-                            "4.49 \₹",
-                            "Esti. Earn"),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 2,
-                      child: Container(
-                        color: Colors.grey[300],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Text("77 Color Extension Apt. 690"),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Image.asset("assets/images/map_image.png")
-                  ],
-                ),
-                actions: <Widget>[
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white, elevation: 0),
-                    child: const Text(
-                      "REJECT",
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
                   ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white, elevation: 0),
-                    child: const Text(
-                      "ACCEPT",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      function(map);
-                    },
+                  const SizedBox(
+                    height: 10,
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      iconWithText(
+                          Image.asset(
+                            "assets/icons/watch.png",
+                            scale: 2.5,
+                          ),
+                          "5 min",
+                          "Min. Time"),
+                      iconWithText(
+                          Image.asset(
+                            "assets/icons/rupee_bag.png",
+                            scale: 8,
+                          ),
+                          "4.49 \₹",
+                          "Esti. Earn"),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 2,
+                    child: Container(
+                      color: Colors.grey[300],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text("77 Color Extension Apt. 690"),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Image.asset("assets/images/map_image.png")
                 ],
-              );
-            });
+              ),
+              actions: <Widget>[
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white, elevation: 0),
+                  child: const Text(
+                    "REJECT",
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white, elevation: 0),
+                  child: const Text(
+                    "ACCEPT",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    function(map);
+                  },
+                ),
+              ],
+            );
+          });
+
+  }
+
+  void readData(BuildContext context, Function function) {
+    databaseReference.child('active_driver').onChildAdded.listen((event) {
+      Map map = event.snapshot.value as Map;
+      if (sendNotification) {
+        showNotificationSystem(map,context,function);
       }
     });
   }
