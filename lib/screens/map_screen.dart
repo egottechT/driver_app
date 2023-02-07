@@ -70,7 +70,11 @@ class _MapScreenState extends State<MapScreen> {
   Widget buildFAB(BuildContext context) {
     return FloatingActionButton(
       onPressed: () async {
-        getCurrentLocation();
+        // getCurrentLocation();
+        Map map = Map();
+        map["lat"] = "30.268486";
+        map["long"] = "78.0765925";
+        LocalNoticeService().showNotificationSystem(map,context,onAcceptRequest);
       },
       backgroundColor: Colors.white,
       child: Icon(
@@ -96,9 +100,9 @@ class _MapScreenState extends State<MapScreen> {
     var location = LatLng(double.parse(map["lat"]), double.parse(map["long"]));
     setTheMarkers(location);
 
-    // CameraPosition _cameraPosition = CameraPosition(target: location, zoom: zoomLevel);
-    // mapController.animateCamera(CameraUpdate.newCameraPosition(_cameraPosition));
-    openMap(double.parse(map["lat"]), double.parse(map["long"]));
+    CameraPosition _cameraPosition = CameraPosition(target: location, zoom: zoomLevel);
+    mapController.animateCamera(CameraUpdate.newCameraPosition(_cameraPosition));
+    // openMap(double.parse(map["lat"]), double.parse(map["long"]));
   }
 
   Future<void> openMap(double latitude, double longitude) async {

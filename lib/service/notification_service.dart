@@ -74,8 +74,8 @@ class LocalNoticeService {
               "https://book-my-etaxi-default-rtdb.asia-southeast1.firebasedatabase.app")
       .ref();
 
-  void showNotificationSystem(Map map,BuildContext context,Function function){
-
+  void showNotificationSystem(Map map,BuildContext context,Function function) async {
+      bool showing = true;
       FlutterBeep.playSysSound(41);
       showDialog(
           barrierDismissible: false,
@@ -143,6 +143,7 @@ class LocalNoticeService {
                     style: TextStyle(color: Colors.grey),
                   ),
                   onPressed: () {
+                    showing = false;
                     Navigator.of(context).pop();
                   },
                 ),
@@ -154,6 +155,7 @@ class LocalNoticeService {
                     style: TextStyle(color: Colors.black),
                   ),
                   onPressed: () {
+                    showing = false;
                     Navigator.of(context).pop();
                     function(map);
                   },
@@ -162,6 +164,14 @@ class LocalNoticeService {
             );
           });
 
+      for(int i=1;i<=10;i++){
+        if(!showing) {
+          return;
+        }
+        await Future.delayed(const Duration(seconds: 1));
+        FlutterBeep.playSysSound(24);
+      }
+      Navigator.of(context).pop();
   }
 
   void readData(BuildContext context, Function function) {
