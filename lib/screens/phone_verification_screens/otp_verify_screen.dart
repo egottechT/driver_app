@@ -22,7 +22,8 @@ class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    otp = controller.text = Provider.of<OtpProvider>(context).text;
+    otp = Provider.of<OtpProvider>(context).text;
+    controller.text = otp;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -53,6 +54,7 @@ class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
                   textAlign: TextAlign.center,
                 ),
                 TextFormField(
+                  controller: controller,
                   style: TextStyle(fontSize: 18),
                   decoration: const InputDecoration(
                     labelText: 'Enter OTP',

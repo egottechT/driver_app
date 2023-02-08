@@ -54,7 +54,20 @@ class _MapScreenState extends State<MapScreen> {
     mapController.animateCamera(CameraUpdate.newCameraPosition(_home));
     return location;
   }
-
+  Map sampleData(int type){
+    Map map = Map();
+    if(type == 1){
+      map["lat"] = 30.268486;
+      map["long"] = 78.0765925;
+      map["location"] = "Lower Nehrugram, Dehradun, 248001";
+    }
+    else{
+      map["lat"] = 30.28839079999999;
+      map["long"] = 78.0902682;
+      map["location"] = "Mohkampur, Dehradun, 248001";
+    }
+    return map;
+  }
   Widget buildFAB(BuildContext context) {
     return FloatingActionButton(
       onPressed: () async {
@@ -62,10 +75,9 @@ class _MapScreenState extends State<MapScreen> {
         Map map = Map();
         map["lat"] = "30.268486";
         map["long"] = "78.0765925";
-        map["pick-up"] = "Lower Nehrugram, Dehradun, 248001";
-        map["destination"] = "Mohkampur, Dehradun, 248001";
-        LocalNoticeService()
-            .showNotificationSystem(map, context, onAcceptRequest);
+        map["pick-up"] =  sampleData(1);
+        map["destination"] = sampleData(2);
+        LocalNoticeService().showNotificationSystem(map, context, onAcceptRequest);
       },
       backgroundColor: Colors.white,
       child: const Icon(
@@ -88,7 +100,7 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   void onAcceptRequest(Map map) {
-    var location = LatLng(double.parse(map["lat"]), double.parse(map["long"]));
+    var location = LatLng(map["pick-up"]["lat"], map["pick-up"]["long"]);
     setTheMarkers(location);
 
     CameraPosition _cameraPosition =

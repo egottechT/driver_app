@@ -33,13 +33,12 @@ class _PickUpScreenState extends State<PickUpScreen> {
   @override
   void initState() {
     super.initState();
-    startLocation = LatLng(
-        double.parse(widget.map["lat"]), double.parse(widget.map["long"]));
+    destinationLocation = LatLng(widget.map["pick-up"]["lat"], widget.map["pick-up"]["long"]);
     polylinePoints = PolylinePoints();
 
     Marker strtMarker = Marker(
       markerId: MarkerId("Pick-up"),
-      position: startLocation,
+      position: destinationLocation,
       infoWindow: InfoWindow(title: "My Location", snippet: "My car"),
     );
     _markers.add(strtMarker);
@@ -48,9 +47,7 @@ class _PickUpScreenState extends State<PickUpScreen> {
   Future<LocationData> getCurrentLocation() async {
     Location currentLocation = Location();
     var location = await currentLocation.getLocation();
-    destinationLocation = LatLng(location.latitude as double, location.longitude as double);
-    CameraPosition _home =
-        CameraPosition(target: destinationLocation, zoom: 17);
+    startLocation = LatLng(location.latitude as double, location.longitude as double);
     markIcons = await getImages('assets/icons/driver_car.png', 150);
 
     Marker tmpMarker = Marker(
@@ -73,7 +70,7 @@ class _PickUpScreenState extends State<PickUpScreen> {
     mapController = controller;
     getCurrentLocation();
     setState(() {
-      location = widget.map["pick-up"];
+      location = widget.map["pick-up"]["location"];
     });
   }
 
@@ -155,7 +152,6 @@ class _PickUpScreenState extends State<PickUpScreen> {
                                   flex: 1,
                                   child: InkWell(
                                     onTap: () {
-                                      debugPrint("Go to maps");
                                       openMap(destinationLocation.latitude,destinationLocation.longitude);
                                     },
                                     child: Column(
@@ -180,9 +176,8 @@ class _PickUpScreenState extends State<PickUpScreen> {
   }
 
   Future<void> openMap(double latitude, double longitude) async {
-    var location = await getCurrentLocation();
     String routeUrl =
-        "https://www.google.com/maps/dir/${location.latitude},${location.longitude}/$latitude,$longitude";
+        "https://www.google.com/maps/dir/${startLocation.latitude},${startLocation.longitude}/${destinationLocation.latitude},${destinationLocation.longitude}";
     // String googleUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
     if (await canLaunch(routeUrl)) {
       await launch(routeUrl);

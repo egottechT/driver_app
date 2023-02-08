@@ -26,8 +26,8 @@ class LocalNoticeService {
       Map map, BuildContext context, Function function) async {
     bool showing = true;
 
-    var start = LatLng(double.parse(map["lat"]), double.parse(map["long"]));
-    var destination = await getCurrentLocation();
+    var destination = LatLng(map["pick-up"]["lat"], map["pick-up"]["long"]);
+    var start = await getCurrentLocation();
 
     await _createPolylines(start.latitude, start.longitude,
         destination.latitude, destination.longitude);
@@ -98,7 +98,7 @@ class LocalNoticeService {
                   Text.rich(TextSpan(children: [
                     TextSpan(text: "Pick-up :- "),
                     TextSpan(
-                      text: map["pick-up"],
+                      text: map["pick-up"]["location"],
                       style: TextStyle(overflow: TextOverflow.ellipsis),
                     )
                   ])),
@@ -108,7 +108,7 @@ class LocalNoticeService {
                   Text.rich(TextSpan(children: [
                     TextSpan(text: "Destination :- "),
                     TextSpan(
-                      text: map["destination"],
+                      text: map["destination"]["location"],
                       style: TextStyle(overflow: TextOverflow.ellipsis),
                     )
                   ])),
@@ -123,8 +123,7 @@ class LocalNoticeService {
                       zoomControlsEnabled: false,
                       myLocationButtonEnabled: false,
                       initialCameraPosition: CameraPosition(
-                        target: LatLng(double.parse(map["lat"]),
-                            double.parse(map["long"])),
+                        target: LatLng(map["pick-up"]["lat"], map["pick-up"]["long"]),
                         zoom: 17,
                       ),
                       markers: _makers, //MARKERS IN MAP
@@ -217,8 +216,13 @@ class LocalNoticeService {
   }
 
   void readData(BuildContext context, Function function) {
+    debugPrint("Reading data");
+    databaseReference.child('active_driver').onValue.listen((event) {
+        debugPrint("Some changes are there");
+    });
     databaseReference.child('active_driver').onChildAdded.listen((event) {
       Map map = event.snapshot.value as Map;
+      debugPrint("Data added");
       if (sendNotification) {
         showNotificationSystem(map, context, function);
       }
