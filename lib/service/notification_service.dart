@@ -1,4 +1,5 @@
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/screens/pickup_screens/pickup_screen.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_beep/flutter_beep.dart';
@@ -190,8 +191,8 @@ class LocalNoticeService {
                   ),
                   onPressed: () {
                     showing = false;
-                    Navigator.of(context).pop();
                     function(map);
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>PickUpScreen(map: map)));
                   },
                 ),
               ],
