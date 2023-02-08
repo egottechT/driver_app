@@ -1,4 +1,5 @@
 import 'package:driver_app/provider/otp_listener.dart';
+import 'package:driver_app/screens/pickup_screen.dart';
 import 'package:driver_app/screens/starting_screens/login_screen.dart';
 import 'package:driver_app/screens/starting_screens/permission_screen.dart';
 import 'package:driver_app/screens/starting_screens/select_vehicle_screen.dart';
@@ -27,7 +28,7 @@ void main() async {
         theme: ThemeData(
           appBarTheme: AppBarTheme(color: Colors.grey[800]),
         ),
-        home: SplashScreen(),
+        home: MapScreen(),
       ),
     ),
   );

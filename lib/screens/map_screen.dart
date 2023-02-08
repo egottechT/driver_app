@@ -5,7 +5,6 @@ import 'package:driver_app/service/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart' as locate;
 import 'package:location/location.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -21,7 +20,7 @@ class _MapScreenState extends State<MapScreen> {
   final double zoomLevel = 19;
   late GoogleMapController mapController;
   Set<Marker> _makers = {};
-  LatLng _center = const LatLng(20.5937, 78.9629);
+  final LatLng _center = const LatLng(20.5937, 78.9629);
   Uint8List? markIcons;
   List<dynamic> list = [];
   final _panelcontroller = PanelController();
@@ -33,7 +32,7 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   Future<LocationData> getCurrentLocation() async {
-    locate.Location currentLocation = locate.Location();
+    Location currentLocation = Location();
     var location = await currentLocation.getLocation();
     markIcons = await getImages('assets/icons/driver_car.png', 150);
 
@@ -77,10 +76,11 @@ class _MapScreenState extends State<MapScreen> {
         map["long"] = "78.0765925";
         map["pick-up"] = "Lower Nehrugram, Dehradun, 248001";
         map["destination"] = "Mohkampur, Dehradun, 248001";
-        LocalNoticeService().showNotificationSystem(map,context,onAcceptRequest);
+        LocalNoticeService()
+            .showNotificationSystem(map, context, onAcceptRequest);
       },
       backgroundColor: Colors.white,
-      child: Icon(
+      child: const Icon(
         Icons.gps_fixed,
         color: Colors.blue,
       ),
@@ -89,9 +89,9 @@ class _MapScreenState extends State<MapScreen> {
 
   void setTheMarkers(LatLng location) async {
     Marker marker = Marker(
-      markerId: MarkerId("Pickup"),
+      markerId: const MarkerId("Pickup"),
       position: location,
-      infoWindow: InfoWindow(title: "Pickup", snippet: "Aryan Bisht"),
+      infoWindow: const InfoWindow(title: "Pickup", snippet: "Aryan Bisht"),
     );
 
     setState(() {
@@ -103,14 +103,17 @@ class _MapScreenState extends State<MapScreen> {
     var location = LatLng(double.parse(map["lat"]), double.parse(map["long"]));
     setTheMarkers(location);
 
-    CameraPosition _cameraPosition = CameraPosition(target: location, zoom: zoomLevel);
-    mapController.animateCamera(CameraUpdate.newCameraPosition(_cameraPosition));
+    CameraPosition _cameraPosition =
+        CameraPosition(target: location, zoom: zoomLevel);
+    mapController
+        .animateCamera(CameraUpdate.newCameraPosition(_cameraPosition));
     // openMap(double.parse(map["lat"]), double.parse(map["long"]));
   }
 
   Future<void> openMap(double latitude, double longitude) async {
     var location = await getCurrentLocation();
-    String routeUrl = "https://www.google.com/maps/dir/${location.latitude},${location.longitude}/$latitude,$longitude";
+    String routeUrl =
+        "https://www.google.com/maps/dir/${location.latitude},${location.longitude}/$latitude,$longitude";
     // String googleUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
     if (await canLaunch(routeUrl)) {
       await launch(routeUrl);
@@ -138,25 +141,41 @@ class _MapScreenState extends State<MapScreen> {
                 flex: 1,
                 child: searchBarWidget(
                     0,
-                    ImageIcon(AssetImage("assets/icons/home.png"),size: 30,color: Colors.white,),
+                    const ImageIcon(
+                      AssetImage("assets/icons/home.png"),
+                      size: 30,
+                      color: Colors.white,
+                    ),
                     "Home")),
             Expanded(
                 flex: 1,
                 child: searchBarWidget(
                     1,
-                    ImageIcon(AssetImage("assets/icons/money.png"),size: 30,color: Colors.white,),
+                    const ImageIcon(
+                      AssetImage("assets/icons/money.png"),
+                      size: 30,
+                      color: Colors.white,
+                    ),
                     "Earning")),
             Expanded(
                 flex: 1,
                 child: searchBarWidget(
                     2,
-                    ImageIcon(AssetImage("assets/icons/rating.png"),size: 30,color: Colors.white,),
+                    const ImageIcon(
+                      AssetImage("assets/icons/rating.png"),
+                      size: 30,
+                      color: Colors.white,
+                    ),
                     "Rating")),
             Expanded(
                 flex: 1,
                 child: searchBarWidget(
                     3,
-                    ImageIcon(AssetImage("assets/icons/account_person.png"),size: 30,color: Colors.white,),
+                    const ImageIcon(
+                      AssetImage("assets/icons/account_person.png"),
+                      size: 30,
+                      color: Colors.white,
+                    ),
                     "Account")),
             Expanded(
                 flex: 1,
@@ -169,7 +188,8 @@ class _MapScreenState extends State<MapScreen> {
                       inactiveThumbColor: Colors.blueGrey.shade600,
                       inactiveTrackColor: Colors.grey.shade400,
                       splashRadius: 50.0,
-                      activeThumbImage: Image.asset("assets/icons/active_button.png").image,
+                      activeThumbImage:
+                          Image.asset("assets/icons/active_button.png").image,
                       // boolean variable value
                       value: toggleValue,
                       // changes the state of the switch
@@ -178,27 +198,11 @@ class _MapScreenState extends State<MapScreen> {
                           toggleValue = value;
                         });
                         LocalNoticeService.sendNotification = value;
-                        debugPrint(
-                            "Values are:- ${LocalNoticeService.sendNotification} ${value}");
-                        // var service = FlutterBackgroundService();
-                        // var isRunning = await service.isRunning();
-                        // if (toggleValue){
-                        //   if(!isRunning){
-                        //     await initializeService();
-                        //     service.startService();
-                        //     service.invoke("setAsBackground");
-                        //   }
-                        // }
-                        // else {
-                        //   if (isRunning) {
-                        //     service.invoke("stopService");
-                        //   }
-                        // }
                       },
                     ),
                     toggleValue
-                        ? Text("Online", style: TextStyle(color: Colors.white))
-                        : Text("offline",
+                        ? const Text("Online", style: TextStyle(color: Colors.white))
+                        : const Text("offline",
                             style: TextStyle(color: Colors.white)),
                   ],
                 )),
@@ -243,77 +247,25 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final panelHeightClosed = MediaQuery.of(context).size.height * 0.2;
-    final panelHeightOpened = MediaQuery.of(context).size.height * 0.8;
-    double fabHeightBottom = 350;
-
     return SafeArea(
         child: Scaffold(
             resizeToAvoidBottomInset: true,
-            body: SlidingUpPanel(
-                controller: _panelcontroller,
-                panelBuilder: (controller) {
-                  //TODO Change this return statement
-                  return Container(
-                    color: Colors.grey[350],
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "TODAY'S TRIP",
-                          style: TextStyle(color: Colors.grey[600]),
-                        ),
-                        Card(
-                            color: Colors.white,
-                            child: ListTile(
-                              leading: Image.asset("assets/images/car.png"),
-                              title: Text("8 Trips"),
-                              subtitle: Row(
-                                children: [
-                                  Icon(Icons.lock_clock),
-                                  Text("8 hours online")
-                                ],
-                              ),
-                              trailing: Column(
-                                children: [
-                                  Text(
-                                    "\$ 28.55",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.grey[500]),
-                                  ),
-                                  Text("Earned")
-                                ],
-                              ),
-                            ))
-                      ],
-                    ),
-                  );
-                },
-                parallaxEnabled: true,
-                parallaxOffset: 0.5,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-                minHeight: panelHeightClosed,
-                maxHeight: panelHeightOpened,
-                onPanelSlide: (position) {
-                  setState(() {
-                    final panelMaxPos = panelHeightOpened - panelHeightClosed;
-                    fabHeightBottom = position * panelMaxPos + 300;
-                  });
-                },
-                body: Stack(children: <Widget>[
-                  GoogleMap(
-                    myLocationButtonEnabled: false,
-                    onMapCreated: _onMapCreated,
-                    initialCameraPosition: CameraPosition(
-                      target: _center,
-                      zoom: zoomLevel,
-                    ),
-                    markers: _makers, //MARKERS IN MAP
-                  ),
-                  Positioned(top: 0, child: topNavigationBar()),
-                  Positioned(bottom: 250, right: 10, child: buildFAB(context))
-                ]))));
+            body: Stack(children: <Widget>[
+              GoogleMap(
+                zoomControlsEnabled: false,
+                myLocationButtonEnabled: false,
+                onMapCreated: _onMapCreated,
+                initialCameraPosition: CameraPosition(
+                  target: _center,
+                  zoom: zoomLevel,
+                ),
+                markers: _makers, //MARKERS IN MAP
+              ),
+              Positioned(top: 0, child: topNavigationBar()),
+              Positioned(bottom: 25, right: 25, child: buildFAB(context))
+            ]
+            )
+        )
+    );
   }
 }
