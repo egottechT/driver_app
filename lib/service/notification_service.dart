@@ -122,9 +122,6 @@ class LocalNoticeService {
                       polylines: Set<Polyline>.of(polylines.values),
                       zoomControlsEnabled: false,
                       myLocationButtonEnabled: false,
-                      onMapCreated: (controller) async {
-                        // correctCameraAngle(start, destination, controller);
-                      },
                       initialCameraPosition: CameraPosition(
                         target: LatLng(double.parse(map["lat"]),
                             double.parse(map["long"])),
@@ -158,7 +155,7 @@ class LocalNoticeService {
                   onPressed: () {
                     showing = false;
                     function(map);
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>PickUpScreen(map: map)));
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>PickUpScreen(map: map)));
                   },
                 ),
               ],

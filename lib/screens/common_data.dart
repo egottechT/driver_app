@@ -13,7 +13,7 @@ Future<Uint8List> getImages(String path, int width) async {
       .asUint8List();
 }
 
-void correctCameraAngle(LatLng start, LatLng destination, GoogleMapController controller) async {
+void correctCameraAngle(LatLng start, LatLng destination, GoogleMapController controller) {
   double startLatitude = start.latitude;
   double startLongitude = start.longitude;
   double destinationLatitude = destination.latitude;

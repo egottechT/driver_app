@@ -64,8 +64,7 @@ class _PickUpScreenState extends State<PickUpScreen> {
     setState(() {
       _markers.add(tmpMarker);
     });
-    // correctCameraAngle(startLocation,destinationLocation,mapController);
-    mapController.animateCamera(CameraUpdate.newCameraPosition(_home));
+    correctCameraAngle(startLocation,destinationLocation,mapController);
     _createPolylines(startLocation.latitude,startLocation.longitude,destinationLocation.latitude,destinationLocation.longitude);
     return location;
   }
