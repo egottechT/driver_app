@@ -1,12 +1,11 @@
 import 'dart:typed_data';
-import 'dart:ui' as ui;
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/screens/common_data.dart';
 import 'package:driver_app/service/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MapScreen extends StatefulWidget {
@@ -23,7 +22,6 @@ class _MapScreenState extends State<MapScreen> {
   final LatLng _center = const LatLng(20.5937, 78.9629);
   Uint8List? markIcons;
   List<dynamic> list = [];
-  final _panelcontroller = PanelController();
 
   @override
   void initState() {
@@ -55,16 +53,6 @@ class _MapScreenState extends State<MapScreen> {
 
     mapController.animateCamera(CameraUpdate.newCameraPosition(_home));
     return location;
-  }
-
-  Future<Uint8List> getImages(String path, int width) async {
-    ByteData data = await rootBundle.load(path);
-    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
-        targetHeight: width);
-    ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
-        .buffer
-        .asUint8List();
   }
 
   Widget buildFAB(BuildContext context) {
@@ -107,19 +95,6 @@ class _MapScreenState extends State<MapScreen> {
         CameraPosition(target: location, zoom: zoomLevel);
     mapController
         .animateCamera(CameraUpdate.newCameraPosition(_cameraPosition));
-    // openMap(double.parse(map["lat"]), double.parse(map["long"]));
-  }
-
-  Future<void> openMap(double latitude, double longitude) async {
-    var location = await getCurrentLocation();
-    String routeUrl =
-        "https://www.google.com/maps/dir/${location.latitude},${location.longitude}/$latitude,$longitude";
-    // String googleUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
-    if (await canLaunch(routeUrl)) {
-      await launch(routeUrl);
-    } else {
-      throw 'Could not open the map.';
-    }
   }
 
   void _onMapCreated(GoogleMapController controller) {

@@ -30,7 +30,7 @@ void main() async {
         theme: ThemeData(
           appBarTheme: AppBarTheme(color: Colors.grey[800]),
         ),
-        home: PickUpScreen(map: map,),
+        home: MapScreen(),
       ),
     ),
   );

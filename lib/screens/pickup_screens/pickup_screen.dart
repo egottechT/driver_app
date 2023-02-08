@@ -1,10 +1,14 @@
+import 'dart:typed_data';
+
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/screens/common_data.dart';
 import 'package:driver_app/screens/pickup_screens/bottom_panel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PickUpScreen extends StatefulWidget {
   final Map map;
@@ -16,19 +20,53 @@ class PickUpScreen extends StatefulWidget {
 }
 
 class _PickUpScreenState extends State<PickUpScreen> {
-  final _panelcontroller = PanelController();
   late GoogleMapController mapController;
   String location = "Pick-up";
+  Set<Marker> _markers = {};
+  Uint8List? markIcons;
+  late LatLng startLocation;
+  late LatLng destinationLocation;
+  late PolylinePoints polylinePoints;
+  List<LatLng> polylineCoordinates = [];
+  Map<PolylineId, Polyline> polylines = {};
+
+  @override
+  void initState() {
+    super.initState();
+    startLocation = LatLng(
+        double.parse(widget.map["lat"]), double.parse(widget.map["long"]));
+    polylinePoints = PolylinePoints();
+
+    Marker strtMarker = Marker(
+      markerId: MarkerId("Pick-up"),
+      position: startLocation,
+      infoWindow: InfoWindow(title: "My Location", snippet: "My car"),
+    );
+    _markers.add(strtMarker);
+  }
 
   Future<LocationData> getCurrentLocation() async {
     Location currentLocation = Location();
     var location = await currentLocation.getLocation();
-    CameraPosition _home = CameraPosition(
-        target:
-            LatLng(location.latitude as double, location.longitude as double),
-        zoom: 17);
+    destinationLocation = LatLng(location.latitude as double, location.longitude as double);
+    CameraPosition _home =
+        CameraPosition(target: destinationLocation, zoom: 17);
+    markIcons = await getImages('assets/icons/driver_car.png', 150);
 
+    Marker tmpMarker = Marker(
+      markerId: MarkerId("My location"),
+      position: LatLng(
+          (location.latitude!) as double, (location.longitude!) as double),
+      infoWindow: InfoWindow(title: "My Location", snippet: "My car"),
+      icon: BitmapDescriptor.fromBytes(markIcons!),
+    );
+
+    setState(() {
+      _markers.add(tmpMarker);
+    });
+    // correctCameraAngle(startLocation,destinationLocation,mapController);
     mapController.animateCamera(CameraUpdate.newCameraPosition(_home));
+    _createPolylines(startLocation.latitude,startLocation.longitude,destinationLocation.latitude,destinationLocation.longitude);
     return location;
   }
 
@@ -57,7 +95,6 @@ class _PickUpScreenState extends State<PickUpScreen> {
             ),
             resizeToAvoidBottomInset: true,
             body: SlidingUpPanel(
-                controller: _panelcontroller,
                 panelBuilder: (controller) {
                   return bottomPanelLayout();
                 },
@@ -76,6 +113,8 @@ class _PickUpScreenState extends State<PickUpScreen> {
                       target: LatLng(0, 0),
                       zoom: 17,
                     ),
+                    markers: _markers,
+                    polylines: Set<Polyline>.of(polylines.values),
                   ),
                   Positioned(
                     top: 10,
@@ -118,6 +157,7 @@ class _PickUpScreenState extends State<PickUpScreen> {
                                   child: InkWell(
                                     onTap: () {
                                       debugPrint("Go to maps");
+                                      openMap(destinationLocation.latitude,destinationLocation.longitude);
                                     },
                                     child: Column(
                                       children: [
@@ -137,10 +177,51 @@ class _PickUpScreenState extends State<PickUpScreen> {
                           ),
                         )),
                   )
-                ]
-                )
-            )
-        )
+                ]))));
+  }
+
+  Future<void> openMap(double latitude, double longitude) async {
+    var location = await getCurrentLocation();
+    String routeUrl =
+        "https://www.google.com/maps/dir/${location.latitude},${location.longitude}/$latitude,$longitude";
+    // String googleUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    if (await canLaunch(routeUrl)) {
+      await launch(routeUrl);
+    } else {
+      throw 'Could not open the map.';
+    }
+  }
+
+  Future<void> _createPolylines(
+      double startLatitude,
+      double startLongitude,
+      double destinationLatitude,
+      double destinationLongitude,
+      ) async {
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      mapApiKey, // Google Maps API Key
+      PointLatLng(startLatitude, startLongitude),
+      PointLatLng(destinationLatitude, destinationLongitude),
+      travelMode: TravelMode.transit,
     );
+
+    // Adding the coordinates to the list
+    polylineCoordinates.clear();
+    if (result.points.isNotEmpty) {
+      result.points.forEach((PointLatLng point) {
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      });
+    }
+
+    PolylineId id = PolylineId('poly');
+    Polyline polyline = Polyline(
+      polylineId: id,
+      color: Colors.black,
+      points: polylineCoordinates,
+      width: 3,
+    );
+    setState(() {
+      polylines[id] = polyline;
+    });
   }
 }

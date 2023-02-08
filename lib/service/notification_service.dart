@@ -1,4 +1,5 @@
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/screens/common_data.dart';
 import 'package:driver_app/screens/pickup_screens/pickup_screen.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -9,41 +10,6 @@ import 'package:location/location.dart';
 
 class LocalNoticeService {
   static bool sendNotification = false;
-
-  void correctCameraAngle(
-      LatLng start, LatLng destination, GoogleMapController controller) async {
-    double startLatitude = start.latitude;
-    double startLongitude = start.longitude;
-    double destinationLatitude = destination.latitude;
-    double destinationLongitude = destination.longitude;
-
-    double miny = (startLatitude <= destinationLatitude)
-        ? startLatitude
-        : destinationLatitude;
-    double minx = (startLongitude <= destinationLongitude)
-        ? startLongitude
-        : destinationLongitude;
-    double maxy = (startLatitude <= destinationLatitude)
-        ? destinationLatitude
-        : startLatitude;
-    double maxx = (startLongitude <= destinationLongitude)
-        ? destinationLongitude
-        : startLongitude;
-
-    double southWestLatitude = miny;
-    double southWestLongitude = minx;
-    double northEastLatitude = maxy;
-    double northEastLongitude = maxx;
-    controller.animateCamera(
-      CameraUpdate.newLatLngBounds(
-        LatLngBounds(
-          northeast: LatLng(northEastLatitude, northEastLongitude),
-          southwest: LatLng(southWestLatitude, southWestLongitude),
-        ),
-        100.0,
-      ),
-    );
-  }
 
   final databaseReference = FirebaseDatabase(
           databaseURL:
@@ -157,7 +123,7 @@ class LocalNoticeService {
                       zoomControlsEnabled: false,
                       myLocationButtonEnabled: false,
                       onMapCreated: (controller) async {
-                        correctCameraAngle(start, destination, controller);
+                        // correctCameraAngle(start, destination, controller);
                       },
                       initialCameraPosition: CameraPosition(
                         target: LatLng(double.parse(map["lat"]),
