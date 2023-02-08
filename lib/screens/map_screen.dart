@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/service/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -74,6 +75,8 @@ class _MapScreenState extends State<MapScreen> {
         Map map = Map();
         map["lat"] = "30.268486";
         map["long"] = "78.0765925";
+        map["pick-up"] = "Lower Nehrugram, Dehradun, 248001";
+        map["destination"] = "Mohkampur, Dehradun, 248001";
         LocalNoticeService().showNotificationSystem(map,context,onAcceptRequest);
       },
       backgroundColor: Colors.white,
@@ -128,7 +131,7 @@ class _MapScreenState extends State<MapScreen> {
     return Container(
         width: MediaQuery.of(context).size.width,
         height: 75,
-        color: Colors.orange,
+        color: secondaryColor,
         child: Row(
           children: [
             Expanded(

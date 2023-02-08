@@ -1,6 +1,12 @@
+import 'dart:ffi';
+import 'package:driver_app/Utils/constants.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_beep/flutter_beep.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
+
 // import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 // import 'package:flutter_notification_channel/flutter_notification_channel.dart';
 // import 'package:flutter_notification_channel/notification_importance.dart';
@@ -10,6 +16,7 @@ import 'package:flutter_beep/flutter_beep.dart';
 class LocalNoticeService {
   // final _localNotificationsPlugin = FlutterLocalNotificationsPlugin();
   static bool sendNotification = false;
+
   //
   // Future<void> setup() async {
   //   // #1
@@ -69,21 +76,82 @@ class LocalNoticeService {
   //   );
   // }
 
+  void correctCameraAngle(
+      LatLng start, LatLng destination, GoogleMapController controller) async {
+    double startLatitude = start.latitude;
+    double startLongitude = start.longitude;
+    double destinationLatitude = destination.latitude;
+    double destinationLongitude = destination.longitude;
+
+    double miny = (startLatitude <= destinationLatitude)
+        ? startLatitude
+        : destinationLatitude;
+    double minx = (startLongitude <= destinationLongitude)
+        ? startLongitude
+        : destinationLongitude;
+    double maxy = (startLatitude <= destinationLatitude)
+        ? destinationLatitude
+        : startLatitude;
+    double maxx = (startLongitude <= destinationLongitude)
+        ? destinationLongitude
+        : startLongitude;
+
+    double southWestLatitude = miny;
+    double southWestLongitude = minx;
+    double northEastLatitude = maxy;
+    double northEastLongitude = maxx;
+    controller.animateCamera(
+      CameraUpdate.newLatLngBounds(
+        LatLngBounds(
+          northeast: LatLng(northEastLatitude, northEastLongitude),
+          southwest: LatLng(southWestLatitude, southWestLongitude),
+        ),
+        100.0,
+      ),
+    );
+  }
+
   final databaseReference = FirebaseDatabase(
           databaseURL:
               "https://book-my-etaxi-default-rtdb.asia-southeast1.firebasedatabase.app")
       .ref();
 
-  void showNotificationSystem(Map map,BuildContext context,Function function) async {
-      bool showing = true;
-      FlutterBeep.playSysSound(41);
+  Future<LatLng> getCurrentLocation() async {
+    Location currentLocation = Location();
+    var location = await currentLocation.getLocation();
+    return LatLng(location.latitude as double, location.longitude as double);
+  }
+
+  void showNotificationSystem(
+      Map map, BuildContext context, Function function) async {
+    bool showing = true;
+
+    var start = LatLng(double.parse(map["lat"]), double.parse(map["long"]));
+    var destination = await getCurrentLocation();
+
+    await _createPolylines(start.latitude, start.longitude,
+        destination.latitude, destination.longitude);
+    Set<Marker> _makers = {};
+    Marker strtMarker = Marker(
+      markerId: MarkerId("Pick-up"),
+      position: start,
+      infoWindow: InfoWindow(title: "My Location", snippet: "My car"),
+    );
+
+    Marker destinationMarker = Marker(
+      markerId: MarkerId("Destination"),
+      position: destination,
+      infoWindow: InfoWindow(title: "My Location", snippet: "My car"),
+    );
+
+    if (context.mounted) {
       showDialog(
           barrierDismissible: false,
           context: context,
           builder: (_) {
             return AlertDialog(
               title: const Text(
-                "Pickup Request",
+                "New Pickup Request",
                 style: TextStyle(color: Colors.black),
               ),
               content: Column(
@@ -127,11 +195,44 @@ class LocalNoticeService {
                   const SizedBox(
                     height: 10,
                   ),
-                  const Text("77 Color Extension Apt. 690"),
+                  Text.rich(TextSpan(children: [
+                    TextSpan(text: "Pick-up :- "),
+                    TextSpan(
+                      text: map["pick-up"],
+                      style: TextStyle(overflow: TextOverflow.ellipsis),
+                    )
+                  ])),
                   const SizedBox(
                     height: 10,
                   ),
-                  Image.asset("assets/images/map_image.png")
+                  Text.rich(TextSpan(children: [
+                    TextSpan(text: "Destination :- "),
+                    TextSpan(
+                      text: map["destination"],
+                      style: TextStyle(overflow: TextOverflow.ellipsis),
+                    )
+                  ])),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    height: 200,
+                    width: MediaQuery.of(context).size.width - 50,
+                    child: GoogleMap(
+                      polylines: Set<Polyline>.of(polylines.values),
+                      zoomControlsEnabled: false,
+                      myLocationButtonEnabled: false,
+                      onMapCreated: (controller) async {
+                        correctCameraAngle(start, destination, controller);
+                      },
+                      initialCameraPosition: CameraPosition(
+                        target: LatLng(double.parse(map["lat"]),
+                            double.parse(map["long"])),
+                        zoom: 17,
+                      ),
+                      markers: _makers, //MARKERS IN MAP
+                    ),
+                  )
                 ],
               ),
               actions: <Widget>[
@@ -163,22 +264,66 @@ class LocalNoticeService {
               ],
             );
           });
+    }
+    _makers.add(strtMarker);
+    _makers.add(destinationMarker);
 
-      for(int i=1;i<=10;i++){
-        if(!showing) {
-          return;
-        }
-        await Future.delayed(const Duration(seconds: 1));
-        FlutterBeep.playSysSound(24);
+    FlutterBeep.playSysSound(41);
+
+    for (int i = 1; i <= 10; i++) {
+      if (!showing) {
+        return;
       }
+      await Future.delayed(const Duration(seconds: 1));
+      FlutterBeep.playSysSound(24);
+    }
+    if (context.mounted) {
       Navigator.of(context).pop();
+    }
+  }
+
+  late PolylinePoints polylinePoints;
+  List<LatLng> polylineCoordinates = [];
+  Map<PolylineId, Polyline> polylines = {};
+
+  Future<void> _createPolylines(
+    double startLatitude,
+    double startLongitude,
+    double destinationLatitude,
+    double destinationLongitude,
+  ) async {
+    // Initializing PolylinePoints
+    polylinePoints = PolylinePoints();
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      mapApiKey, // Google Maps API Key
+      PointLatLng(startLatitude, startLongitude),
+      PointLatLng(destinationLatitude, destinationLongitude),
+      travelMode: TravelMode.transit,
+    );
+
+    // Adding the coordinates to the list
+    polylineCoordinates.clear();
+    if (result.points.isNotEmpty) {
+      result.points.forEach((PointLatLng point) {
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      });
+    }
+
+    PolylineId id = PolylineId('poly');
+    Polyline polyline = Polyline(
+      polylineId: id,
+      color: Colors.black,
+      points: polylineCoordinates,
+      width: 3,
+    );
+    polylines[id] = polyline;
   }
 
   void readData(BuildContext context, Function function) {
     databaseReference.child('active_driver').onChildAdded.listen((event) {
       Map map = event.snapshot.value as Map;
       if (sendNotification) {
-        showNotificationSystem(map,context,function);
+        showNotificationSystem(map, context, function);
       }
     });
   }
