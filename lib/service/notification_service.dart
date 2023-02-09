@@ -26,7 +26,7 @@ class LocalNoticeService {
       Map map, BuildContext context, Function function) async {
     bool showing = true;
 
-    var destination = LatLng(map["pick-up"]["lat"], map["pick-up"]["long"]);
+    var destination = LatLng(map["pick-up"]["lat"].toDouble(), map["pick-up"]["long"].toDouble());
     var start = await getCurrentLocation();
 
     await _createPolylines(start.latitude, start.longitude,
@@ -123,7 +123,7 @@ class LocalNoticeService {
                       zoomControlsEnabled: false,
                       myLocationButtonEnabled: false,
                       initialCameraPosition: CameraPosition(
-                        target: LatLng(map["pick-up"]["lat"], map["pick-up"]["long"]),
+                        target: LatLng(map["pick-up"]["lat"].toDouble(), map["pick-up"]["long"].toDouble()),
                         zoom: 17,
                       ),
                       markers: _makers, //MARKERS IN MAP

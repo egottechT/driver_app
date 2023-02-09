@@ -33,7 +33,7 @@ class _PickUpScreenState extends State<PickUpScreen> {
   @override
   void initState() {
     super.initState();
-    destinationLocation = LatLng(widget.map["pick-up"]["lat"], widget.map["pick-up"]["long"]);
+    destinationLocation = LatLng(widget.map["pick-up"]["lat"].toDouble(), widget.map["pick-up"]["long"].toDouble());
     polylinePoints = PolylinePoints();
 
     Marker strtMarker = Marker(

@@ -54,6 +54,7 @@ class _MapScreenState extends State<MapScreen> {
     mapController.animateCamera(CameraUpdate.newCameraPosition(_home));
     return location;
   }
+
   Map sampleData(int type){
     Map map = Map();
     if(type == 1){
@@ -68,16 +69,17 @@ class _MapScreenState extends State<MapScreen> {
     }
     return map;
   }
+
   Widget buildFAB(BuildContext context) {
     return FloatingActionButton(
       onPressed: () async {
-        // getCurrentLocation();
-        Map map = Map();
-        map["lat"] = "30.268486";
-        map["long"] = "78.0765925";
-        map["pick-up"] =  sampleData(1);
-        map["destination"] = sampleData(2);
-        LocalNoticeService().showNotificationSystem(map, context, onAcceptRequest);
+        getCurrentLocation();
+        // Map map = Map();
+        // map["lat"] = "30.268486";
+        // map["long"] = "78.0765925";
+        // map["pick-up"] =  sampleData(1);
+        // map["destination"] = sampleData(2);
+        // LocalNoticeService().showNotificationSystem(map, context, onAcceptRequest);
       },
       backgroundColor: Colors.white,
       child: const Icon(
@@ -100,7 +102,7 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   void onAcceptRequest(Map map) {
-    var location = LatLng(map["pick-up"]["lat"], map["pick-up"]["long"]);
+    var location = LatLng(map["pick-up"]["lat"].toDouble(), map["pick-up"]["long"].toDouble());
     setTheMarkers(location);
 
     CameraPosition _cameraPosition =

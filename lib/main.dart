@@ -1,5 +1,4 @@
 import 'package:driver_app/provider/otp_listener.dart';
-import 'package:driver_app/screens/pickup_screens/pickup_screen.dart';
 import 'package:driver_app/screens/starting_screens/login_screen.dart';
 import 'package:driver_app/screens/starting_screens/permission_screen.dart';
 import 'package:driver_app/screens/starting_screens/select_vehicle_screen.dart';
@@ -12,12 +11,12 @@ import 'package:driver_app/screens/starting_screens/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   // await LocalNoticeService().setup();
-  Map map = Map();
-  map["pick-up"] = "Lower Nehrugram,Dehradun 248001";
+
   runApp(
     MultiProvider(
       providers: [
@@ -30,7 +29,7 @@ void main() async {
         theme: ThemeData(
           appBarTheme: AppBarTheme(color: Colors.grey[800]),
         ),
-        home: MapScreen(),
+        home: SplashScreen(),
       ),
     ),
   );
