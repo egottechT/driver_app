@@ -35,13 +35,6 @@ class _PickUpScreenState extends State<PickUpScreen> {
     super.initState();
     destinationLocation = LatLng(widget.map["pick-up"]["lat"].toDouble(), widget.map["pick-up"]["long"].toDouble());
     polylinePoints = PolylinePoints();
-
-    Marker strtMarker = Marker(
-      markerId: MarkerId("Pick-up"),
-      position: destinationLocation,
-      infoWindow: InfoWindow(title: "My Location", snippet: "My car"),
-    );
-    _markers.add(strtMarker);
   }
 
   Future<LocationData> getCurrentLocation() async {
@@ -66,11 +59,20 @@ class _PickUpScreenState extends State<PickUpScreen> {
     return location;
   }
 
-  void _onMapCreated(GoogleMapController controller) {
+  void _onMapCreated(GoogleMapController controller) async  {
     mapController = controller;
     getCurrentLocation();
+    markIcons = await getImages('assets/icons/green_pin.png', 150);
+    Marker strtMarker = Marker(
+      markerId: MarkerId("Pick-up"),
+      position: destinationLocation,
+      infoWindow: InfoWindow(title: "My Location", snippet: "My car"),
+      icon: BitmapDescriptor.fromBytes(markIcons!),
+    );
+
     setState(() {
       location = widget.map["pick-up"]["location"];
+      _markers.add(strtMarker);
     });
   }
 

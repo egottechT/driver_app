@@ -73,13 +73,13 @@ class _MapScreenState extends State<MapScreen> {
   Widget buildFAB(BuildContext context) {
     return FloatingActionButton(
       onPressed: () async {
-        getCurrentLocation();
-        // Map map = Map();
-        // map["lat"] = "30.268486";
-        // map["long"] = "78.0765925";
-        // map["pick-up"] =  sampleData(1);
-        // map["destination"] = sampleData(2);
-        // LocalNoticeService().showNotificationSystem(map, context, onAcceptRequest);
+        // getCurrentLocation();
+        Map map = Map();
+        map["lat"] = "30.268486";
+        map["long"] = "78.0765925";
+        map["pick-up"] =  sampleData(1);
+        map["destination"] = sampleData(2);
+        LocalNoticeService().showNotificationSystem(map, context, onAcceptRequest);
       },
       backgroundColor: Colors.white,
       child: const Icon(

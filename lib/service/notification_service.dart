@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/screens/common_data.dart';
 import 'package:driver_app/screens/pickup_screens/pickup_screen.dart';
@@ -7,6 +9,8 @@ import 'package:flutter_beep/flutter_beep.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class LocalNoticeService {
   static bool sendNotification = false;
@@ -29,19 +33,26 @@ class LocalNoticeService {
     var destination = LatLng(map["pick-up"]["lat"].toDouble(), map["pick-up"]["long"].toDouble());
     var start = await getCurrentLocation();
 
+    final travelTime = await calculateTravelTime(start, destination);
+    String totalTime = formatDuration(travelTime);
+
     await _createPolylines(start.latitude, start.longitude,
         destination.latitude, destination.longitude);
-    Set<Marker> _makers = {};
+    Set<Marker> makers = {};
+    Uint8List markIcons = await getImages('assets/icons/green_pin.png', 150);
+
     Marker strtMarker = Marker(
-      markerId: MarkerId("Pick-up"),
+      markerId: const MarkerId("Pick-up"),
       position: start,
-      infoWindow: InfoWindow(title: "My Location", snippet: "My car"),
+      infoWindow: const InfoWindow(title: "My Location", snippet: "My car"),
+      icon: BitmapDescriptor.fromBytes(markIcons),
     );
 
     Marker destinationMarker = Marker(
-      markerId: MarkerId("Destination"),
+      markerId: const MarkerId("Destination"),
       position: destination,
-      infoWindow: InfoWindow(title: "My Location", snippet: "My car"),
+      infoWindow: const InfoWindow(title: "My Location", snippet: "My car"),
+      icon: BitmapDescriptor.fromBytes(markIcons),
     );
 
     if (context.mounted) {
@@ -75,14 +86,14 @@ class LocalNoticeService {
                             "assets/icons/watch.png",
                             scale: 2.5,
                           ),
-                          "5 min",
+                          totalTime,
                           "Min. Time"),
                       iconWithText(
                           Image.asset(
                             "assets/icons/rupee_bag.png",
                             scale: 8,
                           ),
-                          "4.49 \₹",
+                          "4.49 ₹",
                           "Esti. Earn"),
                     ],
                   ),
@@ -96,20 +107,20 @@ class LocalNoticeService {
                     height: 10,
                   ),
                   Text.rich(TextSpan(children: [
-                    TextSpan(text: "Pick-up :- "),
+                    const TextSpan(text: "Pick-up :- "),
                     TextSpan(
                       text: map["pick-up"]["location"],
-                      style: TextStyle(overflow: TextOverflow.ellipsis),
+                      style: const TextStyle(overflow: TextOverflow.ellipsis),
                     )
                   ])),
                   const SizedBox(
                     height: 10,
                   ),
                   Text.rich(TextSpan(children: [
-                    TextSpan(text: "Destination :- "),
+                    const TextSpan(text: "Destination :- "),
                     TextSpan(
                       text: map["destination"]["location"],
-                      style: TextStyle(overflow: TextOverflow.ellipsis),
+                      style: const TextStyle(overflow: TextOverflow.ellipsis),
                     )
                   ])),
                   const SizedBox(
@@ -126,7 +137,7 @@ class LocalNoticeService {
                         target: LatLng(map["pick-up"]["lat"].toDouble(), map["pick-up"]["long"].toDouble()),
                         zoom: 17,
                       ),
-                      markers: _makers, //MARKERS IN MAP
+                      markers: makers, //MARKERS IN MAP
                     ),
                   )
                 ],
@@ -161,12 +172,12 @@ class LocalNoticeService {
             );
           });
     }
-    _makers.add(strtMarker);
-    _makers.add(destinationMarker);
+    makers.add(strtMarker);
+    makers.add(destinationMarker);
 
     FlutterBeep.playSysSound(41);
 
-    for (int i = 1; i <= 10; i++) {
+    for (int i = 1; i <= 30; i++) {
       if (!showing) {
         return;
       }
@@ -176,6 +187,32 @@ class LocalNoticeService {
     if (context.mounted) {
       Navigator.of(context).pop();
     }
+  }
+
+  Future<Duration> calculateTravelTime(LatLng origin, LatLng destination) async {
+    final apiUrl = 'https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin.latitude},${origin.longitude}&destinations=${destination.latitude},${destination.longitude}&key=$mapApiKey';
+    final response = await http.get(Uri.parse(apiUrl));
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      final durationInSeconds = data['rows'][0]['elements'][0]['duration']['value'];
+      return Duration(seconds: durationInSeconds);
+    } else {
+      throw Exception('Failed to calculate travel time');
+    }
+  }
+
+  String formatDuration(Duration duration) {
+    final hours = duration.inHours;
+    final minutes = duration.inMinutes.remainder(60);
+
+    final hourString = hours.toString().padLeft(2,'0');
+    final minutesString = minutes.toString().padLeft(2, '0');
+
+    if(hourString == "00"){
+      return '$minutesString minutes';
+    }
+    return '$hourString : $minutesString hours';
   }
 
   late PolylinePoints polylinePoints;
@@ -200,12 +237,12 @@ class LocalNoticeService {
     // Adding the coordinates to the list
     polylineCoordinates.clear();
     if (result.points.isNotEmpty) {
-      result.points.forEach((PointLatLng point) {
+      for (var point in result.points) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-      });
+      }
     }
 
-    PolylineId id = PolylineId('poly');
+    PolylineId id = const PolylineId('poly');
     Polyline polyline = Polyline(
       polylineId: id,
       color: Colors.black,
@@ -217,9 +254,9 @@ class LocalNoticeService {
 
   void readData(BuildContext context, Function function) {
     debugPrint("Reading data");
-    databaseReference.child('active_driver').onValue.listen((event) {
-        debugPrint("Some changes are there");
-    });
+    // databaseReference.child('active_driver').onValue.listen((event) {
+    //     debugPrint("Some changes are there");
+    // });
     databaseReference.child('active_driver').onChildAdded.listen((event) {
       Map map = event.snapshot.value as Map;
       debugPrint("Data added");
@@ -232,7 +269,7 @@ class LocalNoticeService {
   iconWithText(Image icon, String s, String t) {
     TextStyle largeText = const TextStyle(
         color: Colors.black, fontSize: 21, fontWeight: FontWeight.bold);
-    TextStyle smallText = TextStyle(color: Colors.grey, fontSize: 15);
+    TextStyle smallText = const TextStyle(color: Colors.grey, fontSize: 15);
     return Column(
       children: [
         icon,
