@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
@@ -18,7 +17,7 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   final double zoomLevel = 19;
   late GoogleMapController mapController;
-  Set<Marker> _makers = {};
+  Set<Marker> makers = {};
   final LatLng _center = const LatLng(20.5937, 78.9629);
   Uint8List? markIcons;
   List<dynamic> list = [];
@@ -35,28 +34,28 @@ class _MapScreenState extends State<MapScreen> {
     markIcons = await getImages('assets/icons/driver_car.png', 150);
 
     Marker tmpMarker = Marker(
-      markerId: MarkerId("My location"),
+      markerId: const MarkerId("My location"),
       position: LatLng(
-          (location.latitude!) as double, (location.longitude!) as double),
-      infoWindow: InfoWindow(title: "My Location", snippet: "My car"),
+          (location.latitude!), (location.longitude!)),
+      infoWindow: const InfoWindow(title: "My Location", snippet: "My car"),
       icon: BitmapDescriptor.fromBytes(markIcons!),
     );
 
     setState(() {
-      _makers.add(tmpMarker);
+      makers.add(tmpMarker);
     });
 
-    CameraPosition _home = CameraPosition(
+    CameraPosition home = CameraPosition(
         target:
             LatLng(location.latitude as double, location.longitude as double),
         zoom: zoomLevel);
 
-    mapController.animateCamera(CameraUpdate.newCameraPosition(_home));
+    mapController.animateCamera(CameraUpdate.newCameraPosition(home));
     return location;
   }
 
   Map sampleData(int type){
-    Map map = Map();
+    Map map = {};
     if(type == 1){
       map["lat"] = 30.268486;
       map["long"] = 78.0765925;
@@ -73,13 +72,13 @@ class _MapScreenState extends State<MapScreen> {
   Widget buildFAB(BuildContext context) {
     return FloatingActionButton(
       onPressed: () async {
-        // getCurrentLocation();
-        Map map = Map();
-        map["lat"] = "30.268486";
-        map["long"] = "78.0765925";
-        map["pick-up"] =  sampleData(1);
-        map["destination"] = sampleData(2);
-        LocalNoticeService().showNotificationSystem(map, context, onAcceptRequest);
+        getCurrentLocation();
+        // Map map = {};
+        // map["lat"] = "30.268486";
+        // map["long"] = "78.0765925";
+        // map["pick-up"] =  sampleData(1);
+        // map["destination"] = sampleData(2);
+        // LocalNoticeService().showNotificationSystem(map, context, onAcceptRequest);
       },
       backgroundColor: Colors.white,
       child: const Icon(
@@ -97,7 +96,7 @@ class _MapScreenState extends State<MapScreen> {
     );
 
     setState(() {
-      _makers.add(marker);
+      makers.add(marker);
     });
   }
 
@@ -105,10 +104,10 @@ class _MapScreenState extends State<MapScreen> {
     var location = LatLng(map["pick-up"]["lat"].toDouble(), map["pick-up"]["long"].toDouble());
     setTheMarkers(location);
 
-    CameraPosition _cameraPosition =
+    CameraPosition cameraPosition =
         CameraPosition(target: location, zoom: zoomLevel);
     mapController
-        .animateCamera(CameraUpdate.newCameraPosition(_cameraPosition));
+        .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -211,13 +210,13 @@ class _MapScreenState extends State<MapScreen> {
         children: [
           Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               icon,
               Text(
                 text,
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
             ],
           ),
@@ -248,7 +247,7 @@ class _MapScreenState extends State<MapScreen> {
                   target: _center,
                   zoom: zoomLevel,
                 ),
-                markers: _makers, //MARKERS IN MAP
+                markers: makers, //MARKERS IN MAP
               ),
               Positioned(top: 0, child: topNavigationBar()),
               Positioned(bottom: 25, right: 25, child: buildFAB(context))
