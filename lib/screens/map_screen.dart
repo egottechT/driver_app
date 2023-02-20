@@ -17,7 +17,7 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  final double zoomLevel = 19;
+  final double zoomLevel = 16;
   late GoogleMapController mapController;
   Set<Marker> makers = {};
   Uint8List? markIcons;

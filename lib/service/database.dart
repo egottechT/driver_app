@@ -42,7 +42,7 @@ Future<bool> checkDatabaseForUser(String uid) async{
 void addDriverInfoInTrip(String key,BuildContext context,LatLng driverLocation){
   final UserModel userData = Provider.of<UserModelProvider>(context,listen: false).data;
 
-  databaseReference.child("active_driver").child(key).child("driver_info").set({
+  databaseReference.child("trips").child(key).child("driver_info").set({
     "name": userData.name,
     "vehicleNumber" : "UK4976 (NOT Store)",
     "phoneNumber": userData.phoneNumber,
