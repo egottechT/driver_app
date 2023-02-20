@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/screens/common_data.dart';
+import 'package:driver_app/service/database.dart';
 import 'package:driver_app/service/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -100,7 +101,7 @@ class _MapScreenState extends State<MapScreen> {
     });
   }
 
-  void onAcceptRequest(Map map) {
+  void onAcceptRequest(Map map,String key) {
     var location = LatLng(map["pick-up"]["lat"].toDouble(), map["pick-up"]["long"].toDouble());
     setTheMarkers(location);
 
@@ -108,6 +109,7 @@ class _MapScreenState extends State<MapScreen> {
         CameraPosition(target: location, zoom: zoomLevel);
     mapController
         .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+    addDriverInfoInTrip(key);
   }
 
   void _onMapCreated(GoogleMapController controller) {

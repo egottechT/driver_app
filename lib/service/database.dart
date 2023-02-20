@@ -23,3 +23,13 @@ Future<List<String>> readData() async {
   return msg;
 }
 
+void addDriverInfoInTrip(String key){
+  databaseReference.child("active_driver").child(key).child("driver_info").set({
+    "name": "Aryan",
+    "vehicleNumber" : "UK07AB4976",
+    "phoneNumber": "908616413",
+    "rating" : "4.6",
+    //TODO ADD LAT AND LNG FOR DRIVER
+  });
+}
+

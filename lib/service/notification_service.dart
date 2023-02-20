@@ -27,7 +27,7 @@ class LocalNoticeService {
   }
 
   void showNotificationSystem(
-      Map map, BuildContext context, Function function) async {
+      Map map, BuildContext context, Function function,String key) async {
     bool showing = true;
 
     var destination = LatLng(map["pick-up"]["lat"].toDouble(), map["pick-up"]["long"].toDouble());
@@ -35,7 +35,7 @@ class LocalNoticeService {
 
     final travelTime = await calculateTravelTime(start, destination);
     String totalTime = formatDuration(travelTime);
-
+    // String totalTime = "5 im";
     await _createPolylines(start.latitude, start.longitude,
         destination.latitude, destination.longitude);
     Set<Marker> makers = {};
@@ -164,7 +164,7 @@ class LocalNoticeService {
                   ),
                   onPressed: () {
                     showing = false;
-                    function(map);
+                    function(map,key);
                     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>PickUpScreen(map: map)));
                   },
                 ),
@@ -259,9 +259,10 @@ class LocalNoticeService {
     // });
     databaseReference.child('active_driver').onChildAdded.listen((event) {
       Map map = event.snapshot.value as Map;
-      debugPrint("Data added");
+      String key = event.snapshot.key.toString();
+
       if (sendNotification) {
-        showNotificationSystem(map, context, function);
+        showNotificationSystem(map, context, function,key);
       }
     });
   }
