@@ -1,26 +1,25 @@
+import 'dart:async';
+
+import 'package:driver_app/model/user_model.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
 
 final databaseReference = FirebaseDatabase(databaseURL: "https://book-my-etaxi-default-rtdb.asia-southeast1.firebasedatabase.app").ref();
 
-Future<void> addUserToDatabase(String name) async {
+Future<void> addUserToDatabase(String name,UserModel model) async {
   try {
-    await databaseReference.child(name).set({
-        "created": true
-    });
-  }
-  catch(e){
-    print(e.toString());
+    await databaseReference.child("driver").child(name).set(UserModel().toMap(model));
+  } catch (e) {
+    debugPrint(e.toString());
   }
 }
 
-Future<List<String>> readData() async {
-  List<String> msg = [];
-  final snapshot = await databaseReference.get();
-  for(var snap in snapshot.children){
-    final uid = snap.key as String;
-    msg.add(uid);
-  };
-  return msg;
+Future<bool> checkDatabaseForUser(String uid) async{
+  Completer<bool> completer = Completer();
+  databaseReference.child("driver").child(uid).onValue.listen((event) {
+    completer.complete(event.snapshot.exists);
+    });
+  return completer.future;
 }
 
 void addDriverInfoInTrip(String key){

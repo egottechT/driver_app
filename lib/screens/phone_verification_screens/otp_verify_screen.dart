@@ -78,10 +78,10 @@ class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
                   });
                 }
               },
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
               child: showLoading
                   ? const CircularProgressIndicator()
-                  : Text("Submit"),
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                  : const Text("Submit"),
             ),
             const SizedBox(
               height: 10,

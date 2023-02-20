@@ -1,5 +1,8 @@
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/model/user_model.dart';
+import 'package:driver_app/service/database.dart';
 import 'package:driver_app/widgets/phone_number_view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -74,8 +77,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   ElevatedButton(
                     onPressed: () {
                       if (_ownerFormKey.currentState!.validate()) {
-                        Navigator.of(context)
-                            .pushNamed("/permissionScreen");
+                        UserModel model = UserModel();
+                        model.name = "${firstName.text} ${lastName.text}";
+                        model.phoneNumber = phoneNumber.text;
+                        User? result = FirebaseAuth.instance.currentUser;
+                        addUserToDatabase(result?.uid.toString() as String,model);
+                        Navigator.of(context).pushNamed("/permissionScreen");
                       }
                     },
                     child: Text("Next"),

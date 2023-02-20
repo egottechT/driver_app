@@ -1,4 +1,5 @@
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/service/authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -18,13 +19,16 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _redirect() async {
     await Future.delayed(const Duration(seconds: 3));
-
-    if (await FirebaseAuth.instance.currentUser != null) {
-      // Navigator.of(context).pushReplacementNamed('/mapScreen');
-    } else {
-      // Navigator.of(context).pushReplacementNamed('/loginScreen');
+    User? user = FirebaseAuth.instance.currentUser;
+    if(context.mounted){
+      if (user != null) {
+        Navigator.of(context).pushReplacementNamed('/mapScreen');
+      } else {
+      // signOut();
+        Navigator.of(context).pushReplacementNamed('/loginScreen');
+      }
     }
-    Navigator.of(context).pushReplacementNamed('/loginScreen');
+
   }
 
   @override
