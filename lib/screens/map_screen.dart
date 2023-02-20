@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:driver_app/Utils/commonData.dart';
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/screens/common_data.dart';
 import 'package:driver_app/service/database.dart';
@@ -19,7 +20,6 @@ class _MapScreenState extends State<MapScreen> {
   final double zoomLevel = 19;
   late GoogleMapController mapController;
   Set<Marker> makers = {};
-  final LatLng _center = const LatLng(20.5937, 78.9629);
   Uint8List? markIcons;
   List<dynamic> list = [];
 
@@ -29,9 +29,7 @@ class _MapScreenState extends State<MapScreen> {
     super.initState();
   }
 
-  Future<LocationData> getCurrentLocation() async {
-    Location currentLocation = Location();
-    var location = await currentLocation.getLocation();
+  void mapSetupWork(LocationData location) async {
     markIcons = await getImages('assets/icons/driver_car.png', 150);
 
     Marker tmpMarker = Marker(
@@ -48,11 +46,10 @@ class _MapScreenState extends State<MapScreen> {
 
     CameraPosition home = CameraPosition(
         target:
-            LatLng(location.latitude as double, location.longitude as double),
+        LatLng(location.latitude as double, location.longitude as double),
         zoom: zoomLevel);
 
     mapController.animateCamera(CameraUpdate.newCameraPosition(home));
-    return location;
   }
 
   Map sampleData(int type){
@@ -73,7 +70,8 @@ class _MapScreenState extends State<MapScreen> {
   Widget buildFAB(BuildContext context) {
     return FloatingActionButton(
       onPressed: () async {
-        getCurrentLocation();
+        LocationData location = await getCurrentLocation();
+        mapSetupWork(location);
         // Map map = {};
         // map["lat"] = "30.268486";
         // map["long"] = "78.0765925";
@@ -112,9 +110,10 @@ class _MapScreenState extends State<MapScreen> {
     addDriverInfoInTrip(key);
   }
 
-  void _onMapCreated(GoogleMapController controller) {
+  void _onMapCreated(GoogleMapController controller) async  {
     mapController = controller;
-    getCurrentLocation();
+    LocationData location = await getCurrentLocation();
+    mapSetupWork(location);
   }
 
   int currentIndex = 0;
@@ -237,6 +236,8 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as LatLng;
+
     return SafeArea(
         child: Scaffold(
             resizeToAvoidBottomInset: true,
@@ -246,7 +247,7 @@ class _MapScreenState extends State<MapScreen> {
                 myLocationButtonEnabled: false,
                 onMapCreated: _onMapCreated,
                 initialCameraPosition: CameraPosition(
-                  target: _center,
+                  target: args,
                   zoom: zoomLevel,
                 ),
                 markers: makers, //MARKERS IN MAP
