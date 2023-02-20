@@ -1,6 +1,7 @@
 import 'package:driver_app/Utils/commonData.dart';
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/service/authentication.dart';
+import 'package:driver_app/service/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -23,6 +24,9 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _redirect() async {
     await Future.delayed(const Duration(seconds: 2));
     LocationData location = await getCurrentLocation();
+    if(context.mounted) {
+      await getUserInfo(context);
+    }
 
     User? user = FirebaseAuth.instance.currentUser;
     if(context.mounted){

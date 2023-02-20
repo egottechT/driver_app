@@ -99,7 +99,7 @@ class _MapScreenState extends State<MapScreen> {
     });
   }
 
-  void onAcceptRequest(Map map,String key) {
+  void onAcceptRequest(Map map,String key) async {
     var location = LatLng(map["pick-up"]["lat"].toDouble(), map["pick-up"]["long"].toDouble());
     setTheMarkers(location);
 
@@ -107,7 +107,10 @@ class _MapScreenState extends State<MapScreen> {
         CameraPosition(target: location, zoom: zoomLevel);
     mapController
         .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
-    addDriverInfoInTrip(key);
+    LocationData currentLocation = await getCurrentLocation();
+    if(context.mounted) {
+      addDriverInfoInTrip(key,context,LatLng(currentLocation.latitude as double, currentLocation.longitude as double));
+    }
   }
 
   void _onMapCreated(GoogleMapController controller) async  {

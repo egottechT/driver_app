@@ -1,4 +1,5 @@
 import 'package:driver_app/provider/otp_listener.dart';
+import 'package:driver_app/provider/user_provider.dart';
 import 'package:driver_app/screens/payment_screen.dart';
 import 'package:driver_app/screens/starting_screens/login_screen.dart';
 import 'package:driver_app/screens/starting_screens/permission_screen.dart';
@@ -21,7 +22,8 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_)=> OtpProvider())
+        ChangeNotifierProvider(create: (_)=> OtpProvider()),
+        ChangeNotifierProvider(create: (_) => UserModelProvider()),
       ],
       child: MaterialApp(
         title: 'Book My taxi Driver',
