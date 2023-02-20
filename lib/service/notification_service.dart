@@ -254,10 +254,7 @@ class LocalNoticeService {
 
   void readData(BuildContext context, Function function) {
     debugPrint("Reading data");
-    // databaseReference.child('active_driver').onValue.listen((event) {
-    //     debugPrint("Some changes are there");
-    // });
-    databaseReference.child('active_driver').onChildAdded.listen((event) {
+    databaseReference.child('trips').onChildAdded.listen((event) {
       Map map = event.snapshot.value as Map;
       String key = event.snapshot.key.toString();
 
