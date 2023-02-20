@@ -1,4 +1,3 @@
-import 'package:book_my_taxi/model/user_model.dart';
 import 'package:driver_app/model/user_model.dart';
 import 'package:flutter/material.dart';
 

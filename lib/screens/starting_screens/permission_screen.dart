@@ -1,5 +1,8 @@
+import 'package:driver_app/Utils/commonData.dart';
 import 'package:driver_app/Utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class PermissionScreen extends StatefulWidget {
@@ -58,18 +61,25 @@ class _PermissionScreenState extends State<PermissionScreen> {
               onPressed: () async {
                 var contactRequest = await Permission.contacts.request();
                 var locationRequest = await Permission.location.request();
-                if (locationRequest.isGranted) {
-                  context.showSnackBar(
-                      message: "Location Permission is Granted");
-                  location = true;
+                if(context.mounted){
+                  if (locationRequest.isGranted) {
+                    context.showSnackBar(
+                        message: "Location Permission is Granted");
+                    location = true;
+                  }
+                  if (contactRequest.isGranted) {
+                    context.showSnackBar(
+                        message: "Contact Permission is Granted");
+                    phone = true;
+                  }
+                  LocationData currentLocation = await getCurrentLocation();
+                  if (location && phone && context.mounted) {
+                    Navigator.of(context).pushNamed("/mapScreen",
+                        arguments: LatLng(
+                            currentLocation.latitude as double, currentLocation.latitude as double));
+                  }
                 }
-                if (contactRequest.isGranted) {
-                  context.showSnackBar(
-                      message: "Contact Permission is Granted");
-                  phone = true;
-                }
-                if (location && phone)
-                  Navigator.of(context).pushNamed("/mapScreen");
+
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
             ),
