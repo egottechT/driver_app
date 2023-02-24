@@ -1,6 +1,7 @@
 import 'package:driver_app/Utils/commonData.dart';
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/service/authentication.dart';
+import 'package:driver_app/service/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -27,9 +28,12 @@ class _SplashScreenState extends State<SplashScreen> {
     User? user = FirebaseAuth.instance.currentUser;
     if(context.mounted){
       if (user != null) {
-        Navigator.of(context).pushReplacementNamed('/mapScreen',
+        await getUserInfo(context);
+        if(context.mounted) {
+          Navigator.of(context).pushReplacementNamed('/mapScreen',
             arguments: LatLng(
                 location.latitude as double, location.latitude as double));
+        }
       } else {
       // signOut();
         Navigator.of(context).pushReplacementNamed('/loginScreen');

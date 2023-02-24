@@ -94,7 +94,7 @@ class _PickUpScreenState extends State<PickUpScreen> {
             resizeToAvoidBottomInset: true,
             body: SlidingUpPanel(
                 panelBuilder: (controller) {
-                  return bottomPanelLayout();
+                  return bottomPanelLayout(widget.map);
                 },
                 parallaxEnabled: true,
                 parallaxOffset: 0.5,

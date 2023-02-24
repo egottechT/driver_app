@@ -1,7 +1,7 @@
 import 'package:driver_app/Utils/constants.dart';
 import 'package:flutter/material.dart';
 
-Widget bottomPanelLayout() {
+Widget bottomPanelLayout(Map map) {
   return Container(
     color: Colors.grey[200],
     padding: const EdgeInsets.all(10.0),
@@ -22,18 +22,18 @@ Widget bottomPanelLayout() {
                 Image.asset("assets/images/car.png"),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text("Customer Details",style: TextStyle(fontWeight: FontWeight.bold),),
-                    SizedBox(height: 5,),
-                    Text("Mr. Abhay Sati"),
+                  children: [
+                    const Text("Customer Details",style: TextStyle(fontWeight: FontWeight.bold),),
+                    const SizedBox(height: 5,),
+                    Text(map["title"] ?? ""),
                   ],
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text("Call to Customer",style: TextStyle(fontWeight: FontWeight.bold),),
-                    SizedBox(height: 5,),
-                    Text("9458942703"),
+                  children: [
+                    const Text("Call to Customer",style: TextStyle(fontWeight: FontWeight.bold),),
+                    const SizedBox(height: 5,),
+                    Text(map["phoneNumber"] ?? ""),
                   ],
                 )
               ],
