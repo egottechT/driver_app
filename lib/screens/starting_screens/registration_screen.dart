@@ -20,6 +20,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   TextEditingController referralController = TextEditingController();
   TextEditingController phoneNumber = TextEditingController();
   String state = "";
+
   String? nullValidator(dynamic value) {
     if (value == null || value!.isEmpty) {
       return "Some value is required";
@@ -31,65 +32,75 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            body: Padding(
-              padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  SizedBox(height: 10,),
-                  Row(
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.arrow_back),
-                        color: Colors.black, onPressed: () {
-                          Navigator.of(context).pop();
+            resizeToAvoidBottomInset: true,
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.arrow_back),
+                          color: Colors.black,
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Text.rich(TextSpan(children: [
+                          TextSpan(
+                            text: "Register Now On ",
+                            style: TextStyle(color: secondaryColor, fontSize: 16),
+                          ),
+                          TextSpan(
+                            text: "BOOK MY ETAXI",
+                            style: TextStyle(
+                                color: secondaryColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16),
+                          ),
+                          TextSpan(
+                            text:
+                                "\nPartner! Go Safe drive & \nlooking forward to,reaching this\nopportunity",
+                            style: TextStyle(
+                                color: secondaryColor,
+                                fontSize: 16,
+                                overflow: TextOverflow.ellipsis),
+                          ),
+                        ]))
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Image.asset("assets/images/register.png"),
+                        registrationForm(),
+                      ],
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_ownerFormKey.currentState!.validate()) {
+                          UserModel model = UserModel();
+                          model.name = "${firstName.text} ${lastName.text}";
+                          model.phoneNumber = phoneNumber.text;
+                          User? result = FirebaseAuth.instance.currentUser;
+                          addUserToDatabase(
+                              result?.uid.toString() as String, model);
+                          Navigator.of(context).pushNamed("/permissionScreen");
+                        }
                       },
-                      ),
-                      SizedBox(width: 10,),
-                      Text.rich(TextSpan(children: [
-                        TextSpan(
-                          text: "Register Now On ",
-                          style: TextStyle(color: secondaryColor,fontSize: 16),
-                        ),
-                        TextSpan(
-                          text: "BOOK MY ETAXI ",
-                          style: TextStyle(color: secondaryColor,fontWeight: FontWeight.bold,fontSize: 16),
-                        ),
-                        TextSpan(
-                          text:
-                              "\nPartner! Go Safe drive & looking forward to,\n reaching this opportunity",
-                          style: TextStyle(color: secondaryColor,fontSize: 16),
-                        ),
-                      ]))
-                    ],
-                  ),
-                  Flexible(
-                      child: Column(
-                    children: [
-                      Image.asset("assets/images/register.png"),
-                      registrationForm(),
-                      SizedBox(
-                        height: 100,
-                      ),
-                    ],
-                  )),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_ownerFormKey.currentState!.validate()) {
-                        UserModel model = UserModel();
-                        model.name = "${firstName.text} ${lastName.text}";
-                        model.phoneNumber = phoneNumber.text;
-                        User? result = FirebaseAuth.instance.currentUser;
-                        addUserToDatabase(result?.uid.toString() as String,model);
-                        Navigator.of(context).pushNamed("/permissionScreen");
-                      }
-                    },
-                    child: Text("Next"),
-                    style:
-                        ElevatedButton.styleFrom(backgroundColor: Colors.black),
-                  )
-                ],
+                      style:
+                          ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                      child: const Text("Next"),
+                    )
+                  ],
+                ),
               ),
             )));
   }
@@ -114,7 +125,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   textInputAction: TextInputAction.next,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 25,
               ),
               Flexible(
@@ -130,7 +141,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           PhoneNumberInput(
@@ -140,19 +151,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               });
             },
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           DropdownButtonFormField(
             items: List.generate(
               statesOfIndia.length,
-                  (index) => DropdownMenuItem(
+              (index) => DropdownMenuItem(
                 value: statesOfIndia[index],
                 child: Text(statesOfIndia[index]),
               ),
             ),
-            onChanged: (val){
-              if(val!=null) {
+            onChanged: (val) {
+              if (val != null) {
                 setState(() {
                   state = val;
                 });
@@ -163,19 +174,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             ),
             validator: nullValidator,
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           TextFormField(
             style: _textStyle,
             keyboardType: TextInputType.emailAddress,
             decoration: const InputDecoration(
-              labelText: 'REFERRAL CODE',
-              hintText: '(OPTIONAL) REFERRAL CODE'
-            ),
+                labelText: 'REFERRAL CODE',
+                hintText: '(OPTIONAL) REFERRAL CODE'),
             controller: referralController,
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           TextFormField(

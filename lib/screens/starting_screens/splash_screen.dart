@@ -1,6 +1,5 @@
 import 'package:driver_app/Utils/commonData.dart';
 import 'package:driver_app/Utils/constants.dart';
-import 'package:driver_app/service/authentication.dart';
 import 'package:driver_app/service/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -53,22 +52,22 @@ class _SplashScreenState extends State<SplashScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
+                    flex: 1,
                     child: Align(
                       alignment: Alignment.bottomCenter,
                       child: Image.asset(
                         'assets/images/app_logo.png',
                       ),
                     ),
-                    flex: 1,
                   ),
                   Expanded(
+                    flex: 2,
                     child: Align(
                       alignment: Alignment.bottomCenter,
                       child: Image.asset(
                         'assets/images/splash_screen.png',
                       ),
                     ),
-                    flex: 2,
                   )
                 ],
               ))),

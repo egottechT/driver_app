@@ -33,22 +33,22 @@ class _PermissionScreenState extends State<PermissionScreen> {
         child: Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColor,
-        title: Text(
+        title: const Text(
           "Allow Storage/Location/Phone Permission Required",
           style: TextStyle(color: Colors.black, fontSize: 12),
         ),
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
               flex: 3, child: Image.asset("assets/images/splash_screen.png")),
-          Expanded(
+          const Expanded(
               flex: 2,
               child: Center(
                   child: Padding(
-                padding: const EdgeInsets.all(50.0),
+                padding: EdgeInsets.all(50.0),
                 child: Text(
                   "For us to download/Location/Phone and training content on your device's by giving us permission",
                   style: TextStyle(fontSize: 18),
@@ -57,7 +57,6 @@ class _PermissionScreenState extends State<PermissionScreen> {
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: ElevatedButton(
-              child: Text("CONTINUE"),
               onPressed: () async {
                 var contactRequest = await Permission.contacts.request();
                 var locationRequest = await Permission.location.request();
@@ -82,6 +81,7 @@ class _PermissionScreenState extends State<PermissionScreen> {
 
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+              child: const Text("CONTINUE"),
             ),
           ),
         ],
