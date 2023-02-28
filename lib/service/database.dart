@@ -10,17 +10,17 @@ import 'package:provider/provider.dart';
 
 final databaseReference = FirebaseDatabase(databaseURL: "https://book-my-etaxi-default-rtdb.asia-southeast1.firebasedatabase.app").ref();
 
+String customerKey = "";
 
-Future<UserModel> getUserInfo(BuildContext context){
-  Completer<UserModel> complete = Completer();
+Future<void> getUserInfo(BuildContext context) async {
+  // Completer<UserModel> complete = Completer();
   databaseReference.child("customer").child(FirebaseAuth.instance.currentUser!.uid.toString()).once().then((value){
     Map map = value.snapshot.value as Map;
     debugPrint("Values :- ${map.toString()}");
     UserModel model = UserModel().getDataFromMap(map);
-    complete.complete(model);
+    // complete.complete(model);
     Provider.of<UserModelProvider>(context,listen: false).setData(model);
   });
-  return complete.future;
 }
 
 Future<void> addUserToDatabase(String name,UserModel model) async {
@@ -41,7 +41,7 @@ Future<bool> checkDatabaseForUser(String uid) async{
 
 void addDriverInfoInTrip(String key,BuildContext context,LatLng driverLocation){
   final UserModel userData = Provider.of<UserModelProvider>(context,listen: false).data;
-
+  customerKey = key;
   databaseReference.child("trips").child(key).child("driver_info").set({
     "name": userData.name,
     "vehicleNumber" : "UK4976 (NOT Store)",
@@ -49,6 +49,13 @@ void addDriverInfoInTrip(String key,BuildContext context,LatLng driverLocation){
     "rating" : "4.6",
     "lat": driverLocation.latitude,
     "long": driverLocation.longitude
+  });
+}
+
+void updateLatLng(LatLng driver){
+  databaseReference.child("trips").child(customerKey).child("driver_info").update({
+    "lat": driver.latitude,
+    "long": driver.longitude
   });
 }
 

@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/screens/common_data.dart';
 import 'package:driver_app/screens/pickup_screens/bottom_panel.dart';
+import 'package:driver_app/service/database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -35,6 +36,15 @@ class _PickUpScreenState extends State<PickUpScreen> {
     super.initState();
     destinationLocation = LatLng(widget.map["pick-up"]["lat"].toDouble(), widget.map["pick-up"]["long"].toDouble());
     polylinePoints = PolylinePoints();
+    updateLocationDriver();
+  }
+
+  void  updateLocationDriver(){
+    Location location = Location();
+    location.onLocationChanged.listen((newLocation) {
+      LatLng value = LatLng(newLocation.latitude as double, newLocation.longitude as double);
+      updateLatLng(value);
+    });
   }
 
   Future<LocationData> getCurrentLocation() async {

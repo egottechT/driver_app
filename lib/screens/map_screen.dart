@@ -109,6 +109,7 @@ class _MapScreenState extends State<MapScreen> {
         .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
     LocationData currentLocation = await getCurrentLocation();
     if(context.mounted) {
+      debugPrint("Data uploading");
       addDriverInfoInTrip(key,context,LatLng(currentLocation.latitude as double, currentLocation.longitude as double));
     }
   }
