@@ -25,7 +25,7 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   void initState() {
-    LocalNoticeService().readData(context, onAcceptRequest);
+    LocalNoticeService().readData(context);
     super.initState();
   }
 
@@ -97,21 +97,6 @@ class _MapScreenState extends State<MapScreen> {
     setState(() {
       makers.add(marker);
     });
-  }
-
-  void onAcceptRequest(Map map,String key) async {
-    var location = LatLng(map["pick-up"]["lat"].toDouble(), map["pick-up"]["long"].toDouble());
-    setTheMarkers(location);
-
-    CameraPosition cameraPosition =
-        CameraPosition(target: location, zoom: zoomLevel);
-    mapController
-        .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
-    LocationData currentLocation = await getCurrentLocation();
-    if(context.mounted) {
-      debugPrint("Data uploading");
-      addDriverInfoInTrip(key,context,LatLng(currentLocation.latitude as double, currentLocation.longitude as double));
-    }
   }
 
   void _onMapCreated(GoogleMapController controller) async  {

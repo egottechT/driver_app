@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/screens/common_data.dart';
 import 'package:driver_app/screens/pickup_screens/pickup_screen.dart';
+import 'package:driver_app/service/database.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_beep/flutter_beep.dart';
@@ -27,7 +28,7 @@ class LocalNoticeService {
   }
 
   void showNotificationSystem(
-      Map map, BuildContext context, Function function,String key) async {
+      Map map, BuildContext context,String key) async {
     bool showing = true;
 
     var destination = LatLng(map["pick-up"]["lat"].toDouble(), map["pick-up"]["long"].toDouble());
@@ -163,8 +164,8 @@ class LocalNoticeService {
                     style: TextStyle(color: Colors.black),
                   ),
                   onPressed: () {
+                    debugPrint("Accept clicked");
                     showing = false;
-                    function(map,key);
                     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>PickUpScreen(map: map)));
                   },
                 ),
@@ -252,14 +253,15 @@ class LocalNoticeService {
     polylines[id] = polyline;
   }
 
-  void readData(BuildContext context, Function function) {
+  void readData(BuildContext context) {
     debugPrint("Reading data");
     databaseReference.child('trips').onChildAdded.listen((event) {
       Map map = event.snapshot.value as Map;
       String key = event.snapshot.key.toString();
-
+      customerKey = key;
+      // debugPrint(map.toString());
       if (sendNotification) {
-        showNotificationSystem(map, context, function,key);
+        showNotificationSystem(map, context,key);
       }
     });
   }

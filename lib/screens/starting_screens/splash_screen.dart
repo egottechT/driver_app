@@ -1,5 +1,6 @@
 import 'package:driver_app/Utils/commonData.dart';
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/screens/pickup_screens/pickup_screen.dart';
 import 'package:driver_app/service/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -24,15 +25,15 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(const Duration(seconds: 2));
     LocationData location = await getCurrentLocation();
 
+    // Map map = addDummyData();
+    // debugPrint("Testing");
+    // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>PickUpScreen(map: map)));
     User? user = FirebaseAuth.instance.currentUser;
     if(context.mounted){
       if (user != null) {
-        await getUserInfo(context);
-        if(context.mounted) {
           Navigator.of(context).pushReplacementNamed('/mapScreen',
             arguments: LatLng(
                 location.latitude as double, location.latitude as double));
-        }
       } else {
       // signOut();
         Navigator.of(context).pushReplacementNamed('/loginScreen');

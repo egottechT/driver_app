@@ -4,6 +4,7 @@ import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/screens/common_data.dart';
 import 'package:driver_app/screens/pickup_screens/bottom_panel.dart';
 import 'package:driver_app/service/database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -36,7 +37,18 @@ class _PickUpScreenState extends State<PickUpScreen> {
     super.initState();
     destinationLocation = LatLng(widget.map["pick-up"]["lat"].toDouble(), widget.map["pick-up"]["long"].toDouble());
     polylinePoints = PolylinePoints();
+    uploadDriverDetails();
     updateLocationDriver();
+  }
+
+  void uploadDriverDetails() async {
+    debugPrint("Inside function");
+    LocationData currentLocation = await getCurrentLocation(true);
+    debugPrint("Location fetch complete");
+    if(context.mounted) {
+      debugPrint("Get user info");
+      getUserInfo(context,FirebaseAuth.instance.currentUser!.uid.toString(),currentLocation);
+    }
   }
 
   void  updateLocationDriver(){
@@ -47,9 +59,12 @@ class _PickUpScreenState extends State<PickUpScreen> {
     });
   }
 
-  Future<LocationData> getCurrentLocation() async {
+  Future<LocationData> getCurrentLocation(bool uploading) async {
     Location currentLocation = Location();
     var location = await currentLocation.getLocation();
+    if(uploading) {
+      return location;
+    }
     startLocation = LatLng(location.latitude as double, location.longitude as double);
     markIcons = await getImages('assets/icons/driver_car.png', 150);
 
@@ -71,7 +86,7 @@ class _PickUpScreenState extends State<PickUpScreen> {
 
   void _onMapCreated(GoogleMapController controller) async  {
     mapController = controller;
-    getCurrentLocation();
+    getCurrentLocation(false);
     markIcons = await getImages('assets/icons/green_pin.png', 150);
     Marker strtMarker = Marker(
       markerId: MarkerId("Pick-up"),
