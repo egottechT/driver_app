@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:driver_app/model/user_model.dart';
 import 'package:driver_app/provider/user_provider.dart';
@@ -53,23 +54,30 @@ Future<bool> checkDatabaseForUser(String uid) async {
 void addDriverInfoInTrip(BuildContext context, UserModel userData,
     LatLng driverLocation) {
   debugPrint("Uploading the data");
+  int randomNumber = Random().nextInt(9000) + 1000;
   databaseReference.child("trips").child(customerKey).child("driver_info").set({
     "name": userData.name,
     "vehicleNumber": "UK4976 (NOT Store)",
     "phoneNumber": userData.phoneNumber,
     "rating": "4.6",
     "lat": driverLocation.latitude,
-    "long": driverLocation.longitude
+    "long": driverLocation.longitude,
+    "otp": randomNumber
   });
 }
 
-void updateLatLng(LatLng driver) {
+Future<void> updateLatLng(LatLng driver) async {
   if (customerKey.isEmpty) {
     return;
   }
-  databaseReference.child("trips").child(customerKey).child("driver_info").update({
-    "lat": driver.latitude,
-    "long": driver.longitude
+  databaseReference.child("trips").child(customerKey).child("driver_info").onValue.listen((event) {
+    if(event.snapshot.exists){
+
+      databaseReference.child("trips").child(customerKey).child("driver_info").update({
+        "lat": driver.latitude,
+        "long": driver.longitude
+      });
+    }
   });
 }
 
