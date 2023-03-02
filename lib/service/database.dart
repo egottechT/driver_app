@@ -99,3 +99,13 @@ Map addDummyData() {
     "title": "Aryan bisht"
   };
 }
+
+Future<bool> checkTripOtp(String otp) async {
+  Completer<bool> completer = Completer();
+  databaseReference.child("trips").child(customerKey).child("driver_info").once().then((value){
+      Map map = value.snapshot.value as Map;
+      debugPrint(map.toString());
+      completer.complete((map["otp"]??0)==otp);
+  });
+  return completer.future;
+}

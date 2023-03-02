@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:driver_app/Utils/constants.dart';
@@ -9,9 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_beep/flutter_beep.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:location/location.dart';
 
 class LocalNoticeService {
   static bool sendNotification = false;
@@ -27,11 +27,11 @@ class LocalNoticeService {
     return LatLng(location.latitude as double, location.longitude as double);
   }
 
-  void showNotificationSystem(
-      Map map, BuildContext context,String key) async {
+  void showNotificationSystem(Map map, BuildContext context, String key) async {
     bool showing = true;
 
-    var destination = LatLng(map["pick-up"]["lat"].toDouble(), map["pick-up"]["long"].toDouble());
+    var destination = LatLng(
+        map["pick-up"]["lat"].toDouble(), map["pick-up"]["long"].toDouble());
     var start = await getCurrentLocation();
 
     final travelTime = await calculateTravelTime(start, destination);
@@ -135,7 +135,8 @@ class LocalNoticeService {
                       zoomControlsEnabled: false,
                       myLocationButtonEnabled: false,
                       initialCameraPosition: CameraPosition(
-                        target: LatLng(map["pick-up"]["lat"].toDouble(), map["pick-up"]["long"].toDouble()),
+                        target: LatLng(map["pick-up"]["lat"].toDouble(),
+                            map["pick-up"]["long"].toDouble()),
                         zoom: 17,
                       ),
                       markers: makers, //MARKERS IN MAP
@@ -166,7 +167,11 @@ class LocalNoticeService {
                   onPressed: () {
                     debugPrint("Accept clicked");
                     showing = false;
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>PickUpScreen(map: map)));
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => PickUpScreen(
+                              map: map,
+                              isPickUp: true,
+                            )));
                   },
                 ),
               ],
@@ -190,13 +195,16 @@ class LocalNoticeService {
     }
   }
 
-  Future<Duration> calculateTravelTime(LatLng origin, LatLng destination) async {
-    final apiUrl = 'https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin.latitude},${origin.longitude}&destinations=${destination.latitude},${destination.longitude}&key=$mapApiKey';
+  Future<Duration> calculateTravelTime(
+      LatLng origin, LatLng destination) async {
+    final apiUrl =
+        'https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin.latitude},${origin.longitude}&destinations=${destination.latitude},${destination.longitude}&key=$mapApiKey';
     final response = await http.get(Uri.parse(apiUrl));
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      final durationInSeconds = data['rows'][0]['elements'][0]['duration']['value'];
+      final durationInSeconds =
+          data['rows'][0]['elements'][0]['duration']['value'];
       return Duration(seconds: durationInSeconds);
     } else {
       throw Exception('Failed to calculate travel time');
@@ -207,10 +215,10 @@ class LocalNoticeService {
     final hours = duration.inHours;
     final minutes = duration.inMinutes.remainder(60);
 
-    final hourString = hours.toString().padLeft(2,'0');
+    final hourString = hours.toString().padLeft(2, '0');
     final minutesString = minutes.toString().padLeft(2, '0');
 
-    if(hourString == "00"){
+    if (hourString == "00") {
       return '$minutesString minutes';
     }
     return '$hourString : $minutesString hours';
@@ -261,7 +269,7 @@ class LocalNoticeService {
       customerKey = key;
       // debugPrint(map.toString());
       if (sendNotification) {
-        showNotificationSystem(map, context,key);
+        showNotificationSystem(map, context, key);
       }
     });
   }

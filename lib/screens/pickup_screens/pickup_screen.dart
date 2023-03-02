@@ -14,8 +14,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 class PickUpScreen extends StatefulWidget {
   final Map map;
-
-  const PickUpScreen({Key? key, required this.map}) : super(key: key);
+  final bool isPickUp;
+  const PickUpScreen({Key? key, required this.map,required this.isPickUp}) : super(key: key);
 
   @override
   State<PickUpScreen> createState() => _PickUpScreenState();
@@ -24,7 +24,7 @@ class PickUpScreen extends StatefulWidget {
 class _PickUpScreenState extends State<PickUpScreen> {
   late GoogleMapController mapController;
   String location = "Pick-up";
-  Set<Marker> _markers = {};
+  Set<Marker> markers = {};
   Uint8List? markIcons;
   late LatLng startLocation;
   late LatLng destinationLocation;
@@ -35,7 +35,12 @@ class _PickUpScreenState extends State<PickUpScreen> {
   @override
   void initState() {
     super.initState();
-    destinationLocation = LatLng(widget.map["pick-up"]["lat"].toDouble(), widget.map["pick-up"]["long"].toDouble());
+    if(widget.isPickUp) {
+      destinationLocation = LatLng(widget.map["pick-up"]["lat"].toDouble(), widget.map["pick-up"]["long"].toDouble());
+    }
+    else{
+      destinationLocation = LatLng(widget.map["destination"]["lat"].toDouble(), widget.map["destination"]["long"].toDouble());
+    }
     polylinePoints = PolylinePoints();
     uploadDriverDetails();
     updateLocationDriver();
@@ -69,15 +74,15 @@ class _PickUpScreenState extends State<PickUpScreen> {
     markIcons = await getImages('assets/icons/driver_car.png', 150);
 
     Marker tmpMarker = Marker(
-      markerId: MarkerId("My location"),
+      markerId: const MarkerId("My location"),
       position: LatLng(
-          (location.latitude!) as double, (location.longitude!) as double),
-      infoWindow: InfoWindow(title: "My Location", snippet: "My car"),
+          (location.latitude!), (location.longitude!)),
+      infoWindow: const InfoWindow(title: "My Location", snippet: "My car"),
       icon: BitmapDescriptor.fromBytes(markIcons!),
     );
 
     setState(() {
-      _markers.add(tmpMarker);
+      markers.add(tmpMarker);
     });
     correctCameraAngle(startLocation,destinationLocation,mapController);
     _createPolylines(startLocation.latitude,startLocation.longitude,destinationLocation.latitude,destinationLocation.longitude);
@@ -89,15 +94,20 @@ class _PickUpScreenState extends State<PickUpScreen> {
     getCurrentLocation(false);
     markIcons = await getImages('assets/icons/green_pin.png', 150);
     Marker strtMarker = Marker(
-      markerId: MarkerId("Pick-up"),
+      markerId: const MarkerId("Pick-up"),
       position: destinationLocation,
-      infoWindow: InfoWindow(title: "My Location", snippet: "My car"),
+      infoWindow: const InfoWindow(title: "My Location", snippet: "My car"),
       icon: BitmapDescriptor.fromBytes(markIcons!),
     );
 
     setState(() {
-      location = widget.map["pick-up"]["location"];
-      _markers.add(strtMarker);
+      if(widget.isPickUp) {
+        location = widget.map["pick-up"]["location"];
+      }
+      else{
+        location = widget.map["destination"]["location"];
+      }
+      markers.add(strtMarker);
     });
   }
 
@@ -110,7 +120,7 @@ class _PickUpScreenState extends State<PickUpScreen> {
         child: Scaffold(
             appBar: AppBar(
               title: Text(
-                "Pick-up Location",
+                widget.isPickUp ? "Pick-up Location" : "Destination Location",
                 style: TextStyle(color: secondaryColor),
               ),
               backgroundColor: primaryColor,
@@ -119,7 +129,7 @@ class _PickUpScreenState extends State<PickUpScreen> {
             resizeToAvoidBottomInset: true,
             body: SlidingUpPanel(
                 panelBuilder: (controller) {
-                  return bottomPanelLayout(widget.map);
+                  return bottomPanelLayout(widget.map,context);
                 },
                 parallaxEnabled: true,
                 parallaxOffset: 0.5,
@@ -136,7 +146,7 @@ class _PickUpScreenState extends State<PickUpScreen> {
                       target: LatLng(0, 0),
                       zoom: 17,
                     ),
-                    markers: _markers,
+                    markers: markers,
                     polylines: Set<Polyline>.of(polylines.values),
                   ),
                   Positioned(
@@ -188,10 +198,10 @@ class _PickUpScreenState extends State<PickUpScreen> {
                                           color: secondaryColor,
                                           size: 45,
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 10,
                                         ),
-                                        Text("Navigate")
+                                        const Text("Navigate")
                                       ],
                                     ),
                                   )),
@@ -229,12 +239,12 @@ class _PickUpScreenState extends State<PickUpScreen> {
     // Adding the coordinates to the list
     polylineCoordinates.clear();
     if (result.points.isNotEmpty) {
-      result.points.forEach((PointLatLng point) {
+      for (var point in result.points) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-      });
+      }
     }
 
-    PolylineId id = PolylineId('poly');
+    PolylineId id = const PolylineId('poly');
     Polyline polyline = Polyline(
       polylineId: id,
       color: Colors.black,

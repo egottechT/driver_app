@@ -1,30 +1,23 @@
-
 import 'package:driver_app/Utils/constants.dart';
-import 'package:driver_app/provider/otp_listener.dart';
-import 'package:driver_app/service/authentication.dart';
+import 'package:driver_app/screens/pickup_screens/pickup_screen.dart';
+import 'package:driver_app/service/database.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-class OTPVerifyScreen extends StatefulWidget {
-  final String phoneNumber;
+class PickOtpScreen extends StatefulWidget {
+  final Map map;
 
-  const OTPVerifyScreen({Key? key, required this.phoneNumber})
-      : super(key: key);
+  const PickOtpScreen({Key? key, required this.map}) : super(key: key);
 
   @override
-  State<OTPVerifyScreen> createState() => _OTPVerifyScreenState();
+  State<PickOtpScreen> createState() => _PickOtpScreenState();
 }
 
-class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
-  TextEditingController controller= TextEditingController();
+class _PickOtpScreenState extends State<PickOtpScreen> {
   String otp = "";
   bool showLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    otp = Provider.of<OtpProvider>(context).text;
-    controller.text = otp;
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -32,7 +25,10 @@ class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
         iconTheme: const IconThemeData(
           color: Colors.black, // <-- SEE HERE
         ),
-        title: const Text("Verify Mobile",style: TextStyle(color: Colors.black),),
+        title: const Text(
+          "Verify OTP",
+          style: TextStyle(color: Colors.black),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
@@ -45,17 +41,20 @@ class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
                 const SizedBox(
                   height: 100,
                 ),
-                Image.asset("assets/icons/phone.png",scale: 1.5,),
+                Image.asset(
+                  "assets/icons/phone.png",
+                  scale: 1.5,
+                ),
                 const SizedBox(
                   height: 15,
                 ),
-                Text(
-                  "We were unable to auto-verify your mobile number. Please enter the code tested to ${widget.phoneNumber}",
+                const Text(
+                  "Ask Customer for OTP to Start trip",
                   textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18),
                 ),
                 TextFormField(
                   keyboardType: TextInputType.phone,
-                  controller: controller,
                   style: const TextStyle(fontSize: 18),
                   decoration: const InputDecoration(
                     labelText: 'Enter OTP',
@@ -73,38 +72,25 @@ class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
                   setState(() {
                     showLoading = true;
                   });
-                  await checkOTP(otp, context);
+                  bool otpCheck = await checkTripOtp(otp);
                   setState(() {
                     showLoading = false;
                   });
+                  if (otpCheck) {
+                    if (context.mounted) {
+                      Navigator.of(context)
+                        ..pop()
+                        ..pop();
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => PickUpScreen(map: widget.map,isPickUp: false)));
+                    }
+                  }
                 }
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
               child: showLoading
                   ? const CircularProgressIndicator()
-                  : const Text("Submit"),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pushReplacementNamed("/phoneNumberSetup");
-                    },
-                    child: const Text(
-                      "Change Number",
-                      style: TextStyle(color: Colors.black),
-                    )),
-                TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      "Resend Code",
-                      style: TextStyle(color: Colors.black),
-                    )),
-              ],
+                  : const Text("Verify & Start trip"),
             ),
             const SizedBox(
               height: 10,
