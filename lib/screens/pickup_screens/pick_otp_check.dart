@@ -85,6 +85,9 @@ class _PickOtpScreenState extends State<PickOtpScreen> {
                           builder: (context) => PickUpScreen(map: widget.map,isPickUp: false)));
                     }
                   }
+                  else{
+                    context.showErrorSnackBar(message: "OTP is wrong");
+                  }
                 }
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.black),

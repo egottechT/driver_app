@@ -4,6 +4,7 @@ import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/screens/common_data.dart';
 import 'package:driver_app/screens/pickup_screens/bottom_panel.dart';
 import 'package:driver_app/service/database.dart';
+import 'package:driver_app/service/location_manager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -26,7 +27,7 @@ class _PickUpScreenState extends State<PickUpScreen> {
   String location = "Pick-up";
   Set<Marker> markers = {};
   Uint8List? markIcons;
-  late LatLng startLocation;
+  LatLng startLocation = LatLng(0, 0);
   late LatLng destinationLocation;
   late PolylinePoints polylinePoints;
   List<LatLng> polylineCoordinates = [];
@@ -59,8 +60,14 @@ class _PickUpScreenState extends State<PickUpScreen> {
   void  updateLocationDriver(){
     Location location = Location();
     location.onLocationChanged.listen((newLocation) {
-      LatLng value = LatLng(newLocation.latitude as double, newLocation.longitude as double);
-      updateLatLng(value);
+      if(startLocation.longitude != 0) {
+        LatLng value = LatLng(newLocation.latitude as double, newLocation.longitude as double);
+        double distance = calculateDistance(startLocation,value);
+        if(distance>10.0) {
+          updateLatLng(value);
+        }
+      }
+
     });
   }
 

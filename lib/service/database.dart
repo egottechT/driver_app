@@ -51,8 +51,8 @@ Future<bool> checkDatabaseForUser(String uid) async {
   return completer.future;
 }
 
-void addDriverInfoInTrip(BuildContext context, UserModel userData,
-    LatLng driverLocation) {
+Future<void> addDriverInfoInTrip(BuildContext context, UserModel userData,
+    LatLng driverLocation) async {
   debugPrint("Uploading the data");
   int randomNumber = Random().nextInt(9000) + 1000;
   databaseReference.child("trips").child(customerKey).child("driver_info").set({
@@ -102,10 +102,11 @@ Map addDummyData() {
 
 Future<bool> checkTripOtp(String otp) async {
   Completer<bool> completer = Completer();
+  debugPrint("Checking otp");
   databaseReference.child("trips").child(customerKey).child("driver_info").once().then((value){
       Map map = value.snapshot.value as Map;
-      debugPrint(map.toString());
-      completer.complete((map["otp"]??0)==otp);
+      debugPrint(((map["otp"]??0)==otp).toString());
+      completer.complete((map["otp"]??0).toString()==otp);
   });
   return completer.future;
 }

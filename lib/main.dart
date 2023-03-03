@@ -10,6 +10,7 @@ import 'package:driver_app/screens/phone_verification_screens/phone_number_setup
 import 'package:driver_app/screens/profile_screen.dart';
 import 'package:driver_app/screens/starting_screens/registration_screen.dart';
 import 'package:driver_app/screens/starting_screens/splash_screen.dart';
+import 'package:driver_app/tmp_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -32,8 +33,8 @@ void main() async {
         theme: ThemeData(
           appBarTheme: AppBarTheme(color: Colors.grey[800]),
         ),
-        initialRoute: "splash",
-        // home: const MapScreen(),
+        // initialRoute: "splash",
+        home: const TmpScreen(),
       ),
     ),
   );
