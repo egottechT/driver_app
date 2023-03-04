@@ -2,13 +2,15 @@ import 'package:driver_app/Utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class PaymentScreen extends StatefulWidget {
-  const PaymentScreen({Key? key}) : super(key: key);
+  final Map map;
+  const PaymentScreen({Key? key,required this.map}) : super(key: key);
 
   @override
   State<PaymentScreen> createState() => _PaymentScreenState();
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
+
   Widget cardViewLayout(String value, String title) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,8 +53,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          cardViewLayout("Rs. 120", "TOTAL FARE"),
-                          cardViewLayout("3.5 km", "TOTAL DISTANCE"),
+                          cardViewLayout("Rs. ${widget.map["price"]}", "TOTAL FARE"),
+                          cardViewLayout("${widget.map["distance"] ?? "--"} km", "TOTAL DISTANCE"),
                         ],
                       ),
                       const SizedBox(
@@ -60,7 +62,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 55),
-                        child: Text("Mr. Raj to Pay in Cash",
+                        child: Text("${widget.map["title"]} to Pay in Cash",
                             style: TextStyle(
                                 color: secondaryColor,
                                 fontWeight: FontWeight.bold)),
@@ -96,7 +98,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: ElevatedButton(
               onPressed: (){
-
+                Navigator.popUntil(context, ModalRoute.withName('/mapScreen'));
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
               child: const Text("CASH COLLECTED",style: TextStyle(color: Colors.white),),
@@ -125,8 +127,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   locationAddress() {
-    String pickUp = "Lower Nehrugram, Dehradun, 248001, Uttarakhand, India";
-    String destination = "Mohkampur, Dehradun, 248001, Uttarakhand, India";
+
+    String pickUp = widget.map["pick-up"]["location"];
+    String destination = widget.map["destination"]["location"];
     return Column(
       children: [
         addressWithIcon(
@@ -182,10 +185,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
   fareCollectionCard() {
     return Column(
       children: [
-        fareEntryView("Trip fare", "Rs. 100.00"),
-        fareEntryView("Tolls", "Rs. 10.00"),
+        fareEntryView("Trip fare", "Rs. ${widget.map["price"]}"),
+        fareEntryView("Tolls", "Rs.00.00"),
         fareEntryView("Rider discounts", "Rs. 0.00"),
-        fareEntryView("Outstanding from last trip", "Rs. 10.00"),
+        fareEntryView("Outstanding from last trip", "Rs. 00.00"),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -194,7 +197,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               style: TextStyle(color: secondaryColor,fontWeight: FontWeight.bold),
             ),
             Text(
-              "Rs. 120.00",
+              "Rs. ${widget.map["price"]}",
               style: TextStyle(color: secondaryColor,fontWeight: FontWeight.bold),
             ),
           ],

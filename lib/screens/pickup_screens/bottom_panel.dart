@@ -1,4 +1,5 @@
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/screens/payment_screen.dart';
 import 'package:driver_app/screens/pickup_screens/pick_otp_check.dart';
 import 'package:flutter/material.dart';
 
@@ -46,6 +47,7 @@ Widget bottomPanelLayout(Map map,BuildContext context,bool isPickup) {
               Navigator.of(context).push(MaterialPageRoute(builder: (context)=>PickOtpScreen(map: map)));
             }
             else{
+              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>PaymentScreen(map: map)));
               context.showErrorSnackBar(message: "Working on this sir");
             }
           },

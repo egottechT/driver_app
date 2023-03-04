@@ -52,32 +52,11 @@ class _MapScreenState extends State<MapScreen> {
     mapController.animateCamera(CameraUpdate.newCameraPosition(home));
   }
 
-  Map sampleData(int type){
-    Map map = {};
-    if(type == 1){
-      map["lat"] = 30.268486;
-      map["long"] = 78.0765925;
-      map["location"] = "Lower Nehrugram, Dehradun, 248001";
-    }
-    else{
-      map["lat"] = 30.28839079999999;
-      map["long"] = 78.0902682;
-      map["location"] = "Mohkampur, Dehradun, 248001";
-    }
-    return map;
-  }
-
   Widget buildFAB(BuildContext context) {
     return FloatingActionButton(
       onPressed: () async {
         LocationData location = await getCurrentLocation();
         mapSetupWork(location);
-        // Map map = {};
-        // map["lat"] = "30.268486";
-        // map["long"] = "78.0765925";
-        // map["pick-up"] =  sampleData(1);
-        // map["destination"] = sampleData(2);
-        // LocalNoticeService().showNotificationSystem(map, context, onAcceptRequest);
       },
       backgroundColor: Colors.white,
       child: const Icon(

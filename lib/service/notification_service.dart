@@ -94,7 +94,7 @@ class LocalNoticeService {
                             "assets/icons/rupee_bag.png",
                             scale: 8,
                           ),
-                          "4.49 ₹",
+                          "${map["price"]} ₹",
                           "Esti. Earn"),
                     ],
                   ),
