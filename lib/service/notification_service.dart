@@ -137,7 +137,7 @@ class LocalNoticeService {
                       initialCameraPosition: CameraPosition(
                         target: LatLng(map["pick-up"]["lat"].toDouble(),
                             map["pick-up"]["long"].toDouble()),
-                        zoom: 17,
+                        zoom: 16,
                       ),
                       markers: makers, //MARKERS IN MAP
                     ),

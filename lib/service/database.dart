@@ -70,15 +70,16 @@ Future<void> updateLatLng(LatLng driver) async {
   if (customerKey.isEmpty) {
     return;
   }
-  databaseReference.child("trips").child(customerKey).child("driver_info").onValue.listen((event) {
-    if(event.snapshot.exists){
-
-      databaseReference.child("trips").child(customerKey).child("driver_info").update({
-        "lat": driver.latitude,
-        "long": driver.longitude
-      });
-    }
-  });
+  debugPrint("Updating LatLng");
+  // databaseReference.child("trips").child(customerKey).child("driver_info").onValue.listen((event) {
+  //   if(event.snapshot.exists){
+  //
+  //     databaseReference.child("trips").child(customerKey).child("driver_info").update({
+  //       "lat": driver.latitude,
+  //       "long": driver.longitude
+  //     });
+  //   }
+  // });
 }
 
 Map addDummyData() {

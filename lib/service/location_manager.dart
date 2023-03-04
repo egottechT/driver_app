@@ -1,7 +1,4 @@
 import 'dart:math' show asin, atan2, cos, pi, pow, sin, sqrt;
-
-import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 
@@ -17,6 +14,5 @@ double calculateDistance(LatLng from, LatLng to){
       c(lat1 * p) * c(lat2 * p) *
           (1 - c((lon2 - lon1) * p))/2;
   double distance = 12742 * asin(sqrt(a))*1000;
-  debugPrint("Value is :- ${distance.toString()}");
-  return 12742 * asin(sqrt(a));
+  return distance;
 }

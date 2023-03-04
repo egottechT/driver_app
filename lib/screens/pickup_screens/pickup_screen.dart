@@ -63,7 +63,8 @@ class _PickUpScreenState extends State<PickUpScreen> {
       if(startLocation.longitude != 0) {
         LatLng value = LatLng(newLocation.latitude as double, newLocation.longitude as double);
         double distance = calculateDistance(startLocation,value);
-        if(distance>10.0) {
+        if(distance>40.0) {
+          debugPrint("Distance is :- $distance");
           updateLatLng(value);
         }
       }
@@ -136,7 +137,7 @@ class _PickUpScreenState extends State<PickUpScreen> {
             resizeToAvoidBottomInset: true,
             body: SlidingUpPanel(
                 panelBuilder: (controller) {
-                  return bottomPanelLayout(widget.map,context);
+                  return bottomPanelLayout(widget.map,context,widget.isPickUp);
                 },
                 parallaxEnabled: true,
                 parallaxOffset: 0.5,
@@ -151,7 +152,7 @@ class _PickUpScreenState extends State<PickUpScreen> {
                     onMapCreated: _onMapCreated,
                     initialCameraPosition: const CameraPosition(
                       target: LatLng(0, 0),
-                      zoom: 17,
+                      zoom: 16,
                     ),
                     markers: markers,
                     polylines: Set<Polyline>.of(polylines.values),

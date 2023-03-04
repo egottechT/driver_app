@@ -2,7 +2,7 @@ import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/screens/pickup_screens/pick_otp_check.dart';
 import 'package:flutter/material.dart';
 
-Widget bottomPanelLayout(Map map,BuildContext context) {
+Widget bottomPanelLayout(Map map,BuildContext context,bool isPickup) {
   return Container(
     color: Colors.grey[200],
     padding: const EdgeInsets.all(10.0),
@@ -42,12 +42,17 @@ Widget bottomPanelLayout(Map map,BuildContext context) {
         const SizedBox(height: 10,),
         ElevatedButton(
           onPressed: (){
+            if(isPickup) {
               Navigator.of(context).push(MaterialPageRoute(builder: (context)=>PickOtpScreen(map: map)));
+            }
+            else{
+              context.showErrorSnackBar(message: "Working on this sir");
+            }
           },
           style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
-          child: const Text(
-            "Continue",
-            style: TextStyle(fontSize: 16),
+          child: Text(
+            isPickup ? "Continue" : "End Trip",
+            style: const TextStyle(fontSize: 16),
           ),
         )
       ],

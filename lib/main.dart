@@ -33,8 +33,8 @@ void main() async {
         theme: ThemeData(
           appBarTheme: AppBarTheme(color: Colors.grey[800]),
         ),
-        // initialRoute: "splash",
-        home: const TmpScreen(),
+        initialRoute: "splash",
+        // home: const SplashScreen(),
       ),
     ),
   );
