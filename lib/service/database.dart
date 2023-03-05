@@ -111,3 +111,7 @@ Future<bool> checkTripOtp(String otp) async {
   });
   return completer.future;
 }
+
+Future<void> uploadDummyData(Map map)async {
+  databaseReference.child("trips").push().set(map);
+}

@@ -22,10 +22,12 @@ class _MapScreenState extends State<MapScreen> {
   Set<Marker> makers = {};
   Uint8List? markIcons;
   List<dynamic> list = [];
+  int currentIndex = 0;
+  bool toggleValue = false;
 
   @override
   void initState() {
-    LocalNoticeService().readData(context);
+    LocalNoticeService().readData(context,changeToggleValue);
     super.initState();
   }
 
@@ -57,6 +59,7 @@ class _MapScreenState extends State<MapScreen> {
       onPressed: () async {
         LocationData location = await getCurrentLocation();
         mapSetupWork(location);
+        // getDummyData();
       },
       backgroundColor: Colors.white,
       child: const Icon(
@@ -83,9 +86,6 @@ class _MapScreenState extends State<MapScreen> {
     LocationData location = await getCurrentLocation();
     mapSetupWork(location);
   }
-
-  int currentIndex = 0;
-  bool toggleValue = false;
 
   Widget topNavigationBar() {
     return Container(
@@ -150,12 +150,7 @@ class _MapScreenState extends State<MapScreen> {
                       // boolean variable value
                       value: toggleValue,
                       // changes the state of the switch
-                      onChanged: (value) async {
-                        setState(() {
-                          toggleValue = value;
-                        });
-                        LocalNoticeService.sendNotification = value;
-                      },
+                      onChanged: changeToggleValue,
                     ),
                     toggleValue
                         ? const Text("Online", style: TextStyle(color: Colors.white))
@@ -165,6 +160,13 @@ class _MapScreenState extends State<MapScreen> {
                 )),
           ],
         ));
+  }
+
+  void changeToggleValue(value)async {
+    setState(() {
+      toggleValue = value;
+    });
+    LocalNoticeService.sendNotification = value;
   }
 
   Widget searchBarWidget(int index, ImageIcon icon, String text) {

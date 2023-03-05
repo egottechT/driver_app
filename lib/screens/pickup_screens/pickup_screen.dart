@@ -43,17 +43,16 @@ class _PickUpScreenState extends State<PickUpScreen> {
       destinationLocation = LatLng(widget.map["destination"]["lat"].toDouble(), widget.map["destination"]["long"].toDouble());
     }
     polylinePoints = PolylinePoints();
-    uploadDriverDetails();
-    updateLocationDriver();
   }
 
-  void uploadDriverDetails() async {
+  void uploadDriverDetails(LocationData currentLocation) async {
     debugPrint("Inside function");
-    LocationData currentLocation = await getCurrentLocation(true);
-    debugPrint("Location fetch complete");
-    if(context.mounted) {
-      debugPrint("Get user info");
-      getUserInfo(context,FirebaseAuth.instance.currentUser!.uid.toString(),currentLocation);
+    try{
+        getUserInfo(context,FirebaseAuth.instance.currentUser!.uid.toString(),currentLocation);
+    }
+    catch(e){
+      context.showErrorSnackBar(message: "Sorry, there is some error. Please check you internet connection and try again");
+      Navigator.of(context).pop();
     }
   }
 
@@ -72,12 +71,10 @@ class _PickUpScreenState extends State<PickUpScreen> {
     });
   }
 
-  Future<LocationData> getCurrentLocation(bool uploading) async {
+  Future<LocationData> getCurrentLocation() async {
+    debugPrint("Fetching data");
     Location currentLocation = Location();
     var location = await currentLocation.getLocation();
-    if(uploading) {
-      return location;
-    }
     startLocation = LatLng(location.latitude as double, location.longitude as double);
     markIcons = await getImages('assets/icons/driver_car.png', 150);
 
@@ -99,7 +96,9 @@ class _PickUpScreenState extends State<PickUpScreen> {
 
   void _onMapCreated(GoogleMapController controller) async  {
     mapController = controller;
-    getCurrentLocation(false);
+    LocationData currentLocation = await getCurrentLocation();
+    uploadDriverDetails(currentLocation);
+    updateLocationDriver();
     markIcons = await getImages('assets/icons/green_pin.png', 150);
     Marker strtMarker = Marker(
       markerId: const MarkerId("Pick-up"),
