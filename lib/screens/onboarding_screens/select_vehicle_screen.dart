@@ -9,7 +9,6 @@ class SelectVehicleScreen extends StatefulWidget {
 }
 
 class _SelectVehicleScreenState extends State<SelectVehicleScreen> {
-
   late String miniDesp, microDesp, primeDesp;
   bool clicked = false;
   int clickedIndex = -1;
@@ -24,15 +23,17 @@ class _SelectVehicleScreenState extends State<SelectVehicleScreen> {
     microDesp = miniDesp;
   }
 
-  Widget ConditionCheckForVehicle(int index){
-    if(clickedIndex == index) {
+  Widget conditionCheckForVehicle(int index) {
+    if (clickedIndex == index) {
       return Card(
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: Row(
             children: [
               Flexible(child: Text(showText)),
-              SizedBox(width: 10,),
+              const SizedBox(
+                width: 10,
+              ),
               Image.asset("assets/icons/person.png")
             ],
           ),
@@ -41,36 +42,39 @@ class _SelectVehicleScreenState extends State<SelectVehicleScreen> {
     }
     return Container();
   }
-  Widget VehicleCardView(int index) {
+
+  Widget vehicleCardView(int index) {
     late String name;
     late Image carIcon;
-    if(index == 0){
+    if (index == 0) {
       name = "Micro";
       carIcon = Image.asset("assets/icons/micro_car.png");
-    }
-    else if(index == 1){
+    } else if (index == 1) {
       name = "ETaxi Mini Share";
       carIcon = Image.asset("assets/icons/mini_car.png");
-    }
-    else{
+    } else {
       name = "Prime Sedan";
       carIcon = Image.asset("assets/icons/prime_car.png");
     }
     return Card(
       child: Padding(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Column(
           children: [
             ListTile(
               title: Text(
                 name,
-                style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold, color: Colors.black),
               ),
               leading: carIcon,
-              trailing: (clicked && (clickedIndex == index))? Image.asset("assets/icons/tick.png") : SizedBox(width: 2,),
+              trailing: (clicked && (clickedIndex == index))
+                  ? Image.asset("assets/icons/tick.png")
+                  : const SizedBox(
+                      width: 2,
+                    ),
             ),
-            clicked ? ConditionCheckForVehicle(index) : Container(),
+            clicked ? conditionCheckForVehicle(index) : Container(),
           ],
         ),
       ),
@@ -79,12 +83,12 @@ class _SelectVehicleScreenState extends State<SelectVehicleScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child:
-    Scaffold(
+    return SafeArea(
+        child: Scaffold(
       appBar: AppBar(
           backgroundColor: primaryColor,
-          iconTheme: IconThemeData(color: Colors.black),
-          title: Text(
+          iconTheme: const IconThemeData(color: Colors.black),
+          title: const Text(
             "Select Vehicle type",
             style: TextStyle(color: Colors.black),
           )),
@@ -95,8 +99,10 @@ class _SelectVehicleScreenState extends State<SelectVehicleScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const Text("PLEASE CHOOSE HOW YOU WOULD LIKE TO",
-                  style: TextStyle(color: Colors.black,fontSize: 16)),
-              SizedBox(height: 15,),
+                  style: TextStyle(color: Colors.black, fontSize: 16)),
+              const SizedBox(
+                height: 15,
+              ),
               const Text.rich(TextSpan(children: [
                 TextSpan(
                     text: "PARTNER WITH ",
@@ -104,37 +110,40 @@ class _SelectVehicleScreenState extends State<SelectVehicleScreen> {
                 TextSpan(
                     text: "BOOK MY ETAXI",
                     style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold,fontSize: 16))
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16))
               ])),
-              SizedBox(height: 20,),
-              SizedBox(
-                height: 500,
-                child:  ListView.builder(itemBuilder: (context,index){
+              const SizedBox(
+                height: 20,
+              ),
+              ListView.builder(
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
                       setState(() {
                         clicked = !clicked;
                         clickedIndex = index;
-                        if(index==0)
-                            showText = microDesp;
-                        else if(index == 1)
-                            showText = miniDesp;
-                        else
+                        if (index == 0) {
+                          showText = microDesp;
+                        } else if (index == 1) {
+                          showText = miniDesp;
+                        } else {
                           showText = primeDesp;
+                        }
                       });
                     },
-                    child: VehicleCardView(index),
+                    child: vehicleCardView(index),
                   );
                 },
-                  itemCount: 3,) ,
+                itemCount: 3,
               ),
-              SizedBox(
-                height: 80,
-              ),
+              const SizedBox(height: 200,),
               ElevatedButton(
-                child: Text("CONTINUE"),
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                child: const Text("CONTINUE"),
               ),
             ],
           ),

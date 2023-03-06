@@ -11,7 +11,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   String name = "KAUR";
 
-  Widget FirstRow() {
+  Widget firstRow() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
             flex: 1,
             child: Text.rich(TextSpan(children: [
               TextSpan(
-                  text: "Welcome ${name}!",
+                  text: "Welcome $name!",
                   style: TextStyle(
                       color: secondaryColor,
                       fontWeight: FontWeight.bold,
@@ -38,21 +38,21 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(color: secondaryColor, fontSize: 18)),
             ]))),
         Expanded(
+            flex: 2,
             child: Align(
                 alignment: Alignment.bottomRight,
-                child: Image.asset("assets/images/welcome.png")),
-            flex: 2),
+                child: Image.asset("assets/images/welcome.png"))),
       ],
     );
   }
 
-  Widget SecondRow() {
+  Widget secondRow() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Card(
           child: Padding(
-            padding: EdgeInsets.all(15),
+            padding: const EdgeInsets.all(15),
             child: Text.rich(TextSpan(children: [
               TextSpan(
                 text: "Your profile is ",
@@ -87,33 +87,33 @@ class _HomeScreenState extends State<HomeScreen> {
             ])),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 40,
         ),
         ElevatedButton(
           onPressed: () {},
-          child: ListTile(
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+          child: const ListTile(
             title: Text(
               "Start the application",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             trailing: Icon(Icons.arrow_forward_ios),
           ),
-          style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
         ),
-        SizedBox(
+        const SizedBox(
           height: 40,
         ),
         ElevatedButton(
           onPressed: () {},
-          child: ListTile(
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+          child: const ListTile(
             title: Text(
               "Profile Settings",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             trailing: Icon(Icons.arrow_forward_ios),
           ),
-          style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
         ),
       ],
     );
@@ -127,23 +127,21 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.all(15),
           child: Column(
             children: [
-              Expanded(child: FirstRow(), flex: 1),
+              Expanded(flex: 1, child: firstRow()),
               Expanded(
                   flex: 3,
                   child: Padding(
-                    padding: EdgeInsets.only(top: 10, bottom: 8),
+                    padding: const EdgeInsets.only(top: 10, bottom: 8),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        SecondRow(),
+                        secondRow(),
                         ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pushNamed("/profileScreen");
-                          },
-                          child: Text("Reset & Cancel"),
+                          onPressed: () {},
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.black),
+                          child: const Text("Reset & Cancel"),
                         )
                       ],
                     ),

@@ -3,7 +3,7 @@ import 'package:driver_app/provider/user_provider.dart';
 import 'package:driver_app/screens/payment_screen.dart';
 import 'package:driver_app/screens/starting_screens/login_screen.dart';
 import 'package:driver_app/screens/starting_screens/permission_screen.dart';
-import 'package:driver_app/screens/starting_screens/select_vehicle_screen.dart';
+import 'package:driver_app/screens/onboarding_screens/select_vehicle_screen.dart';
 import 'package:driver_app/screens/unused_screen/home_screen.dart';
 import 'package:driver_app/screens/map_screen.dart';
 import 'package:driver_app/screens/phone_verification_screens/phone_number_setup.dart';
@@ -33,8 +33,8 @@ void main() async {
         theme: ThemeData(
           appBarTheme: AppBarTheme(color: Colors.grey[800]),
         ),
-        initialRoute: "splash",
-        // home: const PaymentScreen(),
+        // initialRoute: "splash",
+        home: const SelectVehicleScreen(),
       ),
     ),
   );

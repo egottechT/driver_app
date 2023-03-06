@@ -1,5 +1,4 @@
 import 'package:driver_app/Utils/constants.dart';
-import 'package:driver_app/service/authentication.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -14,18 +13,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String phoneNumber = "+91 94589 42703";
   String email = "aryanbisht@gmail.com";
 
-  Widget FirstCardView() {
+  Widget firstCardView() {
     return Card(
         elevation: 0,
         color: Colors.grey[300],
         child: Row(
           children: [
-            Column(children: [SizedBox(height: 10,),Image.asset("assets/images/profile.png")]),
+            Column(children: [
+              const SizedBox(
+                height: 10,
+              ),
+              Image.asset("assets/images/profile.png")
+            ]),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Hi ${name}!",
+                  "Hi $name!",
                   style: TextStyle(
                       color: secondaryColor,
                       fontWeight: FontWeight.bold,
@@ -57,13 +61,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Scaffold(
       backgroundColor: Colors.grey[300],
       body: Padding(
-        padding: EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              FirstCardView(),
-              SizedBox(
+              firstCardView(),
+              const SizedBox(
                 height: 20,
               ),
               Card(
@@ -80,21 +84,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             fontWeight: FontWeight.bold,
                             fontSize: 20),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
-                      Text("Please verify your email-id"),
+                      const Text("Please verify your email-id"),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             email,
-                            style:
-                                TextStyle(decoration: TextDecoration.underline),
+                            style: const TextStyle(
+                                decoration: TextDecoration.underline),
                           ),
                           TextButton(
                               onPressed: () {},
-                              child: Text(
+                              child: const Text(
                                 "Verify Your Email-id",
                                 style: TextStyle(
                                     decoration: TextDecoration.underline),
@@ -105,7 +109,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               ElevatedButton(
@@ -116,10 +120,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     "View your profile",
                     style: textStyle,
                   ),
-                  trailing: Icon(Icons.arrow_forward_ios),
+                  trailing: const Icon(Icons.arrow_forward_ios),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               ElevatedButton(
@@ -130,10 +134,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     "Choose your communication Methods",
                     style: textStyle,
                   ),
-                  trailing: Icon(Icons.arrow_forward_ios),
+                  trailing: const Icon(Icons.arrow_forward_ios),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               ElevatedButton(
@@ -144,10 +148,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     "About Book my ETaxi",
                     style: textStyle,
                   ),
-                  trailing: Icon(Icons.arrow_forward_ios),
+                  trailing: const Icon(Icons.arrow_forward_ios),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               ElevatedButton(
@@ -158,10 +162,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     "Privacy Policy/Terms & Conditions",
                     style: textStyle,
                   ),
-                  trailing: Icon(Icons.arrow_forward_ios),
+                  trailing: const Icon(Icons.arrow_forward_ios),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               ElevatedButton(
@@ -172,19 +176,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     "Help & Support",
                     style: textStyle,
                   ),
-                  trailing: Icon(Icons.arrow_forward_ios),
+                  trailing: const Icon(Icons.arrow_forward_ios),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context)
-                      .pushNamed("/selectVehicleScreen");
-                },
-                child: Text("LogOut"),
+                onPressed: () {},
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                child: const Text("LogOut"),
               )
             ],
           ),
