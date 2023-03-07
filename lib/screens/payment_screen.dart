@@ -98,7 +98,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: ElevatedButton(
               onPressed: (){
-                Navigator.popUntil(context, ModalRoute.withName('/mapScreen'));
+                Navigator.popUntil(context, ModalRoute.withName('/managementScreen'));
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
               child: const Text("CASH COLLECTED",style: TextStyle(color: Colors.white),),

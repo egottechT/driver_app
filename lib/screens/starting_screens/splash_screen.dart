@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
     User? user = FirebaseAuth.instance.currentUser;
     if(context.mounted){
       if (user != null) {
-          Navigator.of(context).pushReplacementNamed('/mapScreen',
+          Navigator.of(context).pushReplacementNamed('/managementScreen',
             arguments: LatLng(
                 location.latitude as double, location.latitude as double));
       } else {

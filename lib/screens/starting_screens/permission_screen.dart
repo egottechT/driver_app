@@ -73,7 +73,7 @@ class _PermissionScreenState extends State<PermissionScreen> {
                   }
                   LocationData currentLocation = await getCurrentLocation();
                   if (location && phone && context.mounted) {
-                    Navigator.of(context).pushNamed("/mapScreen",
+                    Navigator.of(context).pushNamed("/managementScreen",
                         arguments: LatLng(
                             currentLocation.latitude as double, currentLocation.latitude as double));
                   }

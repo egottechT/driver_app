@@ -71,9 +71,9 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black),
                     onPressed: () {
-                      // if (formKey.currentState!.validate()) {
+                      if (formKey.currentState!.validate()) {
                         Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const UploadDocumentScreen()));
-                      // }
+                      }
                     },
                     child: const Text("Continue")),
               ],

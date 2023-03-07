@@ -88,9 +88,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
             ),
             ElevatedButton(
               onPressed: () {
-                //TODO chnage the is Type here to make it work..
-                Navigator.popUntil(context,ModalRoute.withName("/account"));
-                // Navigator.popUntil(context,ModalRoute.withName("/mapScreen"));
+                Navigator.popUntil(context,ModalRoute.withName("/managementScreen"));
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
               child: const Text("Submit"),

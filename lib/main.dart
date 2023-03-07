@@ -3,6 +3,7 @@ import 'package:driver_app/provider/otp_listener.dart';
 import 'package:driver_app/provider/user_provider.dart';
 import 'package:driver_app/screens/account_screen.dart';
 import 'package:driver_app/screens/car_detail_screen.dart';
+import 'package:driver_app/screens/home_screen.dart';
 import 'package:driver_app/screens/payment_screen.dart';
 import 'package:driver_app/screens/preformance_screen.dart';
 import 'package:driver_app/screens/starting_screens/login_screen.dart';
@@ -39,7 +40,7 @@ void main() async {
           appBarTheme: AppBarTheme(color: primaryColor),
         ),
         initialRoute: "splash",
-        // home: const AccountScreen(),
+        // home: const ManagementScreen(),
       ),
     ),
   );
@@ -48,12 +49,12 @@ void main() async {
 final Map<String, Widget Function(BuildContext)> appPageRoutes = {
   'splash': (_) => const SplashScreen(),
   '/loginScreen': (_) => const LoginScreen(),
+  '/managementScreen': (_) => const ManagementScreen(),
   '/phoneNumberSetup': (_) => const PhoneNumberSetup(),
   '/registrationScreen': (_) => const RegistrationScreen(),
   '/homeScreen': (_) => const HomeScreen(),
   '/profileScreen': (_) => const ProfileScreen(),
   '/selectVehicleScreen': (_) => const SelectVehicleScreen(),
   '/permissionScreen': (_) => const PermissionScreen(),
-  '/mapScreen': (_) => const MapScreen(),
   '/account': (_) => const AccountScreen(),
 };
