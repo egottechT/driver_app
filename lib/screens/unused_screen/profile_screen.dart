@@ -1,4 +1,5 @@
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/screens/common_widget.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -13,40 +14,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String phoneNumber = "+91 94589 42703";
   String email = "aryanbisht@gmail.com";
 
-  Widget firstCardView() {
-    return Card(
-        elevation: 0,
-        color: Colors.grey[300],
-        child: Row(
-          children: [
-            Column(children: [
-              const SizedBox(
-                height: 10,
-              ),
-              Image.asset("assets/images/profile.png")
-            ]),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Hi $name!",
-                  style: TextStyle(
-                      color: secondaryColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20),
-                ),
-                Text(
-                  phoneNumber,
-                  style: TextStyle(
-                      color: secondaryColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20),
-                ),
-              ],
-            )
-          ],
-        ));
-  }
+
 
   ButtonStyle buttonStyle = ElevatedButton.styleFrom(
     backgroundColor: Colors.white,
@@ -66,7 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              firstCardView(),
+              firstCardView("Hi $name!",phoneNumber),
               const SizedBox(
                 height: 20,
               ),

@@ -1,8 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
-
+import 'package:driver_app/Utils/commonData.dart';
 import 'package:driver_app/Utils/constants.dart';
-import 'package:driver_app/screens/common_data.dart';
 import 'package:driver_app/screens/pickup_screens/pickup_screen.dart';
 import 'package:driver_app/service/database.dart';
 import 'package:firebase_database/firebase_database.dart';

@@ -1,8 +1,6 @@
 import 'dart:typed_data';
 import 'package:driver_app/Utils/commonData.dart';
 import 'package:driver_app/Utils/constants.dart';
-import 'package:driver_app/screens/common_data.dart';
-import 'package:driver_app/service/database.dart';
 import 'package:driver_app/service/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
