@@ -1,5 +1,8 @@
+import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/provider/otp_listener.dart';
 import 'package:driver_app/provider/user_provider.dart';
+import 'package:driver_app/screens/account_screen.dart';
+import 'package:driver_app/screens/car_detail_screen.dart';
 import 'package:driver_app/screens/payment_screen.dart';
 import 'package:driver_app/screens/starting_screens/login_screen.dart';
 import 'package:driver_app/screens/starting_screens/permission_screen.dart';
@@ -10,6 +13,7 @@ import 'package:driver_app/screens/phone_verification_screens/phone_number_setup
 import 'package:driver_app/screens/starting_screens/registration_screen.dart';
 import 'package:driver_app/screens/starting_screens/splash_screen.dart';
 import 'package:driver_app/screens/unused_screen/profile_screen.dart';
+import 'package:driver_app/screens/upload_document_screen.dart';
 import 'package:driver_app/tmp_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -31,10 +35,10 @@ void main() async {
         routes: appPageRoutes,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          appBarTheme: AppBarTheme(color: Colors.grey[800]),
+          appBarTheme: AppBarTheme(color: primaryColor),
         ),
         // initialRoute: "splash",
-        home: const SelectVehicleScreen(),
+        home: const UploadDocumentScreen(),
       ),
     ),
   );

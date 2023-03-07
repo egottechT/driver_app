@@ -37,7 +37,7 @@ class _AccountScreenState extends State<AccountScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
               primary: false,
               itemBuilder: (context, index) {
-                return cardViewWithText(values[index].first,index);
+                return cardViewWithText(values[index].first,values[index].last);
               },
               itemCount: values.length,
               shrinkWrap: true,
@@ -48,9 +48,9 @@ class _AccountScreenState extends State<AccountScreen> {
     );
   }
 
-  cardViewWithText(String title,int index) {
+  Widget cardViewWithText(String title,dynamic onTap) {
     return GestureDetector(
-      onTap: values[index].last,
+      onTap: onTap,
       child: Card(
         color: primaryColor,
         child: Padding(
