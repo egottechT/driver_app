@@ -23,17 +23,15 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _redirect() async {
     await Future.delayed(const Duration(seconds: 2));
-    LocationData location = await getCurrentLocation();
-
-    // Map map = addDummyData();
-    // debugPrint("Testing");
-    // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>PickUpScreen(map: map)));
     User? user = FirebaseAuth.instance.currentUser;
     if(context.mounted){
       if (user != null) {
+        LocationData location = await getCurrentLocation();
+        if(context.mounted) {
           Navigator.of(context).pushReplacementNamed('/managementScreen',
             arguments: LatLng(
-                location.latitude as double, location.latitude as double));
+                location.latitude as double, location.longitude as double));
+        }
       } else {
       // signOut();
         Navigator.of(context).pushReplacementNamed('/loginScreen');

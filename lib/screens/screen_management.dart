@@ -134,7 +134,7 @@ class _ManagementScreen extends State<ManagementScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as LatLng;
+    LatLng args = ModalRoute.of(context)!.settings.arguments as LatLng;
 
     return SafeArea(child: Scaffold(
       body: Column(

@@ -72,7 +72,10 @@ class _MapScreenState extends State<MapScreen> {
 
   void _onMapCreated(GoogleMapController controller) async {
     mapController = controller;
-    LocationData location = await getCurrentLocation();
+    LocationData location = LocationData.fromMap({
+      'latitude': widget.center.latitude,
+      'longitude': widget.center.longitude,
+    });
     mapSetupWork(location);
   }
 
