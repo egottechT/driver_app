@@ -24,6 +24,12 @@ extension ShowSnackBar on BuildContext {
   }
 }
 
+extension MyDateExtension on DateTime {
+  String getDateOnly(){
+    return "$year-${month.toString().padLeft(2,'0')}-${day.toString().padLeft(2,'0')}";
+  }
+}
+
 List<String> statesOfIndia = [
   'Andhra Pradesh',
   'Arunachal Pradesh',
