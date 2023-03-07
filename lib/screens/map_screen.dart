@@ -92,6 +92,8 @@ class _MapScreenState extends State<MapScreen> {
               markers: makers, //MARKERS IN MAP
             ),
             Positioned(bottom: 25, right: 25, child: buildFAB(context))
-    ]));
+            ]
+        )
+    );
   }
 }
