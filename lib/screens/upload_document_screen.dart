@@ -1,4 +1,5 @@
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/screens/account_screen.dart';
 import 'package:flutter/material.dart';
 
 class UploadDocumentScreen extends StatefulWidget {
@@ -86,7 +87,11 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
               shrinkWrap: true,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                //TODO chnage the is Type here to make it work..
+                Navigator.popUntil(context,ModalRoute.withName("/account"));
+                // Navigator.popUntil(context,ModalRoute.withName("/mapScreen"));
+              },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
               child: const Text("Submit"),
             )

@@ -1,5 +1,6 @@
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/Utils/name_and_function.dart';
+import 'package:driver_app/screens/upload_document_screen.dart';
 import 'package:flutter/material.dart';
 
 class CarDetailScreen extends StatefulWidget {
@@ -70,9 +71,9 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black),
                     onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        debugPrint("Everything is working fine");
-                      }
+                      // if (formKey.currentState!.validate()) {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const UploadDocumentScreen()));
+                      // }
                     },
                     child: const Text("Continue")),
               ],

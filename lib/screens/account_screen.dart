@@ -17,7 +17,7 @@ class _AccountScreenState extends State<AccountScreen> {
   @override
   void initState() {
     super.initState();
-    values = nameFunctions;
+    values = nameAndFunctionList(context);
   }
 
   @override

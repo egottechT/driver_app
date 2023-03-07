@@ -4,6 +4,7 @@ import 'package:driver_app/provider/user_provider.dart';
 import 'package:driver_app/screens/account_screen.dart';
 import 'package:driver_app/screens/car_detail_screen.dart';
 import 'package:driver_app/screens/payment_screen.dart';
+import 'package:driver_app/screens/preformance_screen.dart';
 import 'package:driver_app/screens/starting_screens/login_screen.dart';
 import 'package:driver_app/screens/starting_screens/permission_screen.dart';
 import 'package:driver_app/screens/onboarding_screens/select_vehicle_screen.dart';
@@ -37,8 +38,8 @@ void main() async {
         theme: ThemeData(
           appBarTheme: AppBarTheme(color: primaryColor),
         ),
-        // initialRoute: "splash",
-        home: const UploadDocumentScreen(),
+        initialRoute: "splash",
+        // home: const AccountScreen(),
       ),
     ),
   );
@@ -54,4 +55,5 @@ final Map<String, Widget Function(BuildContext)> appPageRoutes = {
   '/selectVehicleScreen': (_) => const SelectVehicleScreen(),
   '/permissionScreen': (_) => const PermissionScreen(),
   '/mapScreen': (_) => const MapScreen(),
+  '/account': (_) => const AccountScreen(),
 };

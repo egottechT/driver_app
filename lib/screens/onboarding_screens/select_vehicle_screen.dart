@@ -1,4 +1,5 @@
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/screens/car_detail_screen.dart';
 import 'package:flutter/material.dart';
 
 class SelectVehicleScreen extends StatefulWidget {
@@ -10,17 +11,18 @@ class SelectVehicleScreen extends StatefulWidget {
 
 class _SelectVehicleScreenState extends State<SelectVehicleScreen> {
   late String miniDesp, microDesp, primeDesp;
-  bool clicked = false;
-  int clickedIndex = -1;
-  String showText = "";
+  late int clickedIndex;
+  late String showText;
 
   @override
   void initState() {
     super.initState();
+    clickedIndex = 0;
     miniDesp =
         "You are a commercially insured driver.Your vehicle is a mid-size or full size vehicle that comfortably seats 4 passangers or more.";
     primeDesp = miniDesp;
     microDesp = miniDesp;
+    showText = microDesp;
   }
 
   Widget conditionCheckForVehicle(int index) {
@@ -68,13 +70,13 @@ class _SelectVehicleScreenState extends State<SelectVehicleScreen> {
                     fontWeight: FontWeight.bold, color: Colors.black),
               ),
               leading: carIcon,
-              trailing: (clicked && (clickedIndex == index))
+              trailing: ((clickedIndex == index))
                   ? Image.asset("assets/icons/tick.png")
                   : const SizedBox(
                       width: 2,
                     ),
             ),
-            clicked ? conditionCheckForVehicle(index) : Container(),
+            conditionCheckForVehicle(index),
           ],
         ),
       ),
@@ -123,7 +125,6 @@ class _SelectVehicleScreenState extends State<SelectVehicleScreen> {
                   return GestureDetector(
                     onTap: () {
                       setState(() {
-                        clicked = !clicked;
                         clickedIndex = index;
                         if (index == 0) {
                           showText = microDesp;
@@ -139,9 +140,13 @@ class _SelectVehicleScreenState extends State<SelectVehicleScreen> {
                 },
                 itemCount: 3,
               ),
-              const SizedBox(height: 200,),
+              const SizedBox(
+                height: 50,
+              ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const CarDetailScreen()));
+                },
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
                 child: const Text("CONTINUE"),
               ),
