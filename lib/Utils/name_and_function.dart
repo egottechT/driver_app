@@ -1,5 +1,4 @@
 import 'package:analyzer_plugin/utilities/pair.dart';
-import 'package:flutter/material.dart';
 
 List<Pair<String,dynamic>> nameFunctions = [
   Pair("Performance",(){
@@ -17,3 +16,10 @@ List<Pair<String,dynamic>> nameFunctions = [
   Pair("EXIT Book My Etaxi Cab",(){}),
   Pair("Call for Emergency",(){}),
 ];
+
+String? nullValidator(dynamic value) {
+  if(value==null || value!.isEmpty){
+    return "Some value is required";
+  }
+  return null;
+}
