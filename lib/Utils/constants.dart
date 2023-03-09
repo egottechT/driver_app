@@ -24,6 +24,39 @@ extension ShowSnackBar on BuildContext {
   }
 }
 
+String changeToDate(String date) {
+  String? month = date.substring(5,7);
+  String dateText = date.substring(8,10);
+  String year = date.substring(0,4);
+
+  if(dateText == "01") {
+    dateText = "${dateText}st";
+  } else if(dateText == "02") {
+    dateText = "${dateText}nd";
+  } else if(dateText == "03") {
+    dateText = "${dateText}rd";
+  } else {
+    dateText = "${dateText}th";
+  }
+  return "$dateText\n${numberToMonth[month]!}";
+  // month = numberToMonth[month];
+}
+
+Map<String, String> numberToMonth = {
+  "01": "Jan",
+  "02": "Feb",
+  "03": "Mar",
+  "04": "Apr",
+  "05": "May",
+  "06": "June",
+  "07": "July",
+  "08": "Aug",
+  "09": "Sept",
+  "10": "Oct",
+  "11": "Nov",
+  "12": "Dec"
+};
+
 extension MyDateExtension on DateTime {
   String getDateOnly(){
     return "$year-${month.toString().padLeft(2,'0')}-${day.toString().padLeft(2,'0')}";

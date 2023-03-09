@@ -1,5 +1,5 @@
 import 'package:driver_app/Utils/constants.dart';
-import 'package:driver_app/screens/setting_screens/car_detail_screen.dart';
+import 'package:driver_app/screens/setting_screens/car_details_screens/car_detail_screen.dart';
 import 'package:flutter/material.dart';
 
 class SelectVehicleScreen extends StatefulWidget {

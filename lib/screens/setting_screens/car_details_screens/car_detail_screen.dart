@@ -1,6 +1,6 @@
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/Utils/name_and_function.dart';
-import 'package:driver_app/screens/setting_screens/upload_document_screen.dart';
+import 'package:driver_app/screens/setting_screens/car_details_screens/upload_document_screen.dart';
 import 'package:flutter/material.dart';
 
 class CarDetailScreen extends StatefulWidget {
