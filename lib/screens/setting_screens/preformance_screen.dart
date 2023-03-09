@@ -1,5 +1,6 @@
 import 'package:analyzer_plugin/utilities/pair.dart';
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/Utils/name_and_function.dart';
 import 'package:flutter/material.dart';
 
 class PerformanceScreen extends StatefulWidget {
@@ -17,7 +18,13 @@ class _PerformanceScreenState extends State<PerformanceScreen> {
     Pair("Rewards and Incentives",Icon(Icons.stacked_line_chart_rounded,color: secondaryColor,)),
     Pair("Contact Partner Support,If any Query?",Icon(Icons.call,color: secondaryColor,)),
   ];
+  late List<dynamic> functionList;
 
+  @override
+  void initState(){
+    super.initState();
+    functionList = getFunctionList(context);
+  }
   spaceBetweenWidget({double height = 10}) {
     return SizedBox(
       height: height,
@@ -59,6 +66,7 @@ class _PerformanceScreenState extends State<PerformanceScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
@@ -78,7 +86,8 @@ class _PerformanceScreenState extends State<PerformanceScreen> {
               secondCardView(),
               spaceBetweenWidget(height: 30),
               ListView.builder(itemBuilder: (context,index){
-                return cardViewWithText(items[index].first,(){},items[index].last);
+
+                return cardViewWithText(items[index].first,functionList[index],items[index].last);
               },
               shrinkWrap: true,
               primary: false,
@@ -95,7 +104,7 @@ class _PerformanceScreenState extends State<PerformanceScreen> {
 
     return Card(
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 20,horizontal: 5),
+        padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 5),
         child: Row(
           children: [
             Expanded(flex: 2,child: Text(
@@ -104,10 +113,10 @@ class _PerformanceScreenState extends State<PerformanceScreen> {
             )),
             Expanded(flex: 1,child: ElevatedButton(
               onPressed: (){},
-              child: Text("Pay ₹$price"),
               style: ElevatedButton.styleFrom(
                 backgroundColor: secondaryColor
               ),
+              child: Text("Pay ₹$price"),
             )),
           ],
         ),
