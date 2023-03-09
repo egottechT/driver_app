@@ -1,8 +1,8 @@
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/provider/otp_listener.dart';
 import 'package:driver_app/provider/user_provider.dart';
-import 'package:driver_app/screens/account_screen.dart';
 import 'package:driver_app/screens/screen_management.dart';
+import 'package:driver_app/screens/setting_screens/account_screen.dart';
 import 'package:driver_app/screens/starting_screens/login_screen.dart';
 import 'package:driver_app/screens/starting_screens/permission_screen.dart';
 import 'package:driver_app/screens/onboarding_screens/select_vehicle_screen.dart';

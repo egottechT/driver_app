@@ -1,5 +1,5 @@
 import 'package:driver_app/Utils/constants.dart';
-import 'package:driver_app/screens/payment_screen.dart';
+import 'package:driver_app/screens/setting_screens/payment_screen.dart';
 import 'package:driver_app/screens/pickup_screens/pick_otp_check.dart';
 import 'package:flutter/material.dart';
 

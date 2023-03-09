@@ -1,6 +1,6 @@
 import 'package:analyzer_plugin/utilities/pair.dart';
 import 'package:driver_app/screens/onboarding_screens/select_vehicle_screen.dart';
-import 'package:driver_app/screens/preformance_screen.dart';
+import 'package:driver_app/screens/setting_screens/preformance_screen.dart';
 import 'package:flutter/material.dart';
 
 List<Pair<String, dynamic>> nameAndFunctionList(BuildContext context) {

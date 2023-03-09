@@ -1,5 +1,4 @@
 import 'package:driver_app/Utils/constants.dart';
-import 'package:driver_app/screens/account_screen.dart';
 import 'package:flutter/material.dart';
 
 class UploadDocumentScreen extends StatefulWidget {
