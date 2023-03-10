@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 Color secondaryColor = const Color(0xFF602467);
-Color primaryColor = const Color(0xFFddc9e0);
+Color primaryColor = const Color(0xfff4ecf5);
 String mapApiKey = "AIzaSyB9veCDeodL87QObk_JXfVvdNvG-JQKafU";
 
 extension ShowSnackBar on BuildContext {
