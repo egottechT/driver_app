@@ -1,5 +1,6 @@
 import 'package:driver_app/Utils/commonData.dart';
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/screens/setting_screens/car_details_screens/document_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -84,7 +85,9 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
               primary: false,
               itemBuilder: (context, index) {
                 return cardViewWithText(
-                    "Step ${index + 1}: ${items[index]}", () {});
+                    "Step ${index + 1}: ${items[index]}", () {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>DocumentDetailScreen()));
+                });
               },
               itemCount: items.length,
               shrinkWrap: true,

@@ -96,7 +96,9 @@ class DocumentDetailScreen extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.black),
                       onPressed: () {
-                        if (formKey.currentState!.validate()) {}
+                        if (formKey.currentState!.validate()) {
+                          Navigator.of(context).pop();
+                        }
                       },
                       child: const Text("Continue")),
                 ],
