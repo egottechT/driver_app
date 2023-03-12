@@ -1,4 +1,5 @@
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/screens/review_trip_screen.dart';
 import 'package:flutter/material.dart';
 
 class PaymentScreen extends StatefulWidget {
@@ -98,7 +99,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: ElevatedButton(
               onPressed: (){
-                Navigator.popUntil(context, ModalRoute.withName('/managementScreen'));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const ReviewTripScreen()));
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
               child: const Text("CASH COLLECTED",style: TextStyle(color: Colors.white),),
