@@ -100,7 +100,7 @@ Widget showRatingBar(int rating){
           (index) => Icon(
         index < rating ? Icons.star : Icons.star_border,
         color: Colors.orange,
-            size: 40,
+            size: 25,
       ),
     ),
   );

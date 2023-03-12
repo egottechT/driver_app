@@ -1,3 +1,4 @@
+import 'package:driver_app/screens/common_widget.dart';
 import 'package:flutter/material.dart';
 
 class RatingScreen extends StatefulWidget {
@@ -23,17 +24,27 @@ class _RatingScreenState extends State<RatingScreen> {
           Expanded(
               child: ListView.builder(
                   itemBuilder: (context, index) {
-                    return const Card(
+                    return Card(
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           ListTile(
-                            leading: Icon(Icons.person),
-                            title: Text("Aryan Bisht"),
-                            subtitle: Text("Stars"),
-                            trailing: Text("30 Jan 2023"),
+                            leading: const Icon(Icons.person),
+                            title: const Text("Aryan Bisht"),
+                            subtitle: Row(
+                              children: List.generate(
+                                5,
+                                (index) => Icon(
+                                  index < 3 ? Icons.star : Icons.star_border,
+                                  color: Colors.orange,
+                                  size: 15,
+                                ),
+                              ),
+                            ),
+                            trailing: const Text("30 Jan 2023"),
                           ),
-                          Padding(
+                          const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 10),
                             child: Text(
                                 "Hello thjkasdfa faskdfaksf asfkas fasjkd faskjdfha skdfa sjfsdkj fhsdfh kasf"),
@@ -51,9 +62,57 @@ class _RatingScreenState extends State<RatingScreen> {
 
   ratingOverView() {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Text("Total Rating"),
-        Text("Rating OverViews"),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 30),
+          child: Column(
+            children: [
+              const Text("4.0"),
+              showRatingBar(4),
+              const Row(
+                children: [
+                  Icon(Icons.person),
+                  Text("5238 Total"),
+                ],
+              )
+            ],
+          ),
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ratingProcessBar("5", 0.5),
+            ratingProcessBar("4", 0.12),
+            ratingProcessBar("3", 0.75),
+            ratingProcessBar("2", 0.5),
+            ratingProcessBar("1", 0.25),
+          ],
+        )
+      ],
+    );
+  }
+
+  ratingProcessBar(String rating, double numbers) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const Icon(
+          Icons.star,
+          size: 12,
+        ),
+        Text(rating),
+        const SizedBox(
+          width: 5,
+        ),
+        SizedBox(
+          width: 100,
+          child: LinearProgressIndicator(
+            backgroundColor: Colors.grey,
+            color: Colors.orange,
+            value: numbers,
+          ),
+        )
       ],
     );
   }
