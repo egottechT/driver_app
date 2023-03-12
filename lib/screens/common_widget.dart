@@ -1,4 +1,5 @@
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/Utils/name_and_function.dart';
 import 'package:flutter/material.dart';
 
 Widget firstCardView(String name, String title) {
@@ -34,4 +35,37 @@ Widget firstCardView(String name, String title) {
           )
         ],
       ));
+}
+
+Widget detailTextFormField(String labelText,
+    {Icon? icon,
+      TextInputType keyboardType = TextInputType.text,
+      required TextEditingController textEditingController}) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+    child: TextFormField(
+      decoration: InputDecoration(
+        labelText: labelText,
+        labelStyle:
+        TextStyle(color: secondaryColor, fontWeight: FontWeight.bold),
+        filled: true,
+        focusColor: secondaryColor,
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: secondaryColor),
+        ),
+        fillColor: Colors.white,
+        enabledBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey),
+        ),
+        isDense: true,
+        suffixIcon: icon,
+      ),
+      keyboardType: keyboardType,
+      controller: textEditingController,
+      validator: nullValidator,
+      textInputAction: TextInputAction.next,
+      // onTap: onTap,
+      // onFieldSubmitted: onSumbit,
+    ),
+  );
 }

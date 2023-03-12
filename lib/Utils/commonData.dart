@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:driver_app/service/database.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
 import 'dart:ui' as ui;
 
@@ -76,4 +79,20 @@ void correctCameraAngle(LatLng start, LatLng destination, GoogleMapController co
       100.0,
     ),
   );
+}
+
+final ImagePicker _picker = ImagePicker();
+Future<File?> selectImage(context) async{
+  try{
+    final XFile? selectedImg =
+    await _picker.pickImage(source: ImageSource.gallery);
+    if (selectedImg == null) {
+      return null;
+    }
+    return File(selectedImg.path);
+
+  } on PlatformException catch(error){
+    context.showErrorSnackBar(message: "Can't pick Images !\nError: ${error.message}");
+  }
+  return null;
 }

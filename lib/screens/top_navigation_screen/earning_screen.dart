@@ -17,6 +17,7 @@ class _EarningScreenState extends State<EarningScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(height: 20,),
             firstRowCardsView(),
             const SizedBox(height: 10),
             const Text("TODAY'S TRIP"),

@@ -1,6 +1,8 @@
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/screens/top_navigation_screen/earning_screen.dart';
 import 'package:driver_app/screens/top_navigation_screen/map_screen.dart';
 import 'package:driver_app/screens/setting_screens/account_screen.dart';
+import 'package:driver_app/screens/top_navigation_screen/rating_screen.dart';
 import 'package:driver_app/service/notification_service.dart';
 import 'package:driver_app/tmp_screen.dart';
 import 'package:flutter/material.dart';
@@ -143,9 +145,9 @@ class _ManagementScreen extends State<ManagementScreen> {
           topNavigationBar(),
           [
             Expanded(child: MapScreen(center: args,)),
-            const Expanded(child: TmpScreen()),
-            const Expanded(child: TmpScreen()),
-            const Expanded(child:AccountScreen()),
+            const Expanded(child: EarningScreen()),
+            const Expanded(child: RatingScreen()),
+            const Expanded(child: AccountScreen()),
           ][currentIndex]
         ],
       ),
