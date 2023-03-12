@@ -4,7 +4,8 @@ import 'package:driver_app/screens/setting_screens/car_details_screens/upload_do
 import 'package:flutter/material.dart';
 
 class CarDetailScreen extends StatefulWidget {
-  const CarDetailScreen({Key? key}) : super(key: key);
+  final bool isFromStart;
+  const CarDetailScreen({Key? key,required this.isFromStart}) : super(key: key);
 
   @override
   State<CarDetailScreen> createState() => _CarDetailScreenState();
@@ -72,7 +73,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                         backgroundColor: Colors.black),
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const UploadDocumentScreen()));
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>UploadDocumentScreen(isFromStart: widget.isFromStart,)));
                       }
                     },
                     child: const Text("Continue")),

@@ -14,7 +14,7 @@ List<Pair<String, dynamic>> nameAndFunctionList(BuildContext context) {
     }),
     Pair("Vehicle Information", () {
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => const SelectVehicleScreen()));
+          .push(MaterialPageRoute(builder: (context) => const SelectVehicleScreen(isFromStart: false,)));
     }),
     Pair("Digital KYC Customer Verification", () {}),
     Pair("Deposit Cash", () {}),

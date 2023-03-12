@@ -1,8 +1,12 @@
+import 'package:driver_app/Utils/commonData.dart';
 import 'package:driver_app/Utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 
 class UploadDocumentScreen extends StatefulWidget {
-  const UploadDocumentScreen({Key? key}) : super(key: key);
+  final bool isFromStart;
+  const UploadDocumentScreen({Key? key,required this.isFromStart}) : super(key: key);
 
   @override
   State<UploadDocumentScreen> createState() => _UploadDocumentScreenState();
@@ -76,7 +80,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
               ),
             ),
             ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               primary: false,
               itemBuilder: (context, index) {
                 return cardViewWithText(
@@ -86,8 +90,19 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
               shrinkWrap: true,
             ),
             ElevatedButton(
-              onPressed: () {
-                Navigator.popUntil(context,ModalRoute.withName("/managementScreen"));
+              onPressed: () async {
+                if(widget.isFromStart){
+                  LocationData currentLocation = await getCurrentLocation();
+                  if(context.mounted) {
+                    Navigator.pushNamedAndRemoveUntil(context, "/managementScreen",
+                      arguments: LatLng(
+                          currentLocation.latitude as double, currentLocation.latitude as double), (route) => false);
+                  }
+
+                }
+                else {
+                  Navigator.popUntil(context,ModalRoute.withName("/managementScreen"));
+                }
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
               child: const Text("Submit"),

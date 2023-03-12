@@ -3,7 +3,10 @@ import 'package:driver_app/screens/setting_screens/car_details_screens/car_detai
 import 'package:flutter/material.dart';
 
 class SelectVehicleScreen extends StatefulWidget {
-  const SelectVehicleScreen({Key? key}) : super(key: key);
+  final bool isFromStart;
+
+  const SelectVehicleScreen({Key? key, required this.isFromStart})
+      : super(key: key);
 
   @override
   State<SelectVehicleScreen> createState() => _SelectVehicleScreenState();
@@ -145,7 +148,10 @@ class _SelectVehicleScreenState extends State<SelectVehicleScreen> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const CarDetailScreen()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => CarDetailScreen(
+                            isFromStart: widget.isFromStart,
+                          )));
                 },
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
                 child: const Text("CONTINUE"),

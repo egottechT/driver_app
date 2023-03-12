@@ -33,8 +33,8 @@ void main() async {
         theme: ThemeData(
           appBarTheme: AppBarTheme(color: primaryColor),
         ),
-        initialRoute: "splash",
-        // home: const ManagementScreen(),
+        // initialRoute: "splash",
+        home: const PermissionScreen(),
       ),
     ),
   );
@@ -48,7 +48,6 @@ final Map<String, Widget Function(BuildContext)> appPageRoutes = {
   '/registrationScreen': (_) => const RegistrationScreen(),
   '/homeScreen': (_) => const HomeScreen(),
   '/profileScreen': (_) => const ProfileScreen(),
-  '/selectVehicleScreen': (_) => const SelectVehicleScreen(),
   '/permissionScreen': (_) => const PermissionScreen(),
   '/account': (_) => const AccountScreen(),
 };
