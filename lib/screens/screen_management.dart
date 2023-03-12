@@ -1,5 +1,5 @@
 import 'package:driver_app/Utils/constants.dart';
-import 'package:driver_app/screens/map_screen.dart';
+import 'package:driver_app/screens/top_navigation_screen/map_screen.dart';
 import 'package:driver_app/screens/setting_screens/account_screen.dart';
 import 'package:driver_app/service/notification_service.dart';
 import 'package:driver_app/tmp_screen.dart';
