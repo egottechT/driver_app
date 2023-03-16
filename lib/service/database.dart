@@ -3,7 +3,6 @@ import 'dart:math';
 
 import 'package:driver_app/model/user_model.dart';
 import 'package:driver_app/provider/user_provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -11,29 +10,40 @@ import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
 final databaseReference = FirebaseDatabase(
-    databaseURL: "https://book-my-etaxi-default-rtdb.asia-southeast1.firebasedatabase.app")
+        databaseURL:
+            "https://book-my-etaxi-default-rtdb.asia-southeast1.firebasedatabase.app")
     .ref();
 
 String customerKey = "";
 
-Future<void> getUserInfo(BuildContext context, String uid,
-    LocationData currentLocation) async {
-  debugPrint("Getting user information");
+Future<void> getUserInformation(BuildContext context, String uid) async {
+  databaseReference.child("driver").child(uid).once().then((value) {
+    Map map = value.snapshot.value as Map;
+    UserModel model = UserModel().getDataFromMap(map);
+    debugPrint("Data fetching is finished");
+    Provider.of<UserModelProvider>(context,listen: false).setData(model);
+  });
+}
 
-  databaseReference.child("customer").child(uid).once().then((value) {
+Future<void> getUserInfo(BuildContext context, String uid, LocationData currentLocation) async {
+  databaseReference.child("driver").child(uid).once().then((value) {
     Map map = value.snapshot.value as Map;
     debugPrint("Values :- ${map.toString()}");
     UserModel model = UserModel().getDataFromMap(map);
-    addDriverInfoInTrip(context, model, LatLng(
-        currentLocation.latitude as double,
-        currentLocation.longitude as double));
+    addDriverInfoInTrip(
+        context,
+        model,
+        LatLng(currentLocation.latitude as double,
+            currentLocation.longitude as double));
   });
 }
 
 Future<void> addUserToDatabase(String name, UserModel model) async {
   try {
-    await databaseReference.child("driver").child(name).set(
-        UserModel().toMap(model));
+    await databaseReference
+        .child("driver")
+        .child(name)
+        .set(UserModel().toMap(model));
   } catch (e) {
     debugPrint(e.toString());
   }
@@ -41,18 +51,14 @@ Future<void> addUserToDatabase(String name, UserModel model) async {
 
 Future<bool> checkDatabaseForUser(String uid) async {
   Completer<bool> completer = Completer();
-  databaseReference
-      .child("driver")
-      .child(uid)
-      .onValue
-      .listen((event) {
+  databaseReference.child("driver").child(uid).onValue.listen((event) {
     completer.complete(event.snapshot.exists);
   });
   return completer.future;
 }
 
-Future<void> addDriverInfoInTrip(BuildContext context, UserModel userData,
-    LatLng driverLocation) async {
+Future<void> addDriverInfoInTrip(
+    BuildContext context, UserModel userData, LatLng driverLocation) async {
   debugPrint("Uploading the data");
   int randomNumber = Random().nextInt(9000) + 1000;
   databaseReference.child("trips").child(customerKey).child("driver_info").set({
@@ -104,14 +110,19 @@ Map addDummyData() {
 Future<bool> checkTripOtp(String otp) async {
   Completer<bool> completer = Completer();
   debugPrint("Checking otp");
-  databaseReference.child("trips").child(customerKey).child("driver_info").once().then((value){
-      Map map = value.snapshot.value as Map;
-      debugPrint(((map["otp"]??0)==otp).toString());
-      completer.complete((map["otp"]??0).toString()==otp);
+  databaseReference
+      .child("trips")
+      .child(customerKey)
+      .child("driver_info")
+      .once()
+      .then((value) {
+    Map map = value.snapshot.value as Map;
+    debugPrint(((map["otp"] ?? 0) == otp).toString());
+    completer.complete((map["otp"] ?? 0).toString() == otp);
   });
   return completer.future;
 }
 
-Future<void> uploadDummyData(Map map)async {
+Future<void> uploadDummyData(Map map) async {
   databaseReference.child("trips").push().set(map);
 }

@@ -19,6 +19,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
   TextEditingController yearText = TextEditingController();
   TextEditingController colorText = TextEditingController();
   TextEditingController interiorColorText = TextEditingController();
+  TextEditingController vehicleNumber = TextEditingController();
 
   sizeBetweenField({double height = 10}) {
     return SizedBox(
@@ -68,6 +69,11 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                 detailTextFormField("INTERIOR COLOR",
                     textEditingController: interiorColorText,
                     icon: const Icon(null)),
+                sizeBetweenField(),
+                detailTextFormField("Vehicle Number",
+                    textEditingController: vehicleNumber,
+                    icon: const Icon(null)),
+
                 sizeBetweenField(height: 20),
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(

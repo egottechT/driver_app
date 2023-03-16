@@ -13,6 +13,21 @@ Future<LocationData> getCurrentLocation() async {
   return location;
 }
 
+Map documentsValue = {
+  "identityDetail": false,
+  "aadharCard": false,
+  "addressProof": false,
+  "driverLicence": false,
+  "vehicleInsurance": false,
+  "passbookPhoto": false,
+  "panCard": false,
+  "pollutionCertificate": false,
+  "rcCertificate": false,
+  "vehiclePermit": false,
+  "fitnessCertificate": false,
+  "vehcileAudit": false,
+};
+
 Map getDummyData(){
   Map map = {
     "title": "Aryan text",

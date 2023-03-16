@@ -38,8 +38,8 @@ void main() async {
         theme: ThemeData(
           appBarTheme: AppBarTheme(color: primaryColor),
         ),
-        // initialRoute: "splash",
-        home: ReviewTripScreen(),
+        initialRoute: "splash",
+        // home: ReviewTripScreen(),
       ),
     ),
   );

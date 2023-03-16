@@ -1,5 +1,7 @@
 import 'dart:typed_data';
 import 'package:driver_app/Utils/commonData.dart';
+import 'package:driver_app/service/database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -20,6 +22,12 @@ class _MapScreenState extends State<MapScreen> {
   Set<Marker> makers = {};
   Uint8List? markIcons;
   List<dynamic> list = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getUserInformation(context,FirebaseAuth.instance.currentUser!.uid.toString());
+  }
 
   void mapSetupWork(LocationData location) async {
     markIcons = await getImages('assets/icons/driver_car.png', 150);

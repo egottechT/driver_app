@@ -1,19 +1,32 @@
 import 'package:driver_app/Utils/commonData.dart';
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/model/user_model.dart';
+import 'package:driver_app/provider/user_provider.dart';
 import 'package:driver_app/screens/setting_screens/car_details_screens/document_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:provider/provider.dart';
 
 class UploadDocumentScreen extends StatefulWidget {
   final bool isFromStart;
-  const UploadDocumentScreen({Key? key,required this.isFromStart}) : super(key: key);
+
+  const UploadDocumentScreen({Key? key, required this.isFromStart})
+      : super(key: key);
 
   @override
   State<UploadDocumentScreen> createState() => _UploadDocumentScreenState();
 }
 
 class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
+  List documentName = List.generate(15, (index) => "");
+
+  @override
+  void initState() {
+    super.initState();
+    readData();
+  }
+
   TextStyle customerStyle({FontWeight weight = FontWeight.normal}) {
     return TextStyle(color: secondaryColor, fontWeight: weight);
   }
@@ -23,7 +36,6 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
     "Aadhar Card",
     "Local Address Proof",
     "Driver License number",
-    "Profile Picture",
     "Vehicle Insurance",
     "Passbook/Cancelled Check photo",
     "Pan Card",
@@ -32,8 +44,6 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
     "Vehicle Permit",
     "Fitness Certificate",
     "Vehicle Audit",
-    "Profile Setting",
-    "Cancel & Reset",
   ];
 
   @override
@@ -84,9 +94,9 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               primary: false,
               itemBuilder: (context, index) {
-                return cardViewWithText(
-                    "Step ${index + 1}: ${items[index]}", () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>DocumentDetailScreen()));
+                return cardViewWithText(index, () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => DocumentDetailScreen()));
                 });
               },
               itemCount: items.length,
@@ -94,17 +104,19 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
             ),
             ElevatedButton(
               onPressed: () async {
-                if(widget.isFromStart){
+                if (widget.isFromStart) {
                   LocationData currentLocation = await getCurrentLocation();
-                  if(context.mounted) {
-                    Navigator.pushNamedAndRemoveUntil(context, "/managementScreen",
-                      arguments: LatLng(
-                          currentLocation.latitude as double, currentLocation.latitude as double), (route) => false);
+                  if (context.mounted) {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        "/managementScreen",
+                        arguments: LatLng(currentLocation.latitude as double,
+                            currentLocation.latitude as double),
+                        (route) => false);
                   }
-
-                }
-                else {
-                  Navigator.popUntil(context,ModalRoute.withName("/managementScreen"));
+                } else {
+                  Navigator.popUntil(
+                      context, ModalRoute.withName("/managementScreen"));
                 }
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
@@ -116,17 +128,32 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
     );
   }
 
-  Widget cardViewWithText(String title, dynamic onTap) {
+  Widget cardViewWithText(int index, dynamic onTap) {
+    String title = "Step ${index + 1}: ${items[index]}";
+    UserModel model = Provider.of<UserModelProvider>(context).data;
+
     return GestureDetector(
         onTap: onTap,
         child: Card(
           child: ListTile(
-            leading: const Icon(
-              Icons.check_circle,
-              color: Colors.green,
-            ),
+            leading: model.documents[documentName[index]]
+                ? const Icon(
+                    Icons.check_circle,
+                    color: Colors.green,
+                  )
+                : const Icon(null),
             title: Text(title),
           ),
         ));
+  }
+
+  void readData() {
+    List list = List.empty(growable: true);
+    documentsValue.forEach((key, value) {
+      list.add(key);
+    });
+    setState(() {
+        documentName = list;
+    });
   }
 }
