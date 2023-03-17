@@ -1,8 +1,11 @@
 import 'package:analyzer_plugin/utilities/pair.dart';
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/Utils/name_and_function.dart';
+import 'package:driver_app/model/user_model.dart';
+import 'package:driver_app/provider/user_provider.dart';
 import 'package:driver_app/screens/common_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -22,12 +25,13 @@ class _AccountScreenState extends State<AccountScreen> {
 
   @override
   Widget build(BuildContext context) {
+    UserModel model = Provider.of<UserModelProvider>(context).data;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            firstCardView("Name", "Manage profile"),
+            firstCardView(model.name, "Manage profile"),
             Divider(
               height: 0,
               thickness: 3,
