@@ -99,7 +99,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: ElevatedButton(
               onPressed: (){
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const ReviewTripScreen()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ReviewTripScreen(map: widget.map)));
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
               child: const Text("CASH COLLECTED",style: TextStyle(color: Colors.white),),

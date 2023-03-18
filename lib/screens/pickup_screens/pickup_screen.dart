@@ -119,7 +119,7 @@ class _PickUpScreenState extends State<PickUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final panelHeightClosed = MediaQuery.of(context).size.height * 0.25;
+    final panelHeightClosed = MediaQuery.of(context).size.height * 0.35;
     final panelHeightOpened = MediaQuery.of(context).size.height * 0.8;
 
     return SafeArea(

@@ -37,7 +37,7 @@ Map getDummyData(){
       "lat": 30.2939471,
       "long": 78.0578826,
       "location":
-      "Rispana Pull, Dehradun, Uttarakhand, India",
+      "Rispana Pull, Dehradun,248001 ,jksdf ajlsdf ajllsadfl fasdfjl, Uttarakhand, India",
     },
     "pick-up": {
       "location":

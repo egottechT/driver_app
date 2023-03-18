@@ -54,18 +54,21 @@ Widget bottomPanelLayout(Map map, BuildContext context, bool isPickup) {
                     )
                   ],
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Destination Address",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Text(map["destination"]["location"] ?? ""),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Destination Address",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Text(map["destination"]["location"] ?? ""),
+                    ],
+                  ),
                 ),
               ],
             )),
@@ -80,7 +83,6 @@ Widget bottomPanelLayout(Map map, BuildContext context, bool isPickup) {
             } else {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => PaymentScreen(map: map)));
-              context.showErrorSnackBar(message: "Working on this sir");
             }
           },
           style: ElevatedButton.styleFrom(backgroundColor: Colors.black),

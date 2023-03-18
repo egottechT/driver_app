@@ -1,6 +1,8 @@
+import 'package:driver_app/Utils/commonData.dart';
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/provider/otp_listener.dart';
 import 'package:driver_app/provider/user_provider.dart';
+import 'package:driver_app/screens/pickup_screens/pickup_screen.dart';
 import 'package:driver_app/screens/screen_management.dart';
 import 'package:driver_app/screens/setting_screens/account_screen.dart';
 import 'package:driver_app/screens/starting_screens/login_screen.dart';
@@ -18,7 +20,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   // await LocalNoticeService().setup();
-
+  // Map map = getDummyData();
   runApp(
     MultiProvider(
       providers: [
@@ -33,7 +35,7 @@ void main() async {
           appBarTheme: AppBarTheme(color: primaryColor),
         ),
         initialRoute: "splash",
-        // home: ReviewTripScreen(),
+        // home: PickUpScreen(map: map,isPickUp: true,),
       ),
     ),
   );

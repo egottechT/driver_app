@@ -3,7 +3,8 @@ import 'package:driver_app/screens/common_widget.dart';
 import 'package:flutter/material.dart';
 
 class ReviewTripScreen extends StatefulWidget {
-  const ReviewTripScreen({Key? key}) : super(key: key);
+  Map map;
+  ReviewTripScreen({Key? key,required this.map}) : super(key: key);
 
   @override
   State<ReviewTripScreen> createState() => _ReviewScreenState();
@@ -28,8 +29,8 @@ class _ReviewScreenState extends State<ReviewTripScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  tripDetailCardView("Rs. 12", "Total Fare"),
-                  tripDetailCardView("4.5 KM", "Total Distance"),
+                  tripDetailCardView("Rs. ${widget.map["price"]}", "Total Fare"),
+                  tripDetailCardView("${widget.map["distance"]} KM", "Total Distance"),
                 ],
               ),
             ),
@@ -41,15 +42,14 @@ class _ReviewScreenState extends State<ReviewTripScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Card(
+                  Card(
                     child: ListTile(
-                      leading: Icon(Icons.person),
-                      title: Text("Jessica Fox"),
-                      subtitle: Text("05:35 PM"),
+                      leading: const Icon(Icons.person),
+                      title: Text("${widget.map["title"]}"),
                       trailing: Column(
                         children: [
-                          Text("Rs. 85"),
-                          Text("Cash"),
+                          Text("${widget.map["price"]}"),
+                          const Text("Cash"),
                         ],
                       ),
                     ),
