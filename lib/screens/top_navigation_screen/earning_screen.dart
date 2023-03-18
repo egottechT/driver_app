@@ -1,3 +1,5 @@
+import 'package:driver_app/model/trip_model.dart';
+import 'package:driver_app/service/database.dart';
 import 'package:flutter/material.dart';
 
 class EarningScreen extends StatefulWidget {
@@ -8,6 +10,21 @@ class EarningScreen extends StatefulWidget {
 }
 
 class _EarningScreenState extends State<EarningScreen> {
+  List<TripModel> tripValue = [];
+
+  @override
+  void initState() {
+    super.initState();
+    readData();
+  }
+
+  void readData() async {
+    List<TripModel> list = await fetchHistoryTrip();
+    setState(() {
+      tripValue = list;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,29 +34,34 @@ class _EarningScreenState extends State<EarningScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 20,),
+            const SizedBox(
+              height: 20,
+            ),
             firstRowCardsView(),
             const SizedBox(height: 10),
             const Text("TODAY'S TRIP"),
             Expanded(
                 child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    return const Card(
-                      child: ListTile(
-                        leading: Icon(Icons.person),
-                        title: Text("Jessica Fox"),
-                        subtitle: Text("05:35 PM"),
-                        trailing: Column(
-                          children: [
-                            Text("Rs. 85"),
-                            Text("Cash"),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                  shrinkWrap: true,
-                  itemCount: 3,
+              itemBuilder: (context, index) {
+                DateTime dateTime = DateTime.parse(tripValue[index].dateTime);
+                String time =
+                    "${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}";
+                return Card(
+                  child: ListTile(
+                    leading: const Icon(Icons.person),
+                    title: Text(tripValue[index].customerName),
+                    subtitle: Text(time),
+                    trailing: Column(
+                      children: [
+                        Text(tripValue[index].price.toString()),
+                        Text("Cash"),
+                      ],
+                    ),
+                  ),
+                );
+              },
+              shrinkWrap: true,
+              itemCount: 3,
             )),
           ],
         ),
@@ -48,12 +70,16 @@ class _EarningScreenState extends State<EarningScreen> {
   }
 
   firstRowCardsView() {
+    int money = 0;
+    for (var data in tripValue) {
+      money = money + data.price;
+    }
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        cardItemView("Rs. 240", "My earning", Colors.green),
-        cardItemView("4Hr 32m", "Spend Time", Colors.blueAccent),
-        cardItemView("06", "Completed Trip", Colors.orange),
+        cardItemView("Rs. $money", "My earning", Colors.green),
+        // cardItemView("4Hr 32m", "Spend Time", Colors.blueAccent),
+        cardItemView(tripValue.length.toString(), "Completed Trip", Colors.orange),
       ],
     );
   }
@@ -67,10 +93,7 @@ class _EarningScreenState extends State<EarningScreen> {
             Text(
               value,
               style: TextStyle(
-                color: color,
-                fontWeight: FontWeight.bold,
-                fontSize: 16
-              ),
+                  color: color, fontWeight: FontWeight.bold, fontSize: 16),
             ),
             Text(
               title,

@@ -1,19 +1,45 @@
-class TripModel{
-    String pickUpLocation = "";
-    String destinationLocation = "";
-    String customerName = "";
-    int price = 0;
-    int distance = 0;
-    String dateTime = "";
+import 'package:flutter/material.dart';
 
-    TripModel fromMap(Map map){
-      TripModel model = TripModel();
-      model.pickUpLocation = map["pickUpLocation"];
-      model.destinationLocation = map["destinationLocation"];
-      model.customerName = map["customerName"];
-      model.price = map["price"];
-      model.distance = map["distance"];
-      model.dateTime = map["dateTime"];
-      return model;
-    }
+class TripModel {
+  String pickUpLocation = "";
+  String destinationLocation = "";
+  String customerName = "";
+  int price = 0;
+  double distance = 0;
+  String dateTime = "";
+
+  Map toMap(TripModel model) {
+    Map map = {
+      "pickUpLocation": model.pickUpLocation,
+      "destinationLocation": model.destinationLocation,
+      "customerName": model.customerName,
+      "price": model.price,
+      "distance": model.distance,
+      "dateTime": model.dateTime,
+    };
+    return map;
+  }
+
+  TripModel fromMap(Map map) {
+    TripModel model = TripModel();
+    model.pickUpLocation = map["pickUpLocation"];
+    model.destinationLocation = map["destinationLocation"];
+    model.customerName = map["customerName"];
+    model.price = map["price"];
+    model.distance = double.parse(map["distance"]);
+    model.dateTime = map["dateTime"];
+    return model;
+  }
+
+  TripModel convertFromTrip(Map map) {
+    TripModel model = TripModel();
+    model.pickUpLocation = map["pick-up"]["location"];
+    model.destinationLocation = map["destination"]["location"];
+    model.customerName = map["title"];
+    model.price = map["price"];
+    model.distance = double.parse(map["distance"]);
+    model.dateTime = DateTime.now().toString();
+    debugPrint(model.dateTime);
+    return model;
+  }
 }
