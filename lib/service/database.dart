@@ -157,3 +157,8 @@ Future<void> uploadRatingUser(Map map,int stars,String title,String name) async{
       }
   );
 }
+
+Future<void> updateFinishTrip() async {
+  await databaseReference.child("trips").child(customerKey).update({
+    "isFinished": true});
+}

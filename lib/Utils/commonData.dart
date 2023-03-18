@@ -47,6 +47,7 @@ Map getDummyData(){
     },
     "price": 300,
     "distance": "10.5",
+    "isFinished": true,
     "id": "9Tae9quZkEREdLErYUqUDmhmegk2"
   };
   uploadDummyData(map);
