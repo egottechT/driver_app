@@ -1,12 +1,12 @@
-import 'package:driver_app/Utils/constants.dart';
-import 'package:driver_app/Utils/name_and_function.dart';
 import 'package:driver_app/screens/common_widget.dart';
 import 'package:driver_app/screens/setting_screens/car_details_screens/upload_document_screen.dart';
 import 'package:flutter/material.dart';
 
 class CarDetailScreen extends StatefulWidget {
   final bool isFromStart;
-  const CarDetailScreen({Key? key,required this.isFromStart}) : super(key: key);
+
+  const CarDetailScreen({Key? key, required this.isFromStart})
+      : super(key: key);
 
   @override
   State<CarDetailScreen> createState() => _CarDetailScreenState();
@@ -31,7 +31,10 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add your Vehicle Details",style: TextStyle(color: Colors.black),),
+        title: const Text(
+          "Add your Vehicle Details",
+          style: TextStyle(color: Colors.black),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -45,18 +48,10 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                 Image.asset("assets/images/login_screen.png"),
                 sizeBetweenField(height: 20),
                 detailTextFormField("BRAND",
-                    textEditingController: brandText,
-                    icon: Icon(
-                      Icons.search,
-                      color: secondaryColor,
-                    )),
+                    textEditingController: brandText, icon: const Icon(null)),
                 sizeBetweenField(),
                 detailTextFormField("MODEL",
-                    textEditingController: modelText,
-                    icon: Icon(
-                      Icons.search,
-                      color: secondaryColor,
-                    )),
+                    textEditingController: modelText, icon: const Icon(null)),
                 sizeBetweenField(),
                 detailTextFormField("YEAR",
                     textEditingController: yearText,
@@ -73,14 +68,16 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                 detailTextFormField("Vehicle Number",
                     textEditingController: vehicleNumber,
                     icon: const Icon(null)),
-
                 sizeBetweenField(height: 20),
                 ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black),
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: Colors.black),
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>UploadDocumentScreen(isFromStart: widget.isFromStart,)));
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => UploadDocumentScreen(
+                                  isFromStart: widget.isFromStart,
+                                )));
                       }
                     },
                     child: const Text("Continue")),

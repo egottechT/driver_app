@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:driver_app/model/user_model.dart';
 import 'package:driver_app/provider/user_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -21,11 +22,12 @@ Future<void> getUserInformation(BuildContext context, String uid) async {
     Map map = value.snapshot.value as Map;
     UserModel model = UserModel().getDataFromMap(map);
     debugPrint("Data fetching is finished");
-    Provider.of<UserModelProvider>(context,listen: false).setData(model);
+    Provider.of<UserModelProvider>(context, listen: false).setData(model);
   });
 }
 
-Future<void> getUserInfo(BuildContext context, String uid, LocationData currentLocation) async {
+Future<void> getUserInfo(
+    BuildContext context, String uid, LocationData currentLocation) async {
   databaseReference.child("driver").child(uid).once().then((value) {
     Map map = value.snapshot.value as Map;
     debugPrint("Values :- ${map.toString()}");
@@ -125,4 +127,12 @@ Future<bool> checkTripOtp(String otp) async {
 
 Future<void> uploadDummyData(Map map) async {
   databaseReference.child("trips").push().set(map);
+}
+
+Future<void> uploadDocumentPhoto(String key) async {
+  await databaseReference
+      .child("driver")
+      .child(FirebaseAuth.instance.currentUser!.uid.toString())
+      .child("documents")
+      .update({key: true});
 }

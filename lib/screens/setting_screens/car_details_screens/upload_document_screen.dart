@@ -96,7 +96,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
               itemBuilder: (context, index) {
                 return cardViewWithText(index, () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => DocumentDetailScreen()));
+                      builder: (context) => DocumentDetailScreen(documentName: documentName[index])));
                 });
               },
               itemCount: items.length,
