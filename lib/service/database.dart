@@ -71,7 +71,8 @@ Future<void> addDriverInfoInTrip(
     "rating": "4.6",
     "lat": driverLocation.latitude,
     "long": driverLocation.longitude,
-    "otp": randomNumber
+    "otp": randomNumber,
+    'id': FirebaseAuth.instance.currentUser!.uid.toString()
   });
 }
 
@@ -79,35 +80,16 @@ Future<void> updateLatLng(LatLng driver) async {
   if (customerKey.isEmpty) {
     return;
   }
-  debugPrint("Updating LatLng");
-  // databaseReference.child("trips").child(customerKey).child("driver_info").onValue.listen((event) {
-  //   if(event.snapshot.exists){
-  //
-  //     databaseReference.child("trips").child(customerKey).child("driver_info").update({
-  //       "lat": driver.latitude,
-  //       "long": driver.longitude
-  //     });
-  //   }
-  // });
-}
+  // debugPrint("Updating LatLng");
+  databaseReference.child("trips").child(customerKey).child("driver_info").onValue.listen((event) {
+    if(event.snapshot.exists){
 
-Map addDummyData() {
-  return {
-    "phoneNumber": "+919068616413",
-    "driver": false,
-    "destination": {
-      "location": "RispanaPull, Dehradun, Uttarakhand, India",
-      "lat": 30.2939471,
-      "long": 78.0578826
-    },
-    "body": "Please Pickup me",
-    "pick-up": {
-      "location": "73JM + 573, Nehrugram, Dehradun, Uttarakhand248005, India",
-      "lat": 30.2803533,
-      "long": 78.0831921
-    },
-    "title": "Aryan bisht"
-  };
+      databaseReference.child("trips").child(customerKey).child("driver_info").update({
+        "lat": driver.latitude,
+        "long": driver.longitude
+      });
+    }
+  });
 }
 
 Future<bool> checkTripOtp(String otp) async {
@@ -164,4 +146,14 @@ Future<List<TripModel>> fetchHistoryTrip() async {
     }
   });
   return completer.future;
+}
+
+Future<void> uploadRatingUser(Map map,int stars,String title,String name) async{
+  await databaseReference.child("customer").child(map["id"]).child("rating").push().set(
+      {
+        "rating": stars,
+        "description": title,
+        "customerName": name
+      }
+  );
 }

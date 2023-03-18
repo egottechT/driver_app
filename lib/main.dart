@@ -12,6 +12,7 @@ import 'package:driver_app/screens/phone_verification_screens/phone_number_setup
 import 'package:driver_app/screens/starting_screens/registration_screen.dart';
 import 'package:driver_app/screens/starting_screens/splash_screen.dart';
 import 'package:driver_app/screens/unused_screen/profile_screen.dart';
+import 'package:driver_app/service/database.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,7 @@ void main() async {
   await Firebase.initializeApp();
   // await LocalNoticeService().setup();
   // Map map = getDummyData();
+  // uploadRatingUser(map,2,"Abhy is not good","Abhay sati");
   runApp(
     MultiProvider(
       providers: [

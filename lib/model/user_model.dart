@@ -18,7 +18,6 @@ class UserModel {
   }
 
   UserModel getDataFromMap(Map map) {
-    debugPrint("Data is done");
     UserModel model = UserModel();
     model.phoneNumber = map["phoneNumber"] ?? "";
     model.email = map["email"] ?? "";

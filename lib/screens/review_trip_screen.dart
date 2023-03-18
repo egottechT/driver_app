@@ -1,10 +1,14 @@
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/provider/user_provider.dart';
 import 'package:driver_app/screens/common_widget.dart';
+import 'package:driver_app/service/database.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ReviewTripScreen extends StatefulWidget {
   Map map;
-  ReviewTripScreen({Key? key,required this.map}) : super(key: key);
+
+  ReviewTripScreen({Key? key, required this.map}) : super(key: key);
 
   @override
   State<ReviewTripScreen> createState() => _ReviewScreenState();
@@ -12,6 +16,7 @@ class ReviewTripScreen extends StatefulWidget {
 
 class _ReviewScreenState extends State<ReviewTripScreen> {
   TextEditingController textEditingController = TextEditingController();
+  int star = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +34,10 @@ class _ReviewScreenState extends State<ReviewTripScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  tripDetailCardView("Rs. ${widget.map["price"]}", "Total Fare"),
-                  tripDetailCardView("${widget.map["distance"]} KM", "Total Distance"),
+                  tripDetailCardView(
+                      "Rs. ${widget.map["price"]}", "Total Fare"),
+                  tripDetailCardView(
+                      "${widget.map["distance"]} KM", "Total Distance"),
                 ],
               ),
             ),
@@ -57,7 +64,7 @@ class _ReviewScreenState extends State<ReviewTripScreen> {
                   Card(
                     child: Column(
                       children: [
-                        editableRatingBar(),
+                        editableRatingBar(onStarChange),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: TextField(
@@ -78,18 +85,26 @@ class _ReviewScreenState extends State<ReviewTripScreen> {
                     children: [
                       ElevatedButton(
                           onPressed: () {},
-                          style:
-                          ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white),
                           child: const Text(
                             "NEED HELP?",
                             style: TextStyle(color: Colors.black),
                           )),
                       ElevatedButton(
                           onPressed: () {
-                            Navigator.popUntil(context, ModalRoute.withName('/managementScreen'));
+                            uploadRatingUser(
+                                widget.map,
+                                star,
+                                textEditingController.text,
+                                Provider.of<UserModelProvider>(context)
+                                    .data
+                                    .name);
+                            Navigator.popUntil(context,
+                                ModalRoute.withName('/managementScreen'));
                           },
-                          style:
-                          ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.black),
                           child: const Text(
                             "RATE NOW",
                             style: TextStyle(color: Colors.white),
@@ -103,6 +118,10 @@ class _ReviewScreenState extends State<ReviewTripScreen> {
         ),
       ),
     );
+  }
+
+  void onStarChange(int value) {
+    star = value;
   }
 
   tripDetailCardView(String value, String title) {

@@ -71,7 +71,7 @@ Widget detailTextFormField(String labelText,
   );
 }
 
-Widget editableRatingBar(){
+Widget editableRatingBar(onStarChange){
   return RatingBar(
       initialRating: 4,
       direction: Axis.horizontal,
@@ -87,9 +87,7 @@ Widget editableRatingBar(){
             Icons.star_outline,
             color: Colors.orange,
           )),
-      onRatingUpdate: (value) {
-
-      });
+      onRatingUpdate: onStarChange);
 }
 
 Widget showRatingBar(int rating){
