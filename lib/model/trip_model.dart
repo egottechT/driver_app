@@ -4,7 +4,7 @@ class TripModel {
   String pickUpLocation = "";
   String destinationLocation = "";
   String customerName = "";
-  int price = 0;
+  String price = "₹0";
   double distance = 0;
   String dateTime = "";
 

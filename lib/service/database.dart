@@ -148,7 +148,7 @@ Future<List<TripModel>> fetchHistoryTrip() async {
   return completer.future;
 }
 
-Future<void> uploadRatingUser(Map map,int stars,String title,String name) async{
+Future<void> uploadRatingUser(Map map,double stars,String title,String name) async{
   await databaseReference.child("customer").child(map["id"]).child("rating").push().set(
       {
         "rating": stars,

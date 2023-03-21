@@ -1,6 +1,7 @@
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/screens/pickup_screens/pick_otp_check.dart';
 import 'package:driver_app/screens/setting_screens/payment_screen.dart';
+import 'package:driver_app/service/database.dart';
 import 'package:flutter/material.dart';
 
 Widget bottomPanelLayout(Map map, BuildContext context, bool isPickup) {
@@ -76,11 +77,12 @@ Widget bottomPanelLayout(Map map, BuildContext context, bool isPickup) {
           height: 10,
         ),
         ElevatedButton(
-          onPressed: () {
+          onPressed: () async {
             if (isPickup) {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => PickOtpScreen(map: map)));
             } else {
+              await updateFinishTrip();
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => PaymentScreen(map: map)));
             }

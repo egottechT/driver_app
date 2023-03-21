@@ -111,7 +111,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                         context,
                         "/managementScreen",
                         arguments: LatLng(currentLocation.latitude as double,
-                            currentLocation.latitude as double),
+                            currentLocation.longitude as double),
                         (route) => false);
                   }
                 } else {

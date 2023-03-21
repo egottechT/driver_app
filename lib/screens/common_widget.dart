@@ -75,7 +75,7 @@ Widget editableRatingBar(onStarChange){
   return RatingBar(
       initialRating: 4,
       direction: Axis.horizontal,
-      allowHalfRating: true,
+      allowHalfRating: false,
       itemCount: 5,
       ratingWidget: RatingWidget(
           full: const Icon(Icons.star, color: Colors.orange),

@@ -16,7 +16,7 @@ class ReviewTripScreen extends StatefulWidget {
 
 class _ReviewScreenState extends State<ReviewTripScreen> {
   TextEditingController textEditingController = TextEditingController();
-  int star = 0;
+  double star = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +97,7 @@ class _ReviewScreenState extends State<ReviewTripScreen> {
                                 widget.map,
                                 star,
                                 textEditingController.text,
-                                Provider.of<UserModelProvider>(context)
+                                Provider.of<UserModelProvider>(context,listen: false)
                                     .data
                                     .name);
                             Navigator.popUntil(context,
@@ -120,7 +120,7 @@ class _ReviewScreenState extends State<ReviewTripScreen> {
     );
   }
 
-  void onStarChange(int value) {
+  void onStarChange(value) {
     star = value;
   }
 

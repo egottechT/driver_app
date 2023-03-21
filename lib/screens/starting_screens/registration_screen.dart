@@ -86,6 +86,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     ElevatedButton(
                       onPressed: () {
                         if (_ownerFormKey.currentState!.validate()) {
+                          debugPrint("Inside here");
                           UserModel model = UserModel();
                           model.name = "${firstName.text} ${lastName.text}";
                           model.phoneNumber = phoneNumber.text;

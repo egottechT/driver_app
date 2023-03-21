@@ -72,7 +72,7 @@ class _EarningScreenState extends State<EarningScreen> {
   firstRowCardsView() {
     int money = 0;
     for (var data in tripValue) {
-      money = money + data.price;
+      money = money + int.parse(data.price.substring(1));
     }
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
