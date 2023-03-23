@@ -15,9 +15,9 @@ class _LoginScreenState extends State<LoginScreen> {
   bool showLoading = false;
 
   Widget CenterCircularWidget() {
-    return Flexible(
+    return const Flexible(
         child: Row(
-      children: const [
+      children: [
         SizedBox(
           width: 150,
         ),
@@ -136,7 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.black,
                                     ),
-                                    label: Text(
+                                    label: const Text(
                                       "Google",
                                       style: TextStyle(
                                           color: Colors.white, fontSize: 18),

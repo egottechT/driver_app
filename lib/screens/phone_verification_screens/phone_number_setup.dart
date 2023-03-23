@@ -25,10 +25,10 @@ class _PhoneNumberSetupState extends State<PhoneNumberSetup> {
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
-            iconTheme: IconThemeData(
+            iconTheme: const IconThemeData(
               color: Colors.black, // <-- SEE HERE
             ),
-            title: Text(
+            title: const Text(
               "Enter your Phone Number",
               style: TextStyle(color: Colors.black),
             ),
@@ -43,11 +43,11 @@ class _PhoneNumberSetupState extends State<PhoneNumberSetup> {
                 Flexible(
                     child: Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 100,
                     ),
                     phoneNumberForm(),
-                    SizedBox(
+                    const SizedBox(
                       height: 25,
                     ),
                   ],
@@ -67,11 +67,11 @@ class _PhoneNumberSetupState extends State<PhoneNumberSetup> {
                       });
                     }
                   },
-                  child: Text("Next"),
                   style:
                       ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                  child: const Text("Next"),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 25,
                 )
               ],
@@ -89,7 +89,7 @@ class _PhoneNumberSetupState extends State<PhoneNumberSetup> {
           textAlign: TextAlign.left,
           style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
         ),
-        SizedBox(
+        const SizedBox(
           height: 15,
         ),
         const Text(
@@ -97,7 +97,7 @@ class _PhoneNumberSetupState extends State<PhoneNumberSetup> {
           textAlign: TextAlign.left,
           style: TextStyle(fontSize: 18, color: Colors.grey),
         ),
-        SizedBox(
+        const SizedBox(
           height: 50,
         ),
         showLoading
@@ -109,7 +109,7 @@ class _PhoneNumberSetupState extends State<PhoneNumberSetup> {
                   });
                 },
               ),
-        SizedBox(height: 25,),
+        const SizedBox(height: 25,),
         Text("Find your account details or changed Number?",
           textAlign: TextAlign.left,
           style: TextStyle(

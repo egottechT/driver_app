@@ -142,7 +142,7 @@ class _DriveHistoryScreenState extends State<DriveHistoryScreen> {
 
   tripDetailCard() {
     return ListView.builder(
-      padding: EdgeInsets.symmetric(vertical: 5),
+      padding: const EdgeInsets.symmetric(vertical: 5),
       itemBuilder: (context, index) {
         return Card(
           elevation: 10,

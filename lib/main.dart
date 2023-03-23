@@ -1,8 +1,6 @@
-import 'package:driver_app/Utils/commonData.dart';
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/provider/otp_listener.dart';
 import 'package:driver_app/provider/user_provider.dart';
-import 'package:driver_app/screens/pickup_screens/pickup_screen.dart';
 import 'package:driver_app/screens/screen_management.dart';
 import 'package:driver_app/screens/setting_screens/account_screen.dart';
 import 'package:driver_app/screens/starting_screens/login_screen.dart';
@@ -12,7 +10,6 @@ import 'package:driver_app/screens/phone_verification_screens/phone_number_setup
 import 'package:driver_app/screens/starting_screens/registration_screen.dart';
 import 'package:driver_app/screens/starting_screens/splash_screen.dart';
 import 'package:driver_app/screens/unused_screen/profile_screen.dart';
-import 'package:driver_app/service/database.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

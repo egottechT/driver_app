@@ -26,7 +26,7 @@ class _PickUpScreenState extends State<PickUpScreen> {
   String location = "Pick-up";
   Set<Marker> markers = {};
   Uint8List? markIcons;
-  LatLng startLocation = LatLng(0, 0);
+  LatLng startLocation = const LatLng(0, 0);
   late LatLng destinationLocation;
   late PolylinePoints polylinePoints;
   List<LatLng> polylineCoordinates = [];

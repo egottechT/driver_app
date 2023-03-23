@@ -1,9 +1,6 @@
-import 'package:driver_app/Utils/commonData.dart';
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/screens/setting_screens/car_details_screens/select_vehicle_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class PermissionScreen extends StatefulWidget {

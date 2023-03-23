@@ -1,5 +1,4 @@
 import 'package:driver_app/Utils/commonData.dart';
-import 'package:flutter/material.dart';
 
 class UserModel {
   String name = "";

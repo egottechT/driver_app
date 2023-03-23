@@ -267,7 +267,6 @@ class LocalNoticeService {
       String key = event.snapshot.key.toString();
       // debugPrint(map.toString());
       if (sendNotification) {
-        changeToggleValue(false);
         sendNotification = false;
         customerKey = key;
         showNotificationSystem(map, context, key);

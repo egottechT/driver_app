@@ -54,7 +54,7 @@ class _EarningScreenState extends State<EarningScreen> {
                     trailing: Column(
                       children: [
                         Text(tripValue[index].price.toString()),
-                        Text("Cash"),
+                        const Text("Cash"),
                       ],
                     ),
                   ),

@@ -4,7 +4,6 @@ import 'package:driver_app/Utils/commonData.dart';
 import 'package:driver_app/model/user_model.dart';
 import 'package:driver_app/provider/user_provider.dart';
 import 'package:driver_app/service/database.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -29,7 +28,7 @@ class _DocumentDetailScreenState extends State<DocumentDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Upload Document"),
+        title: const Text("Upload Document"),
       ),
       body: SingleChildScrollView(
         child: Column(
