@@ -8,6 +8,8 @@
 
    <application
         android:label="driver_app"
+       android:allowBackup="false"
+       android:fullBackupContent="false"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
        <meta-data
