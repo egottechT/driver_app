@@ -42,6 +42,7 @@ class _PickUpScreenState extends State<PickUpScreen> {
       destinationLocation = LatLng(widget.map["destination"]["lat"].toDouble(), widget.map["destination"]["long"].toDouble());
     }
     polylinePoints = PolylinePoints();
+    checkDataChanges(context);
   }
 
   void uploadDriverDetails(LocationData currentLocation) async {

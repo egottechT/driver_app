@@ -61,7 +61,7 @@ class _EarningScreenState extends State<EarningScreen> {
                 );
               },
               shrinkWrap: true,
-              itemCount: 3,
+              itemCount: tripValue.length,
             )),
           ],
         ),

@@ -77,6 +77,7 @@ class _PickOtpScreenState extends State<PickOtpScreen> {
                     showLoading = false;
                   });
                   if (otpCheck) {
+                    uploadTripStartData();
                     if (context.mounted) {
                       Navigator.of(context)
                         ..pop()
