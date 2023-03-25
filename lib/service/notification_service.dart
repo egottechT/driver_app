@@ -239,7 +239,7 @@ class LocalNoticeService {
       mapApiKey, // Google Maps API Key
       PointLatLng(startLatitude, startLongitude),
       PointLatLng(destinationLatitude, destinationLongitude),
-      travelMode: TravelMode.transit,
+      travelMode: TravelMode.driving,
     );
 
     // Adding the coordinates to the list

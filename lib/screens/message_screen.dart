@@ -1,7 +1,9 @@
 import 'package:driver_app/model/message_model.dart';
 import 'package:driver_app/service/database.dart';
 import 'package:flutter/material.dart';
-) : super(key = key);
+
+class MessageScreen extends StatefulWidget {
+  const MessageScreen({Key? key}) : super(key: key);
 
   @override
   State<MessageScreen> createState() => _MessageScreenState();

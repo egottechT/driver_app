@@ -70,8 +70,8 @@ class _RatingScreenState extends State<RatingScreen> {
             children: [
               const Text("4.0"),
               showRatingBar(4),
-              const Row(
-                children: [
+              Row(
+                children: const [
                   Icon(Icons.person),
                   Text("5238 Total"),
                 ],

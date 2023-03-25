@@ -24,10 +24,10 @@ class _WalletScreenState extends State<WalletScreen> {
           Container(
             color: primaryColor,
             height: 200,
-            child: const Center(
+            child: Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                children: [
+                children: const [
                   Text("₹ 502.00",style: TextStyle(fontSize: 25,color: Colors.black),),
                   SizedBox(height: 10,),
                   Text("Total Earn"),

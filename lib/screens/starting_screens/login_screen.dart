@@ -15,9 +15,9 @@ class _LoginScreenState extends State<LoginScreen> {
   bool showLoading = false;
 
   Widget CenterCircularWidget() {
-    return const Flexible(
+    return Flexible(
         child: Row(
-      children: [
+      children: const [
         SizedBox(
           width: 150,
         ),

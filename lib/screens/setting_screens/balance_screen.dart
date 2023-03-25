@@ -120,21 +120,21 @@ class _BalanceScreenState extends State<BalanceScreen> {
   Widget lastActivity() {
     return Card(
       color: lightGrey,
-      child: const Padding(
-        padding: EdgeInsets.all(10.0),
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               "Last Activity",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              children: const [
                 Text("ETaxi"),
                 Text(
                   "60.72",
@@ -142,12 +142,12 @@ class _BalanceScreenState extends State<BalanceScreen> {
                 )
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              children: const [
                 Text("Other"),
                 Text(
                   "-20.21",

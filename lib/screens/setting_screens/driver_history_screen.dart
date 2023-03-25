@@ -188,9 +188,9 @@ class _DriveHistoryScreenState extends State<DriveHistoryScreen> {
             ),
           ],
         ),
-        const Column(
+        Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: const [
             Text("₹22",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
             Text("7.2 KM",style: TextStyle(color: Colors.grey,fontSize: 12)),
           ],

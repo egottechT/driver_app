@@ -83,7 +83,7 @@ Widget bottomPanelLayout(Map map, BuildContext context, bool isPickup) {
           children: [
             InkWell(
               onTap: () async {
-                String phoneNumber = "83";
+                String phoneNumber = map["phoneNumber"] ?? "9458942703";
                 Uri calling = Uri.parse('tel:$phoneNumber');
                 await launchUrl(calling);
               },
@@ -110,6 +110,7 @@ Widget bottomPanelLayout(Map map, BuildContext context, bool isPickup) {
                   decoration: InputDecoration(
                       suffixIcon: IconButton(
                           onPressed: () {
+                            uploadChatData(textController.text);
                             textController.text = "";
                           },
                           icon: const Icon(Icons.send)),
