@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:math';
+
+import 'package:driver_app/model/message_model.dart';
 import 'package:driver_app/model/trip_model.dart';
 import 'package:driver_app/model/user_model.dart';
 import 'package:driver_app/provider/user_provider.dart';
@@ -176,12 +178,13 @@ Future<void> checkDataChanges(BuildContext context) async {
       .child(customerKey)
       .onChildAdded
       .listen((event) {
-        if(event.snapshot.key=="cancel_trip"){
-            Map map = event.snapshot.value as Map;
-            String reason = map["reason"];
-            NotificationService().showNotification("Customer has cancelled the ride", "Reason $reason");
-            Navigator.of(context).pop();
-        }
+    if (event.snapshot.key == "cancel_trip") {
+      Map map = event.snapshot.value as Map;
+      String reason = map["reason"];
+      NotificationService().showNotification(
+          "Customer has cancelled the ride", "Reason $reason");
+      Navigator.of(context).pop();
+    }
   });
 }
 
@@ -190,4 +193,30 @@ Future<void> uploadTripStartData() async {
       .child("trips")
       .child(customerKey)
       .update({"tripStarted": true});
+}
+
+Future<void> uploadChatData(String msg) async {
+  databaseReference
+      .child("trips")
+      .child(customerKey)
+      .child("messages")
+      .push()
+      .set({"message": msg, "sender": "driver"});
+}
+
+Future<List<MessageModel>> fetchMessageData() async {
+  List<MessageModel> list = [];
+  await databaseReference
+      .child("trips")
+      .child(customerKey)
+      .child("messages")
+      .once()
+      .then((value) {
+    for (var event in value.snapshot.children) {
+      Map map = event.value as Map;
+      MessageModel model = MessageModel().fromMap(map);
+      list.add(model);
+    }
+  });
+  return list;
 }

@@ -1,3 +1,4 @@
+import 'package:driver_app/Utils/commonData.dart';
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/provider/otp_listener.dart';
 import 'package:driver_app/provider/user_provider.dart';
@@ -20,7 +21,7 @@ void main() async {
   await Firebase.initializeApp();
   await NotificationService().init();
 
-  // Map map = getDummyData();
+  Map map = getDummyData();
   // uploadRatingUser(map,2,"Abhy is not good","Abhay sati");
   runApp(
     MultiProvider(
@@ -37,6 +38,7 @@ void main() async {
         ),
         initialRoute: "splash",
         // home: PickUpScreen(map: map,isPickUp: true,),
+        // home: const MessageScreen(),
       ),
     ),
   );
