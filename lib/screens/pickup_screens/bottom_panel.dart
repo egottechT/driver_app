@@ -1,4 +1,5 @@
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/screens/message_screen.dart';
 import 'package:driver_app/screens/pickup_screens/pick_otp_check.dart';
 import 'package:driver_app/screens/setting_screens/payment_screen.dart';
 import 'package:driver_app/service/database.dart';
@@ -105,20 +106,16 @@ Widget bottomPanelLayout(Map map, BuildContext context, bool isPickup) {
               width: 15,
             ),
             Expanded(
-                child: TextField(
-                  controller: textController,
-                  decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                          onPressed: () {
-                            uploadChatData(textController.text);
-                            textController.text = "";
-                          },
-                          icon: const Icon(Icons.send)),
-                      border: const OutlineInputBorder(),
-                      hintText: "Message your customer..",
-                      hintStyle:
-                      const TextStyle(color: Colors.grey)),
-                ))
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: secondaryColor
+                  ),
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const MessageScreen()));
+              },
+              child: Text("Message your customer.."),
+            ))
           ],
         ),
         ElevatedButton(

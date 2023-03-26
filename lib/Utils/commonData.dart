@@ -98,11 +98,11 @@ void correctCameraAngle(LatLng start, LatLng destination, GoogleMapController co
   );
 }
 
-final ImagePicker _picker = ImagePicker();
 Future<File?> selectImage(context) async{
+  final ImagePicker picker = ImagePicker();
   try{
     final XFile? selectedImg =
-    await _picker.pickImage(source: ImageSource.gallery);
+    await picker.pickImage(source: ImageSource.gallery);
     if (selectedImg == null) {
       return null;
     }

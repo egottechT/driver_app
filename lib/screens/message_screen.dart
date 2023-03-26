@@ -1,3 +1,4 @@
+import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/model/message_model.dart';
 import 'package:driver_app/service/database.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,7 @@ class _MessageScreenState extends State<MessageScreen> {
                   child: ListView.builder(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 itemBuilder: (context, index) {
-                  bool self = (messages[index].sender == "customer");
+                  bool self = (messages[index].sender == "driver");
                   return Align(
                     alignment:
                         self ? Alignment.centerRight : Alignment.centerLeft,
