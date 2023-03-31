@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:driver_app/model/message_model.dart';
+import 'package:driver_app/model/raitng_model.dart';
 import 'package:driver_app/model/trip_model.dart';
 import 'package:driver_app/model/user_model.dart';
 import 'package:driver_app/provider/user_provider.dart';
@@ -138,7 +139,6 @@ Future<void> uploadTripHistory(Map map) async {
 }
 
 Future<List<TripModel>> fetchHistoryTrip() async {
-  Completer<List<TripModel>> completer = Completer();
   List<TripModel> list = [];
   await databaseReference
       .child("driver")
@@ -152,7 +152,7 @@ Future<List<TripModel>> fetchHistoryTrip() async {
       list.add(model);
     }
   });
-  return completer.future;
+  return list;
 }
 
 Future<void> uploadRatingUser(
@@ -162,7 +162,7 @@ Future<void> uploadRatingUser(
       .child(map["id"])
       .child("rating")
       .push()
-      .set({"rating": stars, "description": title, "customerName": name});
+      .set({"rating": stars, "description": title, "customerName": name,"date": DateTime.now()});
 }
 
 Future<void> updateFinishTrip() async {
@@ -215,6 +215,23 @@ Future<List<MessageModel>> fetchMessageData() async {
     for (var event in value.snapshot.children) {
       Map map = event.value as Map;
       MessageModel model = MessageModel().fromMap(map);
+      list.add(model);
+    }
+  });
+  return list;
+}
+
+Future<List<RatingModel>> fetchRatingData() async {
+  List<RatingModel> list = [];
+  await databaseReference
+      .child("driver")
+      .child(FirebaseAuth.instance.currentUser!.uid.toString())
+      .child("rating")
+      .once()
+      .then((value) {
+    for (var event in value.snapshot.children) {
+      Map map = event.value as Map;
+      RatingModel model = RatingModel().fromMap(map);
       list.add(model);
     }
   });

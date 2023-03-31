@@ -20,6 +20,13 @@ class _EarningScreenState extends State<EarningScreen> {
 
   void readData() async {
     List<TripModel> list = await fetchHistoryTrip();
+    // TripModel model = TripModel();
+    // model.dateTime = DateTime.now().toString();
+    // model.price = "200";
+    // model.customerName = "Aryan";
+    // list.add(model);
+    // list.add(model);
+    // list.add(model);
     setState(() {
       tripValue = list;
     });
