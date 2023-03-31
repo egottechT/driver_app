@@ -1,4 +1,3 @@
-import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/model/message_model.dart';
 import 'package:driver_app/service/database.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +17,7 @@ class _MessageScreenState extends State<MessageScreen> {
   void initState() {
     super.initState();
     readData();
+    listenChangeMessages(readData);
   }
 
   @override

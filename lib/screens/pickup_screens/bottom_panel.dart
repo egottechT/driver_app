@@ -114,7 +114,7 @@ Widget bottomPanelLayout(Map map, BuildContext context, bool isPickup) {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => const MessageScreen()));
               },
-              child: Text("Message your customer.."),
+              child: const Text("Message your customer.."),
             ))
           ],
         ),

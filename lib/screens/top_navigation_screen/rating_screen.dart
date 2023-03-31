@@ -72,7 +72,7 @@ class _RatingScreenState extends State<RatingScreen> {
                             trailing: Text(formatDate(ratingList[index].date)),
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: Text(
                                 ratingList[index].description),
                           )
@@ -95,11 +95,12 @@ class _RatingScreenState extends State<RatingScreen> {
         ratingValue[values.rating]++;
         sumRating+=values.rating;
     }
-    for(int i=0;i<ratingValue.length&&sumRating!=0;i++){
-        ratingValue[i] = ratingValue[i]/sumRating;
-    }
-    if(sumRating!=0) {
-      averageRating = (sumRating/ratingList.length).round();
+    if(ratingList.isNotEmpty){
+      int size = ratingList.length;
+      for(int i=0;i<ratingValue.length;i++){
+        ratingValue[i] = ratingValue[i]/size;
+      }
+      averageRating = (sumRating/size).round();
     }
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -112,7 +113,7 @@ class _RatingScreenState extends State<RatingScreen> {
               showRatingBar(averageRating),
               Row(
                 children: [
-                  Icon(Icons.person),
+                  const Icon(Icons.person),
                   Text(ratingList.length.toString()),
                 ],
               )
@@ -122,11 +123,11 @@ class _RatingScreenState extends State<RatingScreen> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ratingProcessBar("5", ratingValue[1].toDouble()),
-            ratingProcessBar("4", ratingValue[2].toDouble()),
-            ratingProcessBar("3", ratingValue[3].toDouble()),
-            ratingProcessBar("2", ratingValue[4].toDouble()),
-            ratingProcessBar("1", ratingValue[5].toDouble()),
+            ratingProcessBar("5", ratingValue[5]),
+            ratingProcessBar("4", ratingValue[4]),
+            ratingProcessBar("3", ratingValue[3]),
+            ratingProcessBar("2", ratingValue[2]),
+            ratingProcessBar("1", ratingValue[1]),
           ],
         )
       ],

@@ -221,6 +221,16 @@ Future<List<MessageModel>> fetchMessageData() async {
   return list;
 }
 
+Future<void> listenChangeMessages(Function readData) async {
+  databaseReference
+      .child("trips")
+      .child(customerKey)
+      .child("messages")
+      .onChildAdded.listen((event) {
+    readData();
+  });
+}
+
 Future<List<RatingModel>> fetchRatingData() async {
   List<RatingModel> list = [];
   await databaseReference
