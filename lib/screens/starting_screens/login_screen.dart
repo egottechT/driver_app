@@ -92,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       style: TextStyle(fontSize: 16),
                                     ),
                                   ),
-                                  ElevatedButton.icon(
+                                  ElevatedButton(
                                     onPressed: () async {
                                       setState(() {
                                         showLoading = true;
@@ -129,18 +129,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                         showLoading = false;
                                       });
                                     },
-                                    icon: Image.asset(
-                                      'assets/icons/google.png',
-                                      scale: 1.5,
-                                    ),
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.black,
+                                      backgroundColor: Colors.white,
                                     ),
-                                    label: const Text(
-                                      "Google",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 18),
-                                    ),
+                                      child: Image.asset(
+                                        "assets/images/google_icon.png",
+                                        height: 30,
+                                      )
                                   ),
                                 ],
                               ),

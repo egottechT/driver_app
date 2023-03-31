@@ -44,7 +44,7 @@ class _PhoneNumberSetupState extends State<PhoneNumberSetup> {
                     child: Column(
                   children: [
                     const SizedBox(
-                      height: 100,
+                      height: 20,
                     ),
                     phoneNumberForm(),
                     const SizedBox(
