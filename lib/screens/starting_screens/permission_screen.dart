@@ -1,6 +1,8 @@
+import 'package:driver_app/Utils/commonData.dart';
 import 'package:driver_app/Utils/constants.dart';
-import 'package:driver_app/screens/setting_screens/car_details_screens/select_vehicle_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class PermissionScreen extends StatefulWidget {
@@ -58,7 +60,7 @@ class _PermissionScreenState extends State<PermissionScreen> {
               onPressed: () async {
                 var contactRequest = await Permission.contacts.request();
                 var locationRequest = await Permission.location.request();
-                if(context.mounted){
+                if (context.mounted) {
                   if (locationRequest.isGranted) {
                     context.showSnackBar(
                         message: "Location Permission is Granted");
@@ -69,12 +71,16 @@ class _PermissionScreenState extends State<PermissionScreen> {
                         message: "Contact Permission is Granted");
                     phone = true;
                   }
-
+                  LocationData currentLocation = await getCurrentLocation();
                   if (location && phone && context.mounted) {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const SelectVehicleScreen(isFromStart: true,)));
+                    Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        "/managementScreen",
+                        arguments: LatLng(currentLocation.latitude as double,
+                            currentLocation.longitude as double),
+                        (route) => false);
                   }
                 }
-
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
               child: const Text("CONTINUE"),

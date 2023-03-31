@@ -1,5 +1,6 @@
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/model/user_model.dart';
+import 'package:driver_app/screens/setting_screens/car_details_screens/select_vehicle_screen.dart';
 import 'package:driver_app/service/database.dart';
 import 'package:driver_app/widgets/phone_number_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -93,7 +94,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           User? result = FirebaseAuth.instance.currentUser;
                           addUserToDatabase(
                               result?.uid.toString() as String, model);
-                          Navigator.of(context).pushNamed("/permissionScreen");
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const SelectVehicleScreen(isFromStart: true,)));
                         }
                       },
                       style:
