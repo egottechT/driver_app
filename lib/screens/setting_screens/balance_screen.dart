@@ -74,10 +74,12 @@ class _BalanceScreenState extends State<BalanceScreen> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        const SizedBox(height: 10,),
         const Text(
           "  Service",
           style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),
         ),
+        const SizedBox(height: 10,),
         Card(
           color: secondaryColor,
           child: Padding(
@@ -210,7 +212,7 @@ class _BalanceScreenState extends State<BalanceScreen> {
             onPressed: () {},
             icon: Icon(
               Icons.home,
-              color: primaryColor,
+              color: secondaryColor,
             ),
             label: const Text(
               "ADD YOUR HOME ADDRESS",
@@ -225,7 +227,7 @@ class _BalanceScreenState extends State<BalanceScreen> {
             onPressed: () {},
             icon: Icon(
               Icons.warehouse_rounded,
-              color: primaryColor,
+              color: secondaryColor,
             ),
             label: const Text(
               "ADD YOUR WORK/OFFICE ADDRESS",

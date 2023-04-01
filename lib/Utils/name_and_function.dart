@@ -74,7 +74,10 @@ List<dynamic> getFunctionList(BuildContext context) {
     },
     () {},
     () {},
-    () {},
+    () async {
+      Uri phoneNumber = Uri.parse('tel:8910045925');
+      await launchUrl(phoneNumber);
+    },
   ];
   return list;
 }

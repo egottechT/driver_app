@@ -33,7 +33,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
       appBar: AppBar(
         title: const Text(
           "Add your Vehicle Details",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white),
         ),
       ),
       body: SingleChildScrollView(
@@ -45,6 +45,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                const SizedBox(height: 20,),
                 Image.asset("assets/images/login_screen.png"),
                 sizeBetweenField(height: 20),
                 detailTextFormField("BRAND",

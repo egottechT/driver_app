@@ -1,5 +1,8 @@
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/model/trip_model.dart';
+import 'package:driver_app/service/database.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class DriveHistoryScreen extends StatefulWidget {
   const DriveHistoryScreen({Key? key}) : super(key: key);
@@ -10,14 +13,31 @@ class DriveHistoryScreen extends StatefulWidget {
 
 class _DriveHistoryScreenState extends State<DriveHistoryScreen> {
   int dateIndex = 0;
+  List<TripModel> tripList = [];
+  List<TripModel> filterList = [];
+  List<String> dateList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    generateDates();
+    readData();
+  }
+
+  void readData() async {
+    tripList = await fetchHistoryTrip();
+    // tripList = addDummyDate();
+    changeInDate();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
         title: const Text(
           "History",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white),
         ),
       ),
       body: Column(
@@ -27,7 +47,7 @@ class _DriveHistoryScreenState extends State<DriveHistoryScreen> {
             height: 10,
           ),
           SizedBox(
-            height: 75,
+            height: 90,
             child: dateSelectionBar(),
           ),
           tripAndMoneyRow(),
@@ -41,15 +61,9 @@ class _DriveHistoryScreenState extends State<DriveHistoryScreen> {
   }
 
   dateSelectionBar() {
-    DateTime now = DateTime.now();
-    String dateOnly = now.getDateOnly();
-    debugPrint(dateOnly.substring(8));
     return ListView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 5),
       itemBuilder: (context, index) {
-        int value = int.parse(dateOnly.substring(8)) - index;
-        String newDate =
-            "${dateOnly.substring(0, 8)}${value.toString().padLeft(2, '0')}";
         return DecoratedBox(
           decoration: BoxDecoration(
               color: dateIndex == index ? secondaryColor : Colors.grey[300],
@@ -58,15 +72,16 @@ class _DriveHistoryScreenState extends State<DriveHistoryScreen> {
             onTap: () {
               setState(() {
                 dateIndex = index;
+                changeInDate();
               });
             },
             child: Card(
               child: Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
                     Text(
-                      changeToDate(newDate),
+                      changeToDate(dateList[index]),
                       style: TextStyle(
                         color:
                             dateIndex == index ? secondaryColor : Colors.black,
@@ -80,12 +95,16 @@ class _DriveHistoryScreenState extends State<DriveHistoryScreen> {
         );
       },
       shrinkWrap: true,
-      itemCount: 20,
+      itemCount: dateList.length,
       scrollDirection: Axis.horizontal,
     );
   }
 
   tripAndMoneyRow() {
+    int moneyEarned = 0;
+    for (var values in filterList) {
+      moneyEarned += int.parse(values.price.substring(1));
+    }
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -95,14 +114,14 @@ class _DriveHistoryScreenState extends State<DriveHistoryScreen> {
               size: 30,
             ),
             "Total Jobs",
-            "10"),
+            filterList.length.toString()),
         cardView(
             const Icon(
               Icons.currency_rupee,
               size: 30,
             ),
             "Earned",
-            "₹325")
+            "₹$moneyEarned")
       ],
     );
   }
@@ -143,6 +162,7 @@ class _DriveHistoryScreenState extends State<DriveHistoryScreen> {
   tripDetailCard() {
     return ListView.builder(
       padding: const EdgeInsets.symmetric(vertical: 5),
+      itemCount: filterList.length,
       itemBuilder: (context, index) {
         return Card(
           elevation: 10,
@@ -151,13 +171,18 @@ class _DriveHistoryScreenState extends State<DriveHistoryScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                profileSection(),
+                profileSection(index),
                 showDivider(),
-                const SizedBox(height: 10,),
-                locationDetail("PICK UP","pick up location is"),
+                const SizedBox(
+                  height: 10,
+                ),
+                locationDetail("PICK UP", filterList[index].pickUpLocation),
                 showDivider(),
-                const SizedBox(height: 10,),
-                locationDetail("DROP OFF","Destination location is"),
+                const SizedBox(
+                  height: 10,
+                ),
+                locationDetail(
+                    "DROP OFF", filterList[index].destinationLocation),
               ],
             ),
           ),
@@ -166,22 +191,32 @@ class _DriveHistoryScreenState extends State<DriveHistoryScreen> {
     );
   }
 
-  profileSection() {
+  profileSection(int index) {
+    String time =
+        DateFormat.jm().format(DateTime.parse(filterList[index].dateTime));
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Row(
           children: [
-            const Icon(Icons.person,size: 40,),
+            const Icon(
+              Icons.person,
+              size: 40,
+            ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text("Name",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),),
+                Text(
+                  filterList[index].customerName,
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
                 Card(
                   color: primaryColor,
-                  child: const Padding(
-                    padding: EdgeInsets.all(5.0),
-                    child: Text("UPI",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 12)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Text(time,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 12)),
                   ),
                 )
               ],
@@ -190,16 +225,18 @@ class _DriveHistoryScreenState extends State<DriveHistoryScreen> {
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Text("₹22",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
-            Text("7.2 KM",style: TextStyle(color: Colors.grey,fontSize: 12)),
+          children: [
+            Text(filterList[index].price,
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            Text("${filterList[index].distance} KM",
+                style: const TextStyle(color: Colors.grey, fontSize: 12)),
           ],
         )
       ],
     );
   }
 
-  showDivider(){
+  showDivider() {
     return Divider(
       color: Colors.grey[300],
       thickness: 2,
@@ -211,9 +248,75 @@ class _DriveHistoryScreenState extends State<DriveHistoryScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title,style: const TextStyle(color: Colors.grey),),
-        Text(value,style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 14)),
+        Text(
+          title,
+          style: const TextStyle(color: Colors.grey),
+        ),
+        Text(value,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
       ],
     );
+  }
+
+  void changeInDate() async {
+    filterList.clear();
+    List<TripModel> list = [];
+    for (var values in tripList) {
+      DateTime dateTime = DateTime.parse(values.dateTime);
+      String formattedDate = changeToDate(dateTime.getDateOnly());
+      String checkDate = changeToDate(dateList[dateIndex]);
+      if (formattedDate.contains(checkDate)) {
+        list.add(values);
+      }
+    }
+    setState(() {
+      filterList = list;
+    });
+  }
+
+  List<TripModel> addDummyDate() {
+    List<TripModel> list = [];
+    TripModel model1 = TripModel();
+    model1.dateTime = DateTime.now().toString();
+    model1.price = "₹200";
+    model1.destinationLocation = "Lower Nehrugram";
+    model1.pickUpLocation = "Clock tower";
+    model1.customerName = "Aryan";
+    model1.distance = 2.2;
+    DateTime currentDate = DateTime.now();
+    model1.dateTime = currentDate.toString();
+    list.add(model1);
+
+    TripModel model2 = TripModel();
+    model2.dateTime = DateTime.now().toString();
+    model2.price = "₹400";
+    model2.destinationLocation = "Lower Nehrugram";
+    model2.pickUpLocation = "Clock tower";
+    model2.customerName = "Shivansh";
+    model2.distance = 2.5;
+    currentDate = currentDate.subtract(const Duration(days: 1));
+    model2.dateTime = currentDate.toString();
+    list.add(model2);
+
+    TripModel model3 = TripModel();
+    model3.dateTime = DateTime.now().toString();
+    model3.price = "₹1500";
+    model3.destinationLocation = "Lower Nehrugram";
+    model3.pickUpLocation = "Clock tower";
+    model3.customerName = "Abhay";
+    model3.distance = 5.2;
+    currentDate = currentDate.subtract(const Duration(days: 1));
+    model3.dateTime = currentDate.toString();
+    list.add(model3);
+
+    return list;
+  }
+
+  void generateDates() {
+    DateTime currentDate = DateTime.now();
+    for (int i = 0; i < 30; i++) {
+      dateList.add(currentDate.getDateOnly());
+      currentDate = currentDate.subtract(const Duration(days: 1));
+    }
   }
 }

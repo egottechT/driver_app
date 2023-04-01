@@ -94,7 +94,7 @@ class _SelectVehicleScreenState extends State<SelectVehicleScreen> {
           backgroundColor: primaryColor,
           iconTheme: const IconThemeData(color: Colors.black),
           title: const Text(
-            "Select Vehicle type",
+            "Select Vehicle Type",
             style: TextStyle(color: Colors.black),
           )),
       body: SingleChildScrollView(
@@ -104,7 +104,7 @@ class _SelectVehicleScreenState extends State<SelectVehicleScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const Text("PLEASE CHOOSE HOW YOU WOULD LIKE TO",
-                  style: TextStyle(color: Colors.black, fontSize: 16)),
+                  style: TextStyle(color: Colors.black, fontSize: 15)),
               const SizedBox(
                 height: 15,
               ),

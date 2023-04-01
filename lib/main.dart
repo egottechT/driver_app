@@ -2,14 +2,14 @@ import 'package:driver_app/Utils/commonData.dart';
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/provider/otp_listener.dart';
 import 'package:driver_app/provider/user_provider.dart';
+import 'package:driver_app/screens/phone_verification_screens/phone_number_setup.dart';
 import 'package:driver_app/screens/screen_management.dart';
 import 'package:driver_app/screens/setting_screens/account_screen.dart';
 import 'package:driver_app/screens/starting_screens/login_screen.dart';
 import 'package:driver_app/screens/starting_screens/permission_screen.dart';
-import 'package:driver_app/screens/unused_screen/home_screen.dart';
-import 'package:driver_app/screens/phone_verification_screens/phone_number_setup.dart';
 import 'package:driver_app/screens/starting_screens/registration_screen.dart';
 import 'package:driver_app/screens/starting_screens/splash_screen.dart';
+import 'package:driver_app/screens/unused_screen/home_screen.dart';
 import 'package:driver_app/screens/unused_screen/profile_screen.dart';
 import 'package:driver_app/service/push_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -37,8 +37,7 @@ void main() async {
           appBarTheme: AppBarTheme(color: secondaryColor),
         ),
         initialRoute: "splash",
-        // home: PickUpScreen(map: map,isPickUp: true,),
-        // home: const MessageScreen(),
+        // home: const SelectVehicleScreen(isFromStart: false,),
       ),
     ),
   );

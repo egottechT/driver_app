@@ -14,7 +14,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool showLoading = false;
 
-  Widget CenterCircularWidget() {
+  Widget centerCircularWidget() {
     return Flexible(
         child: Row(
       children: const [
@@ -42,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               children: [
                 Expanded(
-                    flex: 3,
+                    flex: 2,
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(0, 20, 0, 30),
                       child: Align(
@@ -76,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           height: 25,
                         ),
                         showLoading
-                            ? CenterCircularWidget()
+                            ? centerCircularWidget()
                             : Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [

@@ -42,7 +42,7 @@ class _PerformanceScreenState extends State<PerformanceScreen> {
         child: Column(
           children: [
             Text(
-              "Today $dateOnly}",
+              "Today $dateOnly",
               style: const TextStyle(color: Colors.white, fontSize: 16),
             ),
             spaceBetweenWidget(),
@@ -72,7 +72,7 @@ class _PerformanceScreenState extends State<PerformanceScreen> {
       appBar: AppBar(
         title: const Text(
           "Performance",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white),
         ),
       ),
       body: Padding(

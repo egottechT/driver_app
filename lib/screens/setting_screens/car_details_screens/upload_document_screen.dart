@@ -52,7 +52,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
       appBar: AppBar(
         title: const Text(
           "Upload Documents",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white),
         ),
       ),
       body: SingleChildScrollView(
