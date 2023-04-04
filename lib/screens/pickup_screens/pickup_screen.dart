@@ -43,6 +43,7 @@ class _PickUpScreenState extends State<PickUpScreen> {
     }
     polylinePoints = PolylinePoints();
     checkDataChanges(context);
+    notificationChangeMessages();
   }
 
   void uploadDriverDetails(LocationData currentLocation) async {
@@ -120,7 +121,7 @@ class _PickUpScreenState extends State<PickUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final panelHeightClosed = MediaQuery.of(context).size.height * 0.45;
+    final panelHeightClosed = MediaQuery.of(context).size.height * 0.35;
     final panelHeightOpened = MediaQuery.of(context).size.height * 0.5;
 
     return SafeArea(

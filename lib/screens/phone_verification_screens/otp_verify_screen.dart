@@ -43,7 +43,7 @@ class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
                 child: Column(
               children: [
                 const SizedBox(
-                  height: 100,
+                  height: 25,
                 ),
                 Image.asset("assets/icons/phone.png",scale: 1.5,),
                 const SizedBox(

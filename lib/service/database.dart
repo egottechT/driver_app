@@ -128,6 +128,21 @@ Future<void> uploadDocumentPhoto(String key) async {
       .update({key: true});
 }
 
+Future<void> notificationChangeMessages() async {
+  databaseReference
+      .child("trips")
+      .child(customerKey)
+      .child("messages")
+      .onChildAdded
+      .listen((event) {
+    Map map = event.snapshot.value as Map;
+    if(map['sender']=='customer'){
+
+      NotificationService().showNotification("Message from Customer",map["message"]);
+    }
+  });
+}
+
 Future<void> uploadTripHistory(Map map) async {
   TripModel model = TripModel().convertFromTrip(map);
   await databaseReference
