@@ -6,9 +6,8 @@ import 'package:driver_app/service/database.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-Widget bottomPanelLayout(Map map, BuildContext context, bool isPickup) {
-  TextEditingController textController = TextEditingController();
-
+Widget bottomPanelLayout(
+    Map map, BuildContext context, bool isPickup, String carType) {
   return Container(
     color: Colors.grey[200],
     padding: const EdgeInsets.all(10.0),
@@ -30,7 +29,12 @@ Widget bottomPanelLayout(Map map, BuildContext context, bool isPickup) {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Image.asset("assets/images/car.png"),
+                    Image.asset(
+                      "assets/icons/$carType.png",
+                      width: 100,
+                      height: 50,
+                      fit: BoxFit.contain,
+                    ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -107,9 +111,7 @@ Widget bottomPanelLayout(Map map, BuildContext context, bool isPickup) {
             ),
             Expanded(
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: secondaryColor
-                  ),
+              style: ElevatedButton.styleFrom(backgroundColor: secondaryColor),
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => const MessageScreen()));

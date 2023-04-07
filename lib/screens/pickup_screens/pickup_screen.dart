@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+
 import 'package:driver_app/Utils/commonData.dart';
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/screens/pickup_screens/bottom_panel.dart';
@@ -9,13 +10,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PickUpScreen extends StatefulWidget {
   final Map map;
   final bool isPickUp;
-  const PickUpScreen({Key? key, required this.map,required this.isPickUp}) : super(key: key);
+
+  const PickUpScreen({Key? key, required this.map, required this.isPickUp})
+      : super(key: key);
 
   @override
   State<PickUpScreen> createState() => _PickUpScreenState();
@@ -31,15 +35,26 @@ class _PickUpScreenState extends State<PickUpScreen> {
   late PolylinePoints polylinePoints;
   List<LatLng> polylineCoordinates = [];
   Map<PolylineId, Polyline> polylines = {};
+  late SharedPreferences prefs;
+  String carType = "mini";
+
+  void readData() async {
+    prefs = await SharedPreferences.getInstance();
+    setState(() {
+      carType = prefs.getString("car_type") ?? "mini";
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    if(widget.isPickUp) {
-      destinationLocation = LatLng(widget.map["pick-up"]["lat"].toDouble(), widget.map["pick-up"]["long"].toDouble());
-    }
-    else{
-      destinationLocation = LatLng(widget.map["destination"]["lat"].toDouble(), widget.map["destination"]["long"].toDouble());
+    readData();
+    if (widget.isPickUp) {
+      destinationLocation = LatLng(widget.map["pick-up"]["lat"].toDouble(),
+          widget.map["pick-up"]["long"].toDouble());
+    } else {
+      destinationLocation = LatLng(widget.map["destination"]["lat"].toDouble(),
+          widget.map["destination"]["long"].toDouble());
     }
     polylinePoints = PolylinePoints();
     checkDataChanges(context);
@@ -48,22 +63,25 @@ class _PickUpScreenState extends State<PickUpScreen> {
 
   void uploadDriverDetails(LocationData currentLocation) async {
     debugPrint("Inside function");
-    try{
-        getUserInfo(context,FirebaseAuth.instance.currentUser!.uid.toString(),currentLocation);
-    }
-    catch(e){
-      context.showErrorSnackBar(message: "Sorry, there is some error. Please check you internet connection and try again");
+    try {
+      getUserInfo(context, FirebaseAuth.instance.currentUser!.uid.toString(),
+          currentLocation);
+    } catch (e) {
+      context.showErrorSnackBar(
+          message:
+              "Sorry, there is some error. Please check you internet connection and try again");
       Navigator.of(context).pop();
     }
   }
 
-  void  updateLocationDriver(){
+  void updateLocationDriver() {
     Location location = Location();
     location.onLocationChanged.listen((newLocation) {
-      if(startLocation.longitude != 0) {
-        LatLng value = LatLng(newLocation.latitude as double, newLocation.longitude as double);
-        double distance = calculateDistance(startLocation,value);
-        if(distance>40.0) {
+      if (startLocation.longitude != 0) {
+        LatLng value = LatLng(
+            newLocation.latitude as double, newLocation.longitude as double);
+        double distance = calculateDistance(startLocation, value);
+        if (distance > 40.0) {
           debugPrint("Distance is :- $distance");
           updateLatLng(value);
         }
@@ -76,13 +94,13 @@ class _PickUpScreenState extends State<PickUpScreen> {
     debugPrint("Fetching data");
     Location currentLocation = Location();
     var location = await currentLocation.getLocation();
-    startLocation = LatLng(location.latitude as double, location.longitude as double);
+    startLocation =
+        LatLng(location.latitude as double, location.longitude as double);
     markIcons = await getImages('assets/icons/driver_car.png', 150);
 
     Marker tmpMarker = Marker(
       markerId: const MarkerId("My location"),
-      position: LatLng(
-          (location.latitude!), (location.longitude!)),
+      position: LatLng((location.latitude!), (location.longitude!)),
       infoWindow: const InfoWindow(title: "My Location", snippet: "My car"),
       icon: BitmapDescriptor.fromBytes(markIcons!),
     );
@@ -90,12 +108,13 @@ class _PickUpScreenState extends State<PickUpScreen> {
     setState(() {
       markers.add(tmpMarker);
     });
-    correctCameraAngle(startLocation,destinationLocation,mapController);
-    _createPolylines(startLocation.latitude,startLocation.longitude,destinationLocation.latitude,destinationLocation.longitude);
+    correctCameraAngle(startLocation, destinationLocation, mapController);
+    _createPolylines(startLocation.latitude, startLocation.longitude,
+        destinationLocation.latitude, destinationLocation.longitude);
     return location;
   }
 
-  void _onMapCreated(GoogleMapController controller) async  {
+  void _onMapCreated(GoogleMapController controller) async {
     mapController = controller;
     LocationData currentLocation = await getCurrentLocation();
     uploadDriverDetails(currentLocation);
@@ -109,10 +128,9 @@ class _PickUpScreenState extends State<PickUpScreen> {
     );
 
     setState(() {
-      if(widget.isPickUp) {
+      if (widget.isPickUp) {
         location = widget.map["pick-up"]["location"];
-      }
-      else{
+      } else {
         location = widget.map["destination"]["location"];
       }
       markers.add(strtMarker);
@@ -137,7 +155,8 @@ class _PickUpScreenState extends State<PickUpScreen> {
             resizeToAvoidBottomInset: true,
             body: SlidingUpPanel(
                 panelBuilder: (controller) {
-                  return bottomPanelLayout(widget.map,context,widget.isPickUp);
+                  return bottomPanelLayout(
+                      widget.map, context, widget.isPickUp, carType);
                 },
                 parallaxEnabled: true,
                 parallaxOffset: 0.5,
@@ -197,7 +216,8 @@ class _PickUpScreenState extends State<PickUpScreen> {
                                   flex: 1,
                                   child: InkWell(
                                     onTap: () {
-                                      openMap(destinationLocation.latitude,destinationLocation.longitude);
+                                      openMap(destinationLocation.latitude,
+                                          destinationLocation.longitude);
                                     },
                                     child: Column(
                                       children: [
@@ -232,11 +252,11 @@ class _PickUpScreenState extends State<PickUpScreen> {
   }
 
   Future<void> _createPolylines(
-      double startLatitude,
-      double startLongitude,
-      double destinationLatitude,
-      double destinationLongitude,
-      ) async {
+    double startLatitude,
+    double startLongitude,
+    double destinationLatitude,
+    double destinationLongitude,
+  ) async {
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
       mapApiKey, // Google Maps API Key
       PointLatLng(startLatitude, startLongitude),

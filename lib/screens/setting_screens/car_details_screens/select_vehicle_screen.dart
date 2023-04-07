@@ -1,6 +1,7 @@
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/screens/setting_screens/car_details_screens/car_detail_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SelectVehicleScreen extends StatefulWidget {
   final bool isFromStart;
@@ -16,10 +17,17 @@ class _SelectVehicleScreenState extends State<SelectVehicleScreen> {
   late String miniDesp, microDesp, primeDesp;
   late int clickedIndex;
   late String showText;
+  late SharedPreferences prefs;
+  String carType = "";
+
+  void readData() async {
+    prefs = await SharedPreferences.getInstance();
+  }
 
   @override
   void initState() {
     super.initState();
+    readData();
     clickedIndex = 0;
     miniDesp =
         "You are a commercially insured driver.Your vehicle is a mid-size or full size vehicle that comfortably seats 4 passangers or more.";
@@ -52,14 +60,29 @@ class _SelectVehicleScreenState extends State<SelectVehicleScreen> {
     late String name;
     late Image carIcon;
     if (index == 0) {
-      name = "Micro";
-      carIcon = Image.asset("assets/icons/micro_car.png");
+      name = "Mini";
+      carIcon = Image.asset(
+        "assets/icons/mini.png",
+        width: 100,
+        height: 50,
+        fit: BoxFit.contain,
+      );
     } else if (index == 1) {
-      name = "ETaxi Mini Share";
-      carIcon = Image.asset("assets/icons/mini_car.png");
+      name = "Sedan";
+      carIcon = Image.asset(
+        "assets/icons/sedan.png",
+        width: 100,
+        height: 50,
+        fit: BoxFit.contain,
+      );
     } else {
-      name = "Prime Sedan";
-      carIcon = Image.asset("assets/icons/prime_car.png");
+      name = "SUV";
+      carIcon = Image.asset(
+        "assets/icons/suv.png",
+        width: 100,
+        height: 50,
+        fit: BoxFit.contain,
+      );
     }
     return Card(
       child: Padding(
@@ -131,10 +154,13 @@ class _SelectVehicleScreenState extends State<SelectVehicleScreen> {
                         clickedIndex = index;
                         if (index == 0) {
                           showText = microDesp;
+                          carType = "mini";
                         } else if (index == 1) {
                           showText = miniDesp;
+                          carType = "sedan";
                         } else {
                           showText = primeDesp;
+                          carType = "suv";
                         }
                       });
                     },
@@ -148,6 +174,7 @@ class _SelectVehicleScreenState extends State<SelectVehicleScreen> {
               ),
               ElevatedButton(
                 onPressed: () {
+                  prefs.setString("car_type", carType);
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => CarDetailScreen(
                             isFromStart: widget.isFromStart,
