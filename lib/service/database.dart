@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:driver_app/model/message_model.dart';
@@ -9,6 +10,7 @@ import 'package:driver_app/provider/user_provider.dart';
 import 'package:driver_app/service/push_notifications.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -18,7 +20,7 @@ final databaseReference = FirebaseDatabase(
         databaseURL:
             "https://book-my-etaxi-default-rtdb.asia-southeast1.firebasedatabase.app")
     .ref();
-
+final FirebaseStorage storage = FirebaseStorage.instance;
 String customerKey = "";
 
 Future<void> getUserInformation(BuildContext context, String uid) async {
@@ -136,9 +138,9 @@ Future<void> notificationChangeMessages() async {
       .onChildAdded
       .listen((event) {
     Map map = event.snapshot.value as Map;
-    if(map['sender']=='customer'){
-
-      NotificationService().showNotification("Message from Customer",map["message"]);
+    if (map['sender'] == 'customer') {
+      NotificationService()
+          .showNotification("Message from Customer", map["message"]);
     }
   });
 }
@@ -177,7 +179,12 @@ Future<void> uploadRatingUser(
       .child(map["id"])
       .child("rating")
       .push()
-      .set({"rating": stars, "description": title, "customerName": name,"date": DateTime.now()});
+      .set({
+    "rating": stars,
+    "description": title,
+    "customerName": name,
+    "date": DateTime.now()
+  });
 }
 
 Future<void> updateFinishTrip() async {
@@ -241,7 +248,8 @@ Future<void> listenChangeMessages(Function readData) async {
       .child("trips")
       .child(customerKey)
       .child("messages")
-      .onChildAdded.listen((event) {
+      .onChildAdded
+      .listen((event) {
     readData();
   });
 }
@@ -261,4 +269,24 @@ Future<List<RatingModel>> fetchRatingData() async {
     }
   });
   return list;
+}
+
+Future<void> uploadPhotoToStorage(File file, String name) async {
+  String uid = FirebaseAuth.instance.currentUser!.uid.toString();
+  Reference ref = storage.ref().child('images/$uid/$name.jpg');
+  UploadTask uploadTask = ref.putFile(file);
+  String url= "a";
+  await uploadTask.then((res) async {
+    String downloadURL = await res.ref.getDownloadURL();
+    debugPrint("url:- $downloadURL");
+    url =downloadURL;
+  }).catchError((err) {
+    // Handle the error.
+  });
+
+  await databaseReference
+      .child("driver")
+      .child(FirebaseAuth.instance.currentUser!.uid.toString())
+      .child("urls")
+      .set({name: url});
 }

@@ -27,7 +27,6 @@ extension ShowSnackBar on BuildContext {
 String changeToDate(String date) {
   String? month = date.substring(5,7);
   String dateText = date.substring(8,10);
-  String year = date.substring(0,4);
 
   if(dateText == "01") {
     dateText = "${dateText}st";

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:driver_app/Utils/commonData.dart';
+import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/model/user_model.dart';
 import 'package:driver_app/provider/user_provider.dart';
 import 'package:driver_app/service/database.dart';
@@ -9,7 +10,9 @@ import 'package:provider/provider.dart';
 
 class DocumentDetailScreen extends StatefulWidget {
   String documentName;
-  DocumentDetailScreen({Key? key,required this.documentName}) : super(key: key);
+
+  DocumentDetailScreen({Key? key, required this.documentName})
+      : super(key: key);
 
   @override
   State<DocumentDetailScreen> createState() => _DocumentDetailScreenState();
@@ -17,6 +20,7 @@ class DocumentDetailScreen extends StatefulWidget {
 
 class _DocumentDetailScreenState extends State<DocumentDetailScreen> {
   File? file;
+  bool isLoading = false;
 
   sizeBetweenField({double height = 10}) {
     return SizedBox(
@@ -68,18 +72,38 @@ class _DocumentDetailScreenState extends State<DocumentDetailScreen> {
             const SizedBox(
               height: 10,
             ),
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
-                onPressed: () async {
-                  if(file!=null) {
-                    await uploadDocumentPhoto(widget.documentName);
-                    UserModel model = Provider.of<UserModelProvider>(context,listen: false).data;
-                    model.documents[widget.documentName] = true;
-                    Provider.of<UserModelProvider>(context,listen: false).setData(model);
-                  }
-                  Navigator.of(context).pop();
-                },
-                child: const Text("Continue")),
+            isLoading
+                ? Center(
+                    child: CircularProgressIndicator(
+                      color: secondaryColor,
+                    ),
+                  )
+                : ElevatedButton(
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                    onPressed: () async {
+                      if (file != null) {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        await uploadDocumentPhoto(widget.documentName);
+                        await uploadPhotoToStorage(file!, widget.documentName);
+                        if (context.mounted) {
+                          UserModel model = Provider.of<UserModelProvider>(
+                                  context,
+                                  listen: false)
+                              .data;
+                          model.documents[widget.documentName] = true;
+                          Provider.of<UserModelProvider>(context, listen: false)
+                              .setData(model);
+                        }
+                      }
+                      setState(() {
+                        isLoading = false;
+                      });
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("Continue")),
           ],
         ),
       ),
