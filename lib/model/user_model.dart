@@ -4,6 +4,8 @@ class UserModel {
   String name = "";
   String phoneNumber = "";
   String email = "";
+  String profilePic = "";
+
   Map documents = documentsValue;
   UserModel();
 
@@ -24,6 +26,7 @@ class UserModel {
     documentsValue.forEach((key, value) {
       documents[key] = map["documents"][key];
     });
+    model.profilePic = map["urls"]?["profile_pic"] ?? "";
     return model;
   }
 }

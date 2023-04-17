@@ -3,52 +3,17 @@ import 'package:driver_app/Utils/name_and_function.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-Widget firstCardView(String name, String title) {
-  return Card(
-      elevation: 0,
-      color: Colors.grey[300],
-      child: Row(
-        children: [
-          Column(children: [
-            const SizedBox(
-              height: 10,
-            ),
-            Image.asset("assets/images/profile.png")
-          ]),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                name,
-                style: TextStyle(
-                    color: secondaryColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20),
-              ),
-              Text(
-                title,
-                style: TextStyle(
-                    color: secondaryColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20),
-              ),
-            ],
-          )
-        ],
-      ));
-}
-
 Widget detailTextFormField(String labelText,
     {Icon? icon,
-      TextInputType keyboardType = TextInputType.text,
-      required TextEditingController textEditingController}) {
+    TextInputType keyboardType = TextInputType.text,
+    required TextEditingController textEditingController}) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
     child: TextFormField(
       decoration: InputDecoration(
         labelText: labelText,
         labelStyle:
-        TextStyle(color: secondaryColor, fontWeight: FontWeight.bold),
+            TextStyle(color: secondaryColor, fontWeight: FontWeight.bold),
         filled: true,
         focusColor: secondaryColor,
         focusedBorder: UnderlineInputBorder(
@@ -71,7 +36,7 @@ Widget detailTextFormField(String labelText,
   );
 }
 
-Widget editableRatingBar(onStarChange){
+Widget editableRatingBar(onStarChange) {
   return RatingBar(
       initialRating: 4,
       direction: Axis.horizontal,
@@ -90,15 +55,15 @@ Widget editableRatingBar(onStarChange){
       onRatingUpdate: onStarChange);
 }
 
-Widget showRatingBar(int rating){
+Widget showRatingBar(int rating) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
     children: List.generate(
       5,
-          (index) => Icon(
+      (index) => Icon(
         index < rating ? Icons.star : Icons.star_border,
         color: Colors.orange,
-            size: 25,
+        size: 25,
       ),
     ),
   );

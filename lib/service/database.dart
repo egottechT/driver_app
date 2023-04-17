@@ -288,5 +288,5 @@ Future<void> uploadPhotoToStorage(File file, String name) async {
       .child("driver")
       .child(FirebaseAuth.instance.currentUser!.uid.toString())
       .child("urls")
-      .set({name: url});
+      .update({name: url});
 }

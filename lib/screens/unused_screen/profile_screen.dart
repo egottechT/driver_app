@@ -1,5 +1,4 @@
 import 'package:driver_app/Utils/constants.dart';
-import 'package:driver_app/screens/common_widget.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -34,7 +33,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              firstCardView("Hi $name!",phoneNumber),
+              // firstCardView("Hi $name!",phoneNumber,context),
               const SizedBox(
                 height: 20,
               ),
