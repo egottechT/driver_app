@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 location.latitude as double, location.longitude as double));
         }
       } else {
-      signOut();
+      signOut(context);
       Navigator.of(context).pushReplacementNamed('/loginScreen');
       }
     }

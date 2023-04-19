@@ -48,7 +48,7 @@ List<Pair<String, dynamic>> nameAndFunctionList(BuildContext context) {
           builder: (context) => const HelpAndSupportScreen()));
     }),
     Pair("LogOut", () {
-      signOut();
+      signOut(context);
       Navigator.of(context).pushReplacementNamed('/loginScreen');
     }),
     Pair("Call for Emergency", () async {

@@ -24,7 +24,7 @@ class UserModel {
     model.email = map["email"] ?? "";
     model.name = map["name"] ?? "";
     documentsValue.forEach((key, value) {
-      documents[key] = map["documents"][key];
+      documents[key] = map["documents"][key] ?? false;
     });
     model.profilePic = map["urls"]?["profile_pic"] ?? "";
     return model;

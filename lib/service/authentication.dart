@@ -1,5 +1,7 @@
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/model/user_model.dart';
 import 'package:driver_app/provider/otp_listener.dart';
+import 'package:driver_app/provider/user_provider.dart';
 import 'package:driver_app/screens/phone_verification_screens/otp_verify_screen.dart';
 import 'package:driver_app/service/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,8 +29,9 @@ Future<User?> doGmailLogin() async {
   return null;
 }
 
-Future<void> signOut() async {
+Future<void> signOut(BuildContext context) async {
   final GoogleSignIn googleSignIn = GoogleSignIn();
+  Provider.of<UserModelProvider>(context).setData(UserModel());
   try {
     if (!kIsWeb) {
       await googleSignIn.signOut();
