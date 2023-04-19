@@ -26,9 +26,12 @@ class _MapScreenState extends State<MapScreen> {
   @override
   void initState() {
     super.initState();
-    getUserInformation(context,FirebaseAuth.instance.currentUser!.uid.toString());
+    readData();
   }
 
+  void readData(){
+    getUserInformation(context,FirebaseAuth.instance.currentUser!.uid.toString());
+  }
   void mapSetupWork(LocationData location) async {
     markIcons = await getImages('assets/icons/driver_car.png', 150);
 

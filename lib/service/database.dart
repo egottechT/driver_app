@@ -12,6 +12,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
@@ -24,12 +25,14 @@ final FirebaseStorage storage = FirebaseStorage.instance;
 String customerKey = "";
 
 Future<void> getUserInformation(BuildContext context, String uid) async {
-  databaseReference.child("driver").child(uid).once().then((value) {
+  UserModel model = UserModel();
+  await databaseReference.child("driver").child(uid).once().then((value) {
     Map map = value.snapshot.value as Map;
-    UserModel model = UserModel().getDataFromMap(map);
-    // debugPrint("Data fetching is finished");
-    Provider.of<UserModelProvider>(context, listen: false).setData(model);
+    model = UserModel().getDataFromMap(map);
   });
+  if (context.mounted) {
+    Provider.of<UserModelProvider>(context, listen: false).setData(model);
+  }
 }
 
 Future<void> getUserInfo(
@@ -274,12 +277,13 @@ Future<List<RatingModel>> fetchRatingData() async {
 Future<void> uploadPhotoToStorage(File file, String name) async {
   String uid = FirebaseAuth.instance.currentUser!.uid.toString();
   Reference ref = storage.ref().child('images/$uid/$name.jpg');
-  UploadTask uploadTask = ref.putFile(file);
-  String url= "a";
+  File compressedFile = await compressImage(file);
+  UploadTask uploadTask = ref.putFile(compressedFile);
+  String url = "a";
   await uploadTask.then((res) async {
     String downloadURL = await res.ref.getDownloadURL();
     debugPrint("url:- $downloadURL");
-    url =downloadURL;
+    url = downloadURL;
   }).catchError((err) {
     // Handle the error.
   });
@@ -289,4 +293,12 @@ Future<void> uploadPhotoToStorage(File file, String name) async {
       .child(FirebaseAuth.instance.currentUser!.uid.toString())
       .child("urls")
       .update({name: url});
+}
+
+Future<File> compressImage(File file) async {
+  var result = await FlutterImageCompress.compressWithFile(
+    file.absolute.path,
+    quality: 50,
+  );
+  return File.fromRawPath(result!);
 }

@@ -4,6 +4,7 @@ import 'package:driver_app/screens/setting_screens/car_details_screens/select_ve
 import 'package:driver_app/screens/setting_screens/driver_history_screen.dart';
 import 'package:driver_app/screens/setting_screens/help_and_support_screen.dart';
 import 'package:driver_app/screens/setting_screens/preformance_screen.dart';
+import 'package:driver_app/screens/setting_screens/verify_email_screen.dart';
 import 'package:driver_app/screens/setting_screens/wallet_screen.dart';
 import 'package:driver_app/screens/share_app_earn.dart';
 import 'package:driver_app/screens/starting_screens/registration_screen.dart';
@@ -23,7 +24,10 @@ List<Pair<String, dynamic>> nameAndFunctionList(BuildContext context) {
                 isFromStart: false,
               )));
     }),
-    Pair("Digital KYC Customer Verification", () {}),
+    Pair("Digital KYC Customer Verification", () {
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => const VerifyEmailScreen()));
+    }),
     Pair("Cash Balance", () {
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => const BalanceScreen()));
