@@ -1,5 +1,6 @@
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/Utils/name_and_function.dart';
+import 'package:driver_app/service/database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -67,4 +68,47 @@ Widget showRatingBar(int rating) {
       ),
     ),
   );
+}
+
+void showReferAndBox(
+    context,
+    ) async {
+  TextEditingController controller = TextEditingController();
+  bool isLoading = false;
+  showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(builder: (context, StateSetter changeState) {
+          if (isLoading) {
+            return const Center(
+              child: CircularProgressIndicator(
+                color: Colors.orange,
+              ),
+            );
+          } else {
+            return AlertDialog(
+              title: const Text('Refer and Earn'),
+              content: TextField(
+                controller: controller,
+                decoration: const InputDecoration(hintText: "Enter the referal code"),
+              ),
+              actions: <Widget>[
+                ElevatedButton(
+                  onPressed: () async {
+                    changeState(() {
+                      isLoading = true;
+                    });
+                    await addReferAndEarn(controller.text);
+                    changeState(() {
+                      isLoading = false;
+                    });
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Next'),
+                ),
+              ],
+            );
+          }
+        });
+      });
 }

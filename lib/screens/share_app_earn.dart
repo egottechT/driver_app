@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 
+import 'common_widget.dart';
+
 class ShareAppEarnScreen extends StatefulWidget {
   const ShareAppEarnScreen({Key? key}) : super(key: key);
 
@@ -81,6 +83,14 @@ class _ShareAppEarnScreenState extends State<ShareAppEarnScreen> {
                     style:
                         ElevatedButton.styleFrom(backgroundColor: Colors.black),
                     child: const Text("Share Code"),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      showReferAndBox(context);
+                    },
+                    style:
+                    ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                    child: const Text("Have a referral Code."),
                   )
                 ],
               ),

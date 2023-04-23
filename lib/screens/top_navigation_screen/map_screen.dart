@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+
 import 'package:driver_app/Utils/commonData.dart';
 import 'package:driver_app/service/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -29,9 +30,11 @@ class _MapScreenState extends State<MapScreen> {
     readData();
   }
 
-  void readData(){
-    getUserInformation(context,FirebaseAuth.instance.currentUser!.uid.toString());
+  void readData() {
+    getUserInformation(
+        context, FirebaseAuth.instance.currentUser!.uid.toString());
   }
+
   void mapSetupWork(LocationData location) async {
     markIcons = await getImages('assets/icons/driver_car.png', 150);
 
@@ -59,6 +62,8 @@ class _MapScreenState extends State<MapScreen> {
       onPressed: () async {
         LocationData location = await getCurrentLocation();
         mapSetupWork(location);
+        updateLocationForMe(
+            LatLng(location.latitude as double, location.longitude as double));
         // getDummyData();
       },
       backgroundColor: Colors.white,
@@ -93,21 +98,18 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-            children: <Widget>[
-            GoogleMap(
-              zoomControlsEnabled: false,
-              myLocationButtonEnabled: false,
-              onMapCreated: _onMapCreated,
-              initialCameraPosition: CameraPosition(
-                target: widget.center,
-                zoom: zoomLevel,
-              ),
-              markers: makers, //MARKERS IN MAP
-            ),
-            Positioned(bottom: 25, right: 25, child: buildFAB(context))
-            ]
-        )
-    );
+        body: Stack(children: <Widget>[
+      GoogleMap(
+        zoomControlsEnabled: false,
+        myLocationButtonEnabled: false,
+        onMapCreated: _onMapCreated,
+        initialCameraPosition: CameraPosition(
+          target: widget.center,
+          zoom: zoomLevel,
+        ),
+        markers: makers, //MARKERS IN MAP
+      ),
+      Positioned(bottom: 25, right: 25, child: buildFAB(context))
+    ]));
   }
 }

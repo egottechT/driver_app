@@ -103,6 +103,15 @@ Future<void> updateLatLng(LatLng driver) async {
           .update({"lat": driver.latitude, "long": driver.longitude});
     }
   });
+  updateLocationForMe(driver);
+}
+
+Future<void> updateLocationForMe(LatLng driver) async {
+  databaseReference
+      .child("driver")
+      .child(FirebaseAuth.instance.currentUser!.uid.toString())
+      .child("position")
+      .update({"lat": driver.latitude, "long": driver.longitude});
 }
 
 Future<bool> checkTripOtp(String otp) async {
@@ -301,4 +310,20 @@ Future<File> compressImage(File file) async {
     quality: 50,
   );
   return File.fromRawPath(result!);
+}
+
+Future<void> addReferAndEarn(String uid) async {
+  await databaseReference
+      .child("driver")
+      .child(uid)
+      .once()
+      .then((value) async {
+    if (value.snapshot.exists) {
+      await databaseReference
+          .child("driver")
+          .child(uid)
+          .child("refers")
+          .update({FirebaseAuth.instance.currentUser!.uid.toString(): 1});
+    }
+  });
 }
