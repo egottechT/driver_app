@@ -29,6 +29,7 @@ Future<void> getUserInformation(BuildContext context, String uid) async {
   await databaseReference.child("driver").child(uid).once().then((value) {
     Map map = value.snapshot.value as Map;
     model = UserModel().getDataFromMap(map);
+    model.key = value.snapshot.key.toString();
   });
   if (context.mounted) {
     Provider.of<UserModelProvider>(context, listen: false).setData(model);

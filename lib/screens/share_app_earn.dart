@@ -1,6 +1,9 @@
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/model/user_model.dart';
+import 'package:driver_app/provider/user_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 import 'common_widget.dart';
@@ -14,6 +17,22 @@ class ShareAppEarnScreen extends StatefulWidget {
 
 //share_app.png
 class _ShareAppEarnScreenState extends State<ShareAppEarnScreen> {
+  UserModel userModel = UserModel();
+
+  @override
+  void initState() {
+    super.initState();
+    readData();
+  }
+
+  void readData() async {
+    UserModel model =
+        Provider.of<UserModelProvider>(context, listen: false).data;
+    setState(() {
+      userModel = model;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,11 +82,11 @@ class _ShareAppEarnScreenState extends State<ShareAppEarnScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text("Referral Code"),
+                        children: [
+                          const Text("Referral Code"),
                           Text(
-                            "GPRR1U",
-                            style: TextStyle(
+                            FirebaseAuth.instance.currentUser!.uid.toString().substring(1,6),
+                            style: const TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18),
                           )
                         ],
@@ -86,7 +105,12 @@ class _ShareAppEarnScreenState extends State<ShareAppEarnScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      showReferAndBox(context);
+                      showReferAndBox(context, userModel.referred);
+                      setState(() {
+                        userModel.referred = true;
+                      });
+                      Provider.of<UserModelProvider>(context, listen: false)
+                          .setData(userModel);
                     },
                     style:
                     ElevatedButton.styleFrom(backgroundColor: Colors.black),
