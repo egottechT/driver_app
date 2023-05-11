@@ -6,6 +6,8 @@ class UserModel {
   String email = "";
   String profilePic = "";
   String key = "";
+  String state = "";
+  String franchise = "";
 
   bool referred = false;
   Map documents = documentsValue;
@@ -25,6 +27,8 @@ class UserModel {
     model.phoneNumber = map["phoneNumber"] ?? "";
     model.email = map["email"] ?? "";
     model.name = map["name"] ?? "";
+    model.state = map["state"] ?? "";
+    model.franchise = map["franchise"] ?? "";
     documentsValue.forEach((key, value) {
       documents[key] = map["documents"][key] ?? false;
     });

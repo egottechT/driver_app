@@ -21,6 +21,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   TextEditingController referralController = TextEditingController();
   TextEditingController phoneNumber = TextEditingController();
   String state = "";
+  String franchise = "None";
 
   String? nullValidator(dynamic value) {
     if (value == null || value!.isEmpty) {
@@ -58,7 +59,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         Text.rich(TextSpan(children: [
                           TextSpan(
                             text: "Register Now On ",
-                            style: TextStyle(color: secondaryColor, fontSize: 16),
+                            style:
+                                TextStyle(color: secondaryColor, fontSize: 16),
                           ),
                           TextSpan(
                             text: "BOOK MY ETAXI",
@@ -91,14 +93,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           UserModel model = UserModel();
                           model.name = "${firstName.text} ${lastName.text}";
                           model.phoneNumber = phoneNumber.text;
+                          model.state = state;
+                          model.franchise = franchise;
                           User? result = FirebaseAuth.instance.currentUser;
                           addUserToDatabase(
                               result?.uid.toString() as String, model);
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const SelectVehicleScreen(isFromStart: true,)));
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => const SelectVehicleScreen(
+                                    isFromStart: true,
+                                  )));
                         }
                       },
-                      style:
-                          ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black),
                       child: const Text("Next"),
                     )
                   ],
@@ -172,10 +179,47 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               }
             },
             decoration: const InputDecoration(
-              labelText: 'City You Drive',
+              labelText: 'State You Drive',
             ),
             validator: nullValidator,
           ),
+          const SizedBox(
+            height: 10,
+          ),
+          FutureBuilder(
+              future: fetchData(),
+              builder:
+                  (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator(); // Display a progress indicator while loading
+                }
+                List<String> franchiseList = [];
+                if (snapshot.connectionState == ConnectionState.done) {
+                  franchiseList = snapshot.data ?? [];
+                }
+                franchiseList.add("None");
+                return DropdownButtonFormField(
+                  value: franchise,
+                  items: List.generate(
+                    franchiseList.length,
+                    (index) => DropdownMenuItem(
+                      value: franchiseList[index],
+                      child: Text(franchiseList[index]),
+                    ),
+                  ),
+                  onChanged: (val) {
+                    if (val != null) {
+                      setState(() {
+                        franchise = val;
+                      });
+                    }
+                  },
+                  decoration: const InputDecoration(
+                    labelText: 'Your Franchise',
+                  ),
+                  validator: nullValidator,
+                );
+              }),
           const SizedBox(
             height: 10,
           ),
@@ -208,4 +252,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   TextStyle get _textStyle => const TextStyle(
         fontSize: 16,
       );
+
+  Future<List<String>> fetchData() async {
+    // Simulate an asynchronous operation
+    List<String> list = await getFranchiseData(state.toLowerCase());
+    return list;
+  }
 }

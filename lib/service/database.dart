@@ -314,11 +314,7 @@ Future<File> compressImage(File file) async {
 }
 
 Future<void> addReferAndEarn(String uid) async {
-  await databaseReference
-      .child("driver")
-      .child(uid)
-      .once()
-      .then((value) async {
+  await databaseReference.child("driver").child(uid).once().then((value) async {
     if (value.snapshot.exists) {
       await databaseReference
           .child("driver")
@@ -327,4 +323,22 @@ Future<void> addReferAndEarn(String uid) async {
           .update({FirebaseAuth.instance.currentUser!.uid.toString(): 1});
     }
   });
+}
+
+Future<List<String>> getFranchiseData(String state) async {
+  debugPrint(state);
+  List<String> list = [];
+  await databaseReference
+      .child("state")
+      .child(state)
+      .child("franchise")
+      .once()
+      .then((value) async {
+    if (value.snapshot.exists) {
+      for (var event in value.snapshot.children) {
+        list.add(event.value.toString());
+      }
+    }
+  });
+  return list;
 }
