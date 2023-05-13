@@ -16,12 +16,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await NotificationService().init();
 
   Map map = getDummyData();
+  // uploadFranchiseData();
+  // uploadCityDealerData();
   // uploadRatingUser(map,2,"Abhy is not good","Abhay sati");
   runApp(
     MultiProvider(

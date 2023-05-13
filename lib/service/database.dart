@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:analyzer_plugin/utilities/pair.dart';
 import 'package:driver_app/model/message_model.dart';
 import 'package:driver_app/model/raitng_model.dart';
 import 'package:driver_app/model/trip_model.dart';
@@ -325,18 +326,32 @@ Future<void> addReferAndEarn(String uid) async {
   });
 }
 
-Future<List<String>> getFranchiseData(String state) async {
-  debugPrint(state);
-  List<String> list = [];
+Future<List<Pair<String,String>>> getFranchiseData(String state) async {
+  List<Pair<String,String>> list = [];
   await databaseReference
-      .child("state")
-      .child(state)
       .child("franchise")
       .once()
       .then((value) async {
     if (value.snapshot.exists) {
       for (var event in value.snapshot.children) {
-        list.add(event.value.toString());
+        Map map = event.value as Map;
+        if(map['city_dealer'].toString() == state) {
+          list.add(Pair(map['name'].toString(),event.key.toString()));
+        }
+      }
+    }
+  });
+  return list;
+}
+
+Future<List<Pair<String,String>>> getCityDealerData() async {
+  List<Pair<String,String>> list = [];
+  await databaseReference.child("city_dealer").once().then((value) async {
+    if (value.snapshot.exists) {
+      for (var event in value.snapshot.children) {
+        Map map = event.value as Map;
+        list.add(Pair(map["name"],event.key.toString()));
+
       }
     }
   });

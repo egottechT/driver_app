@@ -1,3 +1,4 @@
+import 'package:analyzer_plugin/utilities/pair.dart';
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/model/user_model.dart';
 import 'package:driver_app/screens/setting_screens/car_details_screens/select_vehicle_screen.dart';
@@ -20,13 +21,21 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   TextEditingController password = TextEditingController();
   TextEditingController referralController = TextEditingController();
   TextEditingController phoneNumber = TextEditingController();
-  String state = "";
+  String state = "None";
   String franchise = "None";
 
   String? nullValidator(dynamic value) {
     if (value == null || value!.isEmpty) {
       return "Some value is required";
     }
+    return null;
+  }
+
+  String? dropDownValidator(dynamic value) {
+    if (value == null || value!.isEmpty) {
+      return "Some value is required";
+    }
+    if (value! == "None") return "Please select any other option";
     return null;
   }
 
@@ -89,7 +98,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     ElevatedButton(
                       onPressed: () {
                         if (_ownerFormKey.currentState!.validate()) {
-                          debugPrint("Inside here");
                           UserModel model = UserModel();
                           model.name = "${firstName.text} ${lastName.text}";
                           model.phoneNumber = phoneNumber.text;
@@ -163,48 +171,64 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           const SizedBox(
             height: 10,
           ),
-          DropdownButtonFormField(
-            items: List.generate(
-              statesOfIndia.length,
-              (index) => DropdownMenuItem(
-                value: statesOfIndia[index],
-                child: Text(statesOfIndia[index]),
-              ),
-            ),
-            onChanged: (val) {
-              if (val != null) {
-                setState(() {
-                  state = val;
-                });
-              }
-            },
-            decoration: const InputDecoration(
-              labelText: 'State You Drive',
-            ),
-            validator: nullValidator,
-          ),
+          FutureBuilder(
+              future: fetchCityDealerData(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<Pair<String, String>>> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator(); // Display a progress indicator while loading
+                }
+                List<Pair<String, String>> cityDealer = [];
+                if (snapshot.connectionState == ConnectionState.done) {
+                  cityDealer = snapshot.data ?? [];
+                }
+                cityDealer.add(Pair("None", "None"));
+                return DropdownButtonFormField(
+                  value: state,
+                  items: List.generate(
+                    cityDealer.length,
+                    (index) => DropdownMenuItem(
+                      value: cityDealer[index].last,
+                      child: Text(cityDealer[index].first),
+                    ),
+                  ),
+                  onChanged: (val) {
+                    if (val != null) {
+                      setState(() {
+                        state = val;
+                        franchise = "None";
+                      });
+                      debugPrint(state);
+                    }
+                  },
+                  decoration: const InputDecoration(
+                    labelText: 'State You Drive',
+                  ),
+                  validator: dropDownValidator,
+                );
+              }),
           const SizedBox(
             height: 10,
           ),
           FutureBuilder(
               future: fetchData(),
-              builder:
-                  (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<Pair<String, String>>> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const CircularProgressIndicator(); // Display a progress indicator while loading
                 }
-                List<String> franchiseList = [];
+                List<Pair<String, String>> franchiseList = [];
                 if (snapshot.connectionState == ConnectionState.done) {
                   franchiseList = snapshot.data ?? [];
                 }
-                franchiseList.add("None");
+                franchiseList.add(Pair("None", "None"));
                 return DropdownButtonFormField(
                   value: franchise,
                   items: List.generate(
                     franchiseList.length,
                     (index) => DropdownMenuItem(
-                      value: franchiseList[index],
-                      child: Text(franchiseList[index]),
+                      value: franchiseList[index].last,
+                      child: Text(franchiseList[index].first),
                     ),
                   ),
                   onChanged: (val) {
@@ -217,7 +241,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   decoration: const InputDecoration(
                     labelText: 'Your Franchise',
                   ),
-                  validator: nullValidator,
+                  validator: dropDownValidator,
                 );
               }),
           const SizedBox(
@@ -253,9 +277,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         fontSize: 16,
       );
 
-  Future<List<String>> fetchData() async {
+  Future<List<Pair<String, String>>> fetchData() async {
     // Simulate an asynchronous operation
-    List<String> list = await getFranchiseData(state.toLowerCase());
+    List<Pair<String, String>> list = await getFranchiseData(state);
+    return list;
+  }
+
+  Future<List<Pair<String, String>>> fetchCityDealerData() async {
+    List<Pair<String, String>> list = await getCityDealerData();
     return list;
   }
 }
