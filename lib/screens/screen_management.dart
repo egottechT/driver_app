@@ -1,11 +1,12 @@
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/screens/setting_screens/account_screen.dart';
 import 'package:driver_app/screens/top_navigation_screen/earning_screen.dart';
 import 'package:driver_app/screens/top_navigation_screen/map_screen.dart';
-import 'package:driver_app/screens/setting_screens/account_screen.dart';
 import 'package:driver_app/screens/top_navigation_screen/rating_screen.dart';
 import 'package:driver_app/service/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ManagementScreen extends StatefulWidget {
   const ManagementScreen({Key? key}) : super(key: key);
@@ -21,8 +22,16 @@ class _ManagementScreen extends State<ManagementScreen> {
   @override
   void initState() {
     super.initState();
+    askPermissions();
     LocalNoticeService().readData(context, changeToggleValue);
   }
+
+  void askPermissions() async {
+    if (await Permission.systemAlertWindow.isDenied) {
+      await Permission.systemAlertWindow.request();
+    }
+  }
+
   Widget searchBarWidget(int index, ImageIcon icon, String text) {
     return InkWell(
       onTap: () {
@@ -47,11 +56,11 @@ class _ManagementScreen extends State<ManagementScreen> {
           ),
           (currentIndex == index)
               ? SizedBox(
-            height: 5,
-            child: Container(
-              color: Colors.white,
-            ),
-          )
+                  height: 5,
+                  child: Container(
+                    color: Colors.white,
+                  ),
+                )
               : Container()
         ],
       ),
@@ -117,16 +126,17 @@ class _ManagementScreen extends State<ManagementScreen> {
                       inactiveTrackColor: Colors.grey.shade400,
                       splashRadius: 50.0,
                       activeThumbImage:
-                      Image.asset("assets/icons/active_button.png").image,
+                          Image.asset("assets/icons/active_button.png").image,
                       // boolean variable value
                       value: toggleValue,
                       // changes the state of the switch
                       onChanged: changeToggleValue,
                     ),
                     toggleValue
-                        ? const Text("Online", style: TextStyle(color: Colors.white))
+                        ? const Text("Online",
+                            style: TextStyle(color: Colors.white))
                         : const Text("offline",
-                        style: TextStyle(color: Colors.white)),
+                            style: TextStyle(color: Colors.white)),
                   ],
                 )),
           ],
@@ -137,13 +147,17 @@ class _ManagementScreen extends State<ManagementScreen> {
   Widget build(BuildContext context) {
     LatLng args = ModalRoute.of(context)!.settings.arguments as LatLng;
 
-    return SafeArea(child: Scaffold(
+    return SafeArea(
+        child: Scaffold(
       body: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           topNavigationBar(),
           [
-            Expanded(child: MapScreen(center: args,)),
+            Expanded(
+                child: MapScreen(
+              center: args,
+            )),
             const Expanded(child: EarningScreen()),
             const Expanded(child: RatingScreen()),
             const Expanded(child: AccountScreen()),
@@ -153,7 +167,7 @@ class _ManagementScreen extends State<ManagementScreen> {
     ));
   }
 
-  void changeToggleValue(value)async {
+  void changeToggleValue(value) async {
     setState(() {
       toggleValue = value;
     });

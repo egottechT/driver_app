@@ -1,5 +1,4 @@
-import 'dart:typed_data';
-
+import 'package:bubble_head/bubble.dart';
 import 'package:driver_app/Utils/commonData.dart';
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/screens/pickup_screens/bottom_panel.dart';
@@ -7,6 +6,7 @@ import 'package:driver_app/service/database.dart';
 import 'package:driver_app/service/location_manager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -25,7 +25,7 @@ class PickUpScreen extends StatefulWidget {
   State<PickUpScreen> createState() => _PickUpScreenState();
 }
 
-class _PickUpScreenState extends State<PickUpScreen> {
+class _PickUpScreenState extends State<PickUpScreen> with WidgetsBindingObserver {
   late GoogleMapController mapController;
   String location = "Pick-up";
   Set<Marker> markers = {};
@@ -48,6 +48,7 @@ class _PickUpScreenState extends State<PickUpScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     readData();
     if (widget.isPickUp) {
       destinationLocation = LatLng(widget.map["pick-up"]["lat"].toDouble(),
@@ -59,6 +60,39 @@ class _PickUpScreenState extends State<PickUpScreen> {
     polylinePoints = PolylinePoints();
     checkDataChanges(context);
     notificationChangeMessages();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    bool inactive = state == AppLifecycleState.inactive;
+    bool paused = state == AppLifecycleState.paused;
+    bool detached = state == AppLifecycleState.detached;
+
+    if (inactive || detached) return;
+
+    if (paused) {
+      startBubbleHead();
+    } else {
+      debugPrint("Close bubble");
+    }
+  }
+
+  final Bubble _bubble = Bubble(showCloseButton: false);
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  Future<void> startBubbleHead() async {
+    try {
+      await _bubble.startBubbleHead();
+    } catch (exception) {
+      debugPrint('Failed to call startBubbleHead ${exception.toString()}');
+    }
   }
 
   void uploadDriverDetails(LocationData currentLocation) async {
@@ -86,7 +120,6 @@ class _PickUpScreenState extends State<PickUpScreen> {
           updateLatLng(value);
         }
       }
-
     });
   }
 
