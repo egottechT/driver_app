@@ -5,13 +5,14 @@ import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/model/user_model.dart';
 import 'package:driver_app/provider/user_provider.dart';
 import 'package:driver_app/service/database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class DocumentDetailScreen extends StatefulWidget {
-  String documentName;
+  final String documentName;
 
-  DocumentDetailScreen({Key? key, required this.documentName})
+  const DocumentDetailScreen({Key? key, required this.documentName})
       : super(key: key);
 
   @override
@@ -21,6 +22,28 @@ class DocumentDetailScreen extends StatefulWidget {
 class _DocumentDetailScreenState extends State<DocumentDetailScreen> {
   File? file;
   bool isLoading = false;
+  String imgUrl = "";
+
+  @override
+  void initState() {
+    super.initState();
+    readData();
+  }
+
+  void readData() async {
+    databaseReference
+        .child("driver")
+        .child(FirebaseAuth.instance.currentUser!.uid.toString())
+        .child("urls")
+        .onValue
+        .listen((event) {
+      Map map = event.snapshot.value as Map;
+      setState(() {
+        imgUrl = map[widget.documentName] ?? "";
+      });
+
+    });
+  }
 
   sizeBetweenField({double height = 10}) {
     return SizedBox(
@@ -44,7 +67,6 @@ class _DocumentDetailScreenState extends State<DocumentDetailScreen> {
               child: file == null
                   ? InkWell(
                       onTap: () async {
-                        //TODO Upload Photo
                         File? img = await selectImage(context);
                         setState(() {
                           file = img;
@@ -52,10 +74,15 @@ class _DocumentDetailScreenState extends State<DocumentDetailScreen> {
                       },
                       child: Column(
                         children: [
-                          Image.asset(
-                            "assets/images/login_screen.png",
-                            scale: 3.0,
-                          ),
+                          imgUrl.isNotEmpty
+                              ? SizedBox(
+                                  height: 125,
+                                  child: Image.network(imgUrl),
+                                )
+                              : Image.asset(
+                                  "assets/images/login_screen.png",
+                                  scale: 3.0,
+                                ),
                           sizeBetweenField(height: 20),
                           const Text(
                             "Upload a photo",

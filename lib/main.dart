@@ -22,7 +22,7 @@ void main() async {
   await Firebase.initializeApp();
   await NotificationService().init();
 
-  Map map = getDummyData();
+  // Map map = getDummyData();
   // uploadFranchiseData();
   // uploadCityDealerData();
   // uploadRatingUser(map,2,"Abhy is not good","Abhay sati");

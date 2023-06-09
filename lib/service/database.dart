@@ -288,8 +288,8 @@ Future<List<RatingModel>> fetchRatingData() async {
 Future<void> uploadPhotoToStorage(File file, String name) async {
   String uid = FirebaseAuth.instance.currentUser!.uid.toString();
   Reference ref = storage.ref().child('images/$uid/$name.jpg');
-  File compressedFile = await compressImage(file);
-  UploadTask uploadTask = ref.putFile(compressedFile);
+  // File compressedFile = await compressImage(file);
+  UploadTask uploadTask = ref.putFile(file);
   String url = "a";
   await uploadTask.then((res) async {
     String downloadURL = await res.ref.getDownloadURL();

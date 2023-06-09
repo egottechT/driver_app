@@ -50,7 +50,7 @@ Map getDummyData(){
     "isFinished": true,
     "id": "9Tae9quZkEREdLErYUqUDmhmegk2"
   };
-  uploadDummyData(map);
+  // uploadDummyData(map);
   return map;
 }
 
