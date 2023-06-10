@@ -76,7 +76,7 @@ Future<void> addDriverInfoInTrip(
   int randomNumber = Random().nextInt(9000) + 1000;
   databaseReference.child("trips").child(customerKey).child("driver_info").set({
     "name": userData.name,
-    "vehicleNumber": "UK4976 (NOT Store)",
+    "vehicleNumber": userData.vehicleNumber,
     "phoneNumber": userData.phoneNumber,
     "rating": "4.6",
     "lat": driverLocation.latitude,
