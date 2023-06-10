@@ -1,7 +1,10 @@
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/model/user_model.dart';
+import 'package:driver_app/provider/user_provider.dart';
 import 'package:driver_app/screens/setting_screens/car_details_screens/car_detail_screen.dart';
+import 'package:driver_app/service/database.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 class SelectVehicleScreen extends StatefulWidget {
   final bool isFromStart;
@@ -17,18 +20,28 @@ class _SelectVehicleScreenState extends State<SelectVehicleScreen> {
   late String miniDesp, microDesp, primeDesp;
   late int clickedIndex;
   late String showText;
-  late SharedPreferences prefs;
   String carType = "";
 
-  void readData() async {
-    prefs = await SharedPreferences.getInstance();
+  void readData() {
+    UserModel model =
+        Provider.of<UserModelProvider>(context, listen: false).data;
+    setState(() {
+      carType = model.carType;
+      if (carType == "sedan") {
+        clickedIndex = 1;
+      } else if (carType == "suv") {
+        clickedIndex = 2;
+      } else {
+        clickedIndex = 0;
+      }
+    });
   }
 
   @override
   void initState() {
     super.initState();
-    readData();
     clickedIndex = 0;
+    readData();
     miniDesp =
         "You are a commercially insured driver.Your vehicle is a mid-size or full size vehicle that comfortably seats 4 passangers or more.";
     primeDesp = miniDesp;
@@ -174,7 +187,7 @@ class _SelectVehicleScreenState extends State<SelectVehicleScreen> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  prefs.setString("car_type", carType);
+                  uploadCarType(carType, context);
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => CarDetailScreen(
                             isFromStart: widget.isFromStart,

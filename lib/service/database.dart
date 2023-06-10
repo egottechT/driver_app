@@ -144,6 +144,30 @@ Future<void> uploadDocumentPhoto(String key) async {
       .update({key: true});
 }
 
+Future<void> uploadCarType(String carType, BuildContext context) async {
+  await databaseReference
+      .child("driver")
+      .child(FirebaseAuth.instance.currentUser!.uid.toString())
+      .child("car_details")
+      .child("car_type")
+      .set(carType);
+
+  await getUserInformation(
+      context, FirebaseAuth.instance.currentUser!.uid.toString());
+}
+
+Future<void> uploadCarDetails(
+    Map<String, dynamic> map, BuildContext context) async {
+  await databaseReference
+      .child("driver")
+      .child(FirebaseAuth.instance.currentUser!.uid.toString())
+      .child("car_details")
+      .update(map);
+
+  await getUserInformation(
+      context, FirebaseAuth.instance.currentUser!.uid.toString());
+}
+
 Future<void> notificationChangeMessages() async {
   databaseReference
       .child("trips")
@@ -326,17 +350,14 @@ Future<void> addReferAndEarn(String uid) async {
   });
 }
 
-Future<List<Pair<String,String>>> getFranchiseData(String state) async {
-  List<Pair<String,String>> list = [];
-  await databaseReference
-      .child("franchise")
-      .once()
-      .then((value) async {
+Future<List<Pair<String, String>>> getFranchiseData(String state) async {
+  List<Pair<String, String>> list = [];
+  await databaseReference.child("franchise").once().then((value) async {
     if (value.snapshot.exists) {
       for (var event in value.snapshot.children) {
         Map map = event.value as Map;
-        if(map['city_dealer'].toString() == state) {
-          list.add(Pair(map['name'].toString(),event.key.toString()));
+        if (map['city_dealer'].toString() == state) {
+          list.add(Pair(map['name'].toString(), event.key.toString()));
         }
       }
     }
@@ -344,14 +365,13 @@ Future<List<Pair<String,String>>> getFranchiseData(String state) async {
   return list;
 }
 
-Future<List<Pair<String,String>>> getCityDealerData() async {
-  List<Pair<String,String>> list = [];
+Future<List<Pair<String, String>>> getCityDealerData() async {
+  List<Pair<String, String>> list = [];
   await databaseReference.child("city_dealer").once().then((value) async {
     if (value.snapshot.exists) {
       for (var event in value.snapshot.children) {
         Map map = event.value as Map;
-        list.add(Pair(map["name"],event.key.toString()));
-
+        list.add(Pair(map["name"], event.key.toString()));
       }
     }
   });

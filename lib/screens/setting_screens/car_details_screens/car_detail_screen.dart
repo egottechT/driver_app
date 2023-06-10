@@ -1,6 +1,11 @@
+import 'package:driver_app/model/user_model.dart';
+import 'package:driver_app/provider/user_provider.dart';
 import 'package:driver_app/screens/common_widget.dart';
 import 'package:driver_app/screens/setting_screens/car_details_screens/upload_document_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../../service/database.dart';
 
 class CarDetailScreen extends StatefulWidget {
   final bool isFromStart;
@@ -20,6 +25,24 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
   TextEditingController colorText = TextEditingController();
   TextEditingController interiorColorText = TextEditingController();
   TextEditingController vehicleNumber = TextEditingController();
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    readData();
+  }
+
+  void readData() {
+    UserModel model =
+        Provider.of<UserModelProvider>(context, listen: false).data;
+    brandText.text = model.carBrand;
+    modelText.text = model.carModel;
+    yearText.text = model.carYear;
+    colorText.text = model.carColor;
+    interiorColorText.text = model.carInteriorColor;
+    vehicleNumber.text = model.vehicleNumber;
+  }
 
   sizeBetweenField({double height = 10}) {
     return SizedBox(
@@ -45,7 +68,9 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: 20,),
+                const SizedBox(
+                  height: 20,
+                ),
                 Image.asset("assets/images/login_screen.png"),
                 sizeBetweenField(height: 20),
                 detailTextFormField("BRAND",
@@ -73,12 +98,29 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                 ElevatedButton(
                     style:
                         ElevatedButton.styleFrom(backgroundColor: Colors.black),
-                    onPressed: () {
+                    onPressed: () async {
                       if (formKey.currentState!.validate()) {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => UploadDocumentScreen(
-                                  isFromStart: widget.isFromStart,
-                                )));
+                        setState(() {
+                          isLoading = true;
+                        });
+                        Map<String, dynamic> map = {
+                          "card_brand": brandText.text,
+                          "car_color": colorText.text,
+                          "car_interior_color": interiorColorText.text,
+                          "car_model": modelText.text,
+                          "car_year": yearText.text,
+                          "vehicle_number": vehicleNumber.text,
+                        };
+                        await uploadCarDetails(map, context);
+                        setState(() {
+                          isLoading = false;
+                        });
+                        if (mounted) {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => UploadDocumentScreen(
+                                    isFromStart: widget.isFromStart,
+                                  )));
+                        }
                       }
                     },
                     child: const Text("Continue")),

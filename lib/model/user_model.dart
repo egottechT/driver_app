@@ -8,9 +8,17 @@ class UserModel {
   String key = "";
   String state = "";
   String franchise = "";
+  String carBrand = "";
+  String carModel = "";
+  String carYear = "";
+  String carColor = "";
+  String carInteriorColor = "";
+  String vehicleNumber = "";
+  String carType = "";
 
   bool referred = false;
   Map documents = documentsValue;
+
   UserModel();
 
   Map<String, dynamic> toMap(UserModel model) {
@@ -34,6 +42,13 @@ class UserModel {
     });
     model.referred = map["referred"] ?? false;
     model.profilePic = map["urls"]?["profile_pic"] ?? "";
+    model.carBrand = map["car_details"]?["card_brand"] ?? "";
+    model.carColor = map["car_details"]?["car_color"] ?? "";
+    model.carInteriorColor = map["car_details"]?["car_interior_color"] ?? "";
+    model.carModel = map["car_details"]?["car_model"] ?? "";
+    model.carYear = map["car_details"]?["car_year"] ?? "";
+    model.vehicleNumber = map["car_details"]?["vehicle_number"] ?? "";
+    model.carType = map["car_details"]?["car_type"] ?? "";
     return model;
   }
 }
