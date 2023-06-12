@@ -89,7 +89,7 @@ class _PickUpScreenState extends State<PickUpScreen> with WidgetsBindingObserver
 
   Future<void> startBubbleHead() async {
     try {
-      await _bubble.startBubbleHead();
+      await _bubble.startBubbleHead(sendAppToBackground: false);
     } catch (exception) {
       debugPrint('Failed to call startBubbleHead ${exception.toString()}');
     }
@@ -248,9 +248,10 @@ class _PickUpScreenState extends State<PickUpScreen> with WidgetsBindingObserver
                               Expanded(
                                   flex: 1,
                                   child: InkWell(
-                                    onTap: () {
-                                      openMap(destinationLocation.latitude,
+                                    onTap: () async {
+                                      await openMap(destinationLocation.latitude,
                                           destinationLocation.longitude);
+                                      startBubbleHead();
                                     },
                                     child: Column(
                                       children: [

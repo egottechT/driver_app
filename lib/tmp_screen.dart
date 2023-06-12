@@ -44,17 +44,17 @@ class _TmpScreenState extends State<TmpScreen> with WidgetsBindingObserver {
     if (inactive || detached) return;
 
     if (paused) {
-      startBubbleHead();
+      // startBubbleHead();
     } else {
       debugPrint("Close bubble");
     }
   }
 
-  final Bubble _bubble = Bubble(showCloseButton: false);
+  final Bubble _bubble = Bubble();
 
   Future<void> startBubbleHead() async {
     try {
-      await _bubble.startBubbleHead();
+      await _bubble.startBubbleHead(sendAppToBackground: false);
     } catch (exception) {
       debugPrint('Failed to call startBubbleHead ${exception.toString()}');
     }
