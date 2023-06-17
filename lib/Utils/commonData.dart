@@ -1,11 +1,10 @@
 import 'dart:io';
+import 'dart:ui' as ui;
 
-import 'package:driver_app/service/database.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
-import 'dart:ui' as ui;
 
 Future<LocationData> getCurrentLocation() async {
   Location currentLocation = Location();
@@ -28,7 +27,7 @@ Map documentsValue = {
   "vehcileAudit": false,
 };
 
-Map getDummyData(){
+Map getDummyData() {
   Map map = {
     "title": "Aryan text",
     "body": "Please Pickup me",
@@ -37,17 +36,17 @@ Map getDummyData(){
       "lat": 30.2939471,
       "long": 78.0578826,
       "location":
-      "Rispana Pull, Dehradun,248001 ,jksdf ajlsdf ajllsadfl fasdfjl, Uttarakhand, India",
+          "Rispana Pull, Dehradun,248001 ,jksdf ajlsdf ajllsadfl fasdfjl, Uttarakhand, India",
     },
     "pick-up": {
-      "location":
-      "73JM+573, Nehrugram, Dehradun, Uttarakhand 248005, India",
-      "lat":30.2803492,
+      "location": "73JM+573, Nehrugram, Dehradun, Uttarakhand 248005, India",
+      "lat": 30.2803492,
       "long": 78.0831859,
     },
     "price": 300,
     "distance": "10.5",
     "isFinished": true,
+    "car": "mini",
     "id": "9Tae9quZkEREdLErYUqUDmhmegk2"
   };
   // uploadDummyData(map);
@@ -64,7 +63,8 @@ Future<Uint8List> getImages(String path, int width) async {
       .asUint8List();
 }
 
-void correctCameraAngle(LatLng start, LatLng destination, GoogleMapController controller) {
+void correctCameraAngle(
+    LatLng start, LatLng destination, GoogleMapController controller) {
   double startLatitude = start.latitude;
   double startLongitude = start.longitude;
   double destinationLatitude = destination.latitude;
@@ -98,18 +98,18 @@ void correctCameraAngle(LatLng start, LatLng destination, GoogleMapController co
   );
 }
 
-Future<File?> selectImage(context) async{
+Future<File?> selectImage(context) async {
   final ImagePicker picker = ImagePicker();
-  try{
+  try {
     final XFile? selectedImg =
-    await picker.pickImage(source: ImageSource.gallery);
+        await picker.pickImage(source: ImageSource.gallery);
     if (selectedImg == null) {
       return null;
     }
     return File(selectedImg.path);
-
-  } on PlatformException catch(error){
-    context.showErrorSnackBar(message: "Can't pick Images !\nError: ${error.message}");
+  } on PlatformException catch (error) {
+    context.showErrorSnackBar(
+        message: "Can't pick Images !\nError: ${error.message}");
   }
   return null;
 }

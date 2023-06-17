@@ -35,7 +35,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     if (value == null || value!.isEmpty) {
       return "Some value is required";
     }
-    if (value! == "None") return "Please select any other option";
+    // if (value! == "None") return "Please select any other option";
     return null;
   }
 

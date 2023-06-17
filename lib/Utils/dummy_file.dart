@@ -1,8 +1,8 @@
 import 'package:firebase_database/firebase_database.dart';
 
 final databaseReference = FirebaseDatabase(
-    databaseURL:
-    "https://book-my-etaxi-default-rtdb.asia-southeast1.firebasedatabase.app")
+        databaseURL:
+            "https://book-my-etaxi-default-rtdb.asia-southeast1.firebasedatabase.app")
     .ref();
 
 Future<void> uploadFranchiseData() async {

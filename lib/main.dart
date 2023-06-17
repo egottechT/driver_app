@@ -1,4 +1,5 @@
-import 'package:driver_app/Utils/commonData.dart';
+import 'dart:isolate';
+
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/provider/otp_listener.dart';
 import 'package:driver_app/provider/user_provider.dart';
@@ -13,18 +14,33 @@ import 'package:driver_app/screens/unused_screen/home_screen.dart';
 import 'package:driver_app/screens/unused_screen/profile_screen.dart';
 import 'package:driver_app/service/push_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await NotificationService().init();
 
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: false);
+    return true;
+  };
+  Isolate.current.addErrorListener(RawReceivePort((pair) async {
+    final List<dynamic> errorAndStacktrace = pair;
+    await FirebaseCrashlytics.instance.recordError(
+      errorAndStacktrace.first,
+      errorAndStacktrace.last,
+      fatal: false,
+    );
+  }).sendPort);
+
   // Map map = getDummyData();
-  // uploadFranchiseData();
-  // uploadCityDealerData();
   // uploadRatingUser(map,2,"Abhy is not good","Abhay sati");
   runApp(
     MultiProvider(
