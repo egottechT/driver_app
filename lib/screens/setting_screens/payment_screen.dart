@@ -2,16 +2,25 @@ import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/screens/review_trip_screen.dart';
 import 'package:driver_app/service/database.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PaymentScreen extends StatefulWidget {
   final Map map;
-  const PaymentScreen({Key? key,required this.map}) : super(key: key);
+
+  const PaymentScreen({Key? key, required this.map}) : super(key: key);
 
   @override
   State<PaymentScreen> createState() => _PaymentScreenState();
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
+  late SharedPreferences prefs;
+
+  @override
+  void initState() {
+    super.initState();
+    readData();
+  }
 
   Widget cardViewLayout(String value, String title) {
     return Column(
@@ -48,15 +57,18 @@ class _PaymentScreenState extends State<PaymentScreen> {
               Container(
                 color: primaryColor,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          cardViewLayout("Rs. ${widget.map["price"]}", "TOTAL FARE"),
-                          cardViewLayout("${widget.map["distance"] ?? "--"} km", "TOTAL DISTANCE"),
+                          cardViewLayout(
+                              "Rs. ${widget.map["price"]}", "TOTAL FARE"),
+                          cardViewLayout("${widget.map["distance"] ?? "--"} km",
+                              "TOTAL DISTANCE"),
                         ],
                       ),
                       const SizedBox(
@@ -81,13 +93,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   children: [
                     Card(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 10),
                         child: locationAddress(),
                       ),
                     ),
                     Card(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 10),
                         child: fareCollectionCard(),
                       ),
                     ),
@@ -100,14 +114,17 @@ class _PaymentScreenState extends State<PaymentScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: ElevatedButton(
               onPressed: () async {
-
                 await uploadTripHistory(widget.map);
-                if(context.mounted) {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ReviewTripScreen(map: widget.map)));
+                if (context.mounted) {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ReviewTripScreen(map: widget.map)));
                 }
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
-              child: const Text("CASH COLLECTED",style: TextStyle(color: Colors.white),),
+              child: const Text(
+                "CASH COLLECTED",
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           )
         ],
@@ -133,7 +150,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   locationAddress() {
-
     String pickUp = widget.map["pick-up"]["location"];
     String destination = widget.map["destination"]["location"];
     return Column(
@@ -177,13 +193,17 @@ class _PaymentScreenState extends State<PaymentScreen> {
             Text(price),
           ],
         ),
-        const SizedBox(height: 5,),
+        const SizedBox(
+          height: 5,
+        ),
         Divider(
           color: secondaryColor,
           height: 5,
           thickness: 2,
         ),
-        const SizedBox(height: 5,),
+        const SizedBox(
+          height: 5,
+        ),
       ],
     );
   }
@@ -200,15 +220,23 @@ class _PaymentScreenState extends State<PaymentScreen> {
           children: [
             Text(
               "Total",
-              style: TextStyle(color: secondaryColor,fontWeight: FontWeight.bold),
+              style:
+                  TextStyle(color: secondaryColor, fontWeight: FontWeight.bold),
             ),
             Text(
               "Rs. ${widget.map["price"]}",
-              style: TextStyle(color: secondaryColor,fontWeight: FontWeight.bold),
+              style:
+                  TextStyle(color: secondaryColor, fontWeight: FontWeight.bold),
             ),
           ],
         ),
       ],
     );
+  }
+
+  void readData() async {
+    prefs = await SharedPreferences.getInstance();
+    prefs.remove("tripId");
+    prefs.remove("isPickUp");
   }
 }

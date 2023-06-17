@@ -25,7 +25,8 @@ class PickUpScreen extends StatefulWidget {
   State<PickUpScreen> createState() => _PickUpScreenState();
 }
 
-class _PickUpScreenState extends State<PickUpScreen> with WidgetsBindingObserver {
+class _PickUpScreenState extends State<PickUpScreen>
+    with WidgetsBindingObserver {
   late GoogleMapController mapController;
   String location = "Pick-up";
   Set<Marker> markers = {};
@@ -40,6 +41,8 @@ class _PickUpScreenState extends State<PickUpScreen> with WidgetsBindingObserver
 
   void readData() async {
     prefs = await SharedPreferences.getInstance();
+    prefs.setBool("isPickUp", widget.isPickUp);
+    prefs.setString("tripId", customerKey);
     setState(() {
       carType = prefs.getString("car_type") ?? "mini";
     });
@@ -118,6 +121,10 @@ class _PickUpScreenState extends State<PickUpScreen> with WidgetsBindingObserver
         if (distance > 40.0) {
           debugPrint("Distance is :- $distance");
           updateLatLng(value);
+
+          double latitude = newLocation.latitude as double;
+          double longitude = newLocation.longitude as double;
+          startLocation = LatLng(latitude, longitude);
         }
       }
     });
@@ -249,7 +256,8 @@ class _PickUpScreenState extends State<PickUpScreen> with WidgetsBindingObserver
                                   flex: 1,
                                   child: InkWell(
                                     onTap: () async {
-                                      await openMap(destinationLocation.latitude,
+                                      await openMap(
+                                          destinationLocation.latitude,
                                           destinationLocation.longitude);
                                       startBubbleHead();
                                     },

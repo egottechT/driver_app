@@ -1,12 +1,14 @@
 import 'dart:typed_data';
 
 import 'package:driver_app/Utils/commonData.dart';
+import 'package:driver_app/screens/pickup_screens/pickup_screen.dart';
 import 'package:driver_app/service/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MapScreen extends StatefulWidget {
   final LatLng center;
@@ -23,6 +25,8 @@ class _MapScreenState extends State<MapScreen> {
   Set<Marker> makers = {};
   Uint8List? markIcons;
   List<dynamic> list = [];
+  late SharedPreferences prefs;
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -30,9 +34,21 @@ class _MapScreenState extends State<MapScreen> {
     readData();
   }
 
-  void readData() {
-    getUserInformation(
+  void readData() async {
+    await getUserInformation(
         context, FirebaseAuth.instance.currentUser!.uid.toString());
+    prefs = await SharedPreferences.getInstance();
+    if (prefs.containsKey("tripId")) {
+      Map data = await findTripUsingId(prefs.getString("tripId") ?? "");
+      bool isPickUp = prefs.getBool("isPickUp") ?? true;
+      if (mounted) {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => PickUpScreen(map: data, isPickUp: isPickUp)));
+      }
+    }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   void mapSetupWork(LocationData location) async {
@@ -98,18 +114,20 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(children: <Widget>[
-      GoogleMap(
-        zoomControlsEnabled: false,
-        myLocationButtonEnabled: false,
-        onMapCreated: _onMapCreated,
-        initialCameraPosition: CameraPosition(
-          target: widget.center,
-          zoom: zoomLevel,
-        ),
-        markers: makers, //MARKERS IN MAP
-      ),
-      Positioned(bottom: 25, right: 25, child: buildFAB(context))
-    ]));
+        body: isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : Stack(children: <Widget>[
+                GoogleMap(
+                  zoomControlsEnabled: false,
+                  myLocationButtonEnabled: false,
+                  onMapCreated: _onMapCreated,
+                  initialCameraPosition: CameraPosition(
+                    target: widget.center,
+                    zoom: zoomLevel,
+                  ),
+                  markers: makers, //MARKERS IN MAP
+                ),
+                Positioned(bottom: 25, right: 25, child: buildFAB(context))
+              ]));
   }
 }

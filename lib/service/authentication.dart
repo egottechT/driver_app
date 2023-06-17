@@ -31,7 +31,7 @@ Future<User?> doGmailLogin() async {
 
 Future<void> signOut(BuildContext context) async {
   final GoogleSignIn googleSignIn = GoogleSignIn();
-  Provider.of<UserModelProvider>(context).setData(UserModel());
+  Provider.of<UserModelProvider>(context,listen: false).setData(UserModel());
   try {
     if (!kIsWeb) {
       await googleSignIn.signOut();

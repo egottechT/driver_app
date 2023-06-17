@@ -377,3 +377,14 @@ Future<List<Pair<String, String>>> getCityDealerData() async {
   });
   return list;
 }
+
+Future<Map> findTripUsingId(String tripId) async {
+  Map data = {};
+  await databaseReference.child('trips').child(tripId).once().then((event) {
+    data = event.snapshot.value as Map;
+    String key = event.snapshot.key.toString();
+    debugPrint(data.toString());
+    customerKey = key;
+  });
+  return data;
+}
