@@ -260,7 +260,7 @@ class LocalNoticeService {
     polylines[id] = polyline;
   }
 
-  Future<void> readData(BuildContext context,Function changeToggleValue) async {
+  Future<void> readData(BuildContext context) async {
     debugPrint("Reading data");
     databaseReference.child('trips').onChildAdded.listen((event) {
       Map map = event.snapshot.value as Map;

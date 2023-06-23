@@ -3,6 +3,7 @@ import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/model/user_model.dart';
 import 'package:driver_app/provider/user_provider.dart';
 import 'package:driver_app/screens/setting_screens/car_details_screens/document_detail_screen.dart';
+import 'package:driver_app/service/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -96,7 +97,8 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
               itemBuilder: (context, index) {
                 return cardViewWithText(index, () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => DocumentDetailScreen(documentName: documentName[index])));
+                      builder: (context) => DocumentDetailScreen(
+                          documentName: documentName[index])));
                 });
               },
               itemCount: items.length,
@@ -107,6 +109,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                 if (widget.isFromStart) {
                   LocationData currentLocation = await getCurrentLocation();
                   if (context.mounted) {
+                    LocalNoticeService.sendNotification = true;
                     Navigator.pushNamedAndRemoveUntil(
                         context,
                         "/managementScreen",
@@ -153,7 +156,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
       list.add(key);
     });
     setState(() {
-        documentName = list;
+      documentName = list;
     });
   }
 }

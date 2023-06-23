@@ -23,7 +23,8 @@ class _ManagementScreen extends State<ManagementScreen> {
   void initState() {
     super.initState();
     askPermissions();
-    LocalNoticeService().readData(context, changeToggleValue);
+    toggleValue = LocalNoticeService.sendNotification;
+    LocalNoticeService().readData(context);
   }
 
   void askPermissions() async {
