@@ -41,7 +41,6 @@ Future<void> getUserInfo(
     BuildContext context, String uid, LocationData currentLocation) async {
   databaseReference.child("driver").child(uid).once().then((value) {
     Map map = value.snapshot.value as Map;
-    // debugPrint("Values :- ${map.toString()}");
     UserModel model = UserModel().getDataFromMap(map);
     addDriverInfoInTrip(
         context,
@@ -74,15 +73,28 @@ Future<void> addDriverInfoInTrip(
     BuildContext context, UserModel userData, LatLng driverLocation) async {
   // debugPrint("Uploading the data");
   int randomNumber = Random().nextInt(9000) + 1000;
-  databaseReference.child("trips").child(customerKey).child("driver_info").set({
-    "name": userData.name,
-    "vehicleNumber": userData.vehicleNumber,
-    "phoneNumber": userData.phoneNumber,
-    "rating": "4.6",
-    "lat": driverLocation.latitude,
-    "long": driverLocation.longitude,
-    "otp": randomNumber,
-    'id': FirebaseAuth.instance.currentUser!.uid.toString()
+  await databaseReference
+      .child("trips")
+      .child(customerKey)
+      .child("driver_info")
+      .once()
+      .then((value) {
+    if (!value.snapshot.exists) {
+      databaseReference
+          .child("trips")
+          .child(customerKey)
+          .child("driver_info")
+          .set({
+        "name": userData.name,
+        "vehicleNumber": userData.vehicleNumber,
+        "phoneNumber": userData.phoneNumber,
+        "rating": "4.6",
+        "lat": driverLocation.latitude,
+        "long": driverLocation.longitude,
+        "otp": randomNumber,
+        'id': FirebaseAuth.instance.currentUser!.uid.toString()
+      });
+    }
   });
 }
 
@@ -221,7 +233,7 @@ Future<void> uploadRatingUser(
     "rating": stars,
     "description": title,
     "customerName": name,
-    "date": DateTime.now()
+    "date": DateTime.now().toString()
   });
 }
 

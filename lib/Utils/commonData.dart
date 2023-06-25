@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui' as ui;
 
+import 'package:driver_app/service/database.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -49,7 +50,7 @@ Map getDummyData() {
     "car": "mini",
     "id": "9Tae9quZkEREdLErYUqUDmhmegk2"
   };
-  // uploadDummyData(map);
+  uploadDummyData(map);
   return map;
 }
 

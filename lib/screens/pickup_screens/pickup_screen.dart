@@ -99,7 +99,7 @@ class _PickUpScreenState extends State<PickUpScreen>
   }
 
   void uploadDriverDetails(LocationData currentLocation) async {
-    debugPrint("Inside function");
+    // debugPrint("Inside function");
     try {
       getUserInfo(context, FirebaseAuth.instance.currentUser!.uid.toString(),
           currentLocation);

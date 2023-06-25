@@ -265,7 +265,6 @@ class LocalNoticeService {
     databaseReference.child('trips').onChildAdded.listen((event) {
       Map map = event.snapshot.value as Map;
       String key = event.snapshot.key.toString();
-      // debugPrint(map.toString());
       if (sendNotification) {
         sendNotification = false;
         customerKey = key;

@@ -17,13 +17,12 @@ class ManagementScreen extends StatefulWidget {
 
 class _ManagementScreen extends State<ManagementScreen> {
   int currentIndex = 0;
-  bool toggleValue = false;
+  bool toggleValue = LocalNoticeService.sendNotification;
 
   @override
   void initState() {
     super.initState();
     askPermissions();
-    toggleValue = LocalNoticeService.sendNotification;
     LocalNoticeService().readData(context);
   }
 

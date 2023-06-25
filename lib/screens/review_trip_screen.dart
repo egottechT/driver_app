@@ -2,13 +2,14 @@ import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/provider/user_provider.dart';
 import 'package:driver_app/screens/common_widget.dart';
 import 'package:driver_app/service/database.dart';
+import 'package:driver_app/service/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ReviewTripScreen extends StatefulWidget {
-  Map map;
+  final Map map;
 
-  ReviewTripScreen({Key? key, required this.map}) : super(key: key);
+  const ReviewTripScreen({Key? key, required this.map}) : super(key: key);
 
   @override
   State<ReviewTripScreen> createState() => _ReviewScreenState();
@@ -97,9 +98,11 @@ class _ReviewScreenState extends State<ReviewTripScreen> {
                                 widget.map,
                                 star,
                                 textEditingController.text,
-                                Provider.of<UserModelProvider>(context,listen: false)
+                                Provider.of<UserModelProvider>(context,
+                                        listen: false)
                                     .data
                                     .name);
+                            LocalNoticeService.sendNotification = true;
                             Navigator.popUntil(context,
                                 ModalRoute.withName('/managementScreen'));
                           },

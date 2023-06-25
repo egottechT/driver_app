@@ -3,12 +3,13 @@ class RatingModel {
   String description = "";
   String customerName = "";
   String date = "";
+
   RatingModel fromMap(Map map) {
     RatingModel model = RatingModel();
     model.rating = map["rating"] ?? 0;
     model.description = map["description"] ?? "";
     model.customerName = map["customerName"] ?? "";
-    model.date = map["date"] ?? DateTime.now();
+    model.date = map["date"] ?? DateTime.now().toString();
     return model;
   }
 

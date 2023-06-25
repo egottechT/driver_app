@@ -78,6 +78,7 @@ class _MapScreenState extends State<MapScreen> {
       onPressed: () async {
         LocationData location = await getCurrentLocation();
         mapSetupWork(location);
+        // Map map = getDummyData();
         updateLocationForMe(
             LatLng(location.latitude as double, location.longitude as double));
         // getDummyData();

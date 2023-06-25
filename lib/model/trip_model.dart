@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class TripModel {
   String pickUpLocation = "";
   String destinationLocation = "";
@@ -22,12 +20,16 @@ class TripModel {
 
   TripModel fromMap(Map map) {
     TripModel model = TripModel();
-    model.pickUpLocation = map["pickUpLocation"];
-    model.destinationLocation = map["destinationLocation"];
-    model.customerName = map["customerName"];
-    model.price = map["price"];
-    model.distance = double.parse(map["distance"]);
-    model.dateTime = map["dateTime"];
+    model.pickUpLocation = map["pickUpLocation"] ?? "";
+    model.destinationLocation = map["destinationLocation"] ?? "";
+    model.customerName = map["customerName"] ?? "";
+    model.price = map["price"].toString() ?? "";
+    try {
+      model.distance = double.parse(map["distance"] ?? "0.0");
+    } catch (e) {
+      model.distance = map["distance"] ?? 0.0;
+    }
+    model.dateTime = map["dateTime"] ?? DateTime.now().toString();
     return model;
   }
 
@@ -36,10 +38,9 @@ class TripModel {
     model.pickUpLocation = map["pick-up"]["location"];
     model.destinationLocation = map["destination"]["location"];
     model.customerName = map["title"];
-    model.price = map["price"];
+    model.price = map["price"].toString();
     model.distance = double.parse(map["distance"]);
     model.dateTime = DateTime.now().toString();
-    debugPrint(model.dateTime);
     return model;
   }
 }

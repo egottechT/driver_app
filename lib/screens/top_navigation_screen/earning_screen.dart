@@ -50,9 +50,11 @@ class _EarningScreenState extends State<EarningScreen> {
             Expanded(
                 child: ListView.builder(
               itemBuilder: (context, index) {
-                DateTime dateTime = DateTime.parse(tripValue[index].dateTime);
-                String time =
-                    "${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}";
+                String time = "";
+                if (tripValue[index].dateTime.isNotEmpty) {
+                  DateTime dateTime = DateTime.parse(tripValue[index].dateTime);
+                  "${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}";
+                }
                 return Card(
                   child: ListTile(
                     leading: const Icon(Icons.person),
@@ -86,7 +88,8 @@ class _EarningScreenState extends State<EarningScreen> {
       children: [
         cardItemView("Rs. $money", "My earning", Colors.green),
         // cardItemView("4Hr 32m", "Spend Time", Colors.blueAccent),
-        cardItemView(tripValue.length.toString(), "Completed Trip", Colors.orange),
+        cardItemView(
+            tripValue.length.toString(), "Completed Trip", Colors.orange),
       ],
     );
   }
