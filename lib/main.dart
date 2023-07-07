@@ -40,8 +40,6 @@ void main() async {
     );
   }).sendPort);
 
-  // Map map = getDummyData();
-  // uploadRatingUser(map,2,"Abhy is not good","Abhay sati");
   runApp(
     MultiProvider(
       providers: [
