@@ -1,4 +1,5 @@
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/screens/pickup_screens/pickup_screen.dart';
 import 'package:driver_app/screens/setting_screens/account_screen.dart';
 import 'package:driver_app/screens/top_navigation_screen/earning_screen.dart';
 import 'package:driver_app/screens/top_navigation_screen/map_screen.dart';
@@ -7,6 +8,9 @@ import 'package:driver_app/service/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../service/database.dart';
 
 class ManagementScreen extends StatefulWidget {
   const ManagementScreen({Key? key}) : super(key: key);
@@ -18,6 +22,8 @@ class ManagementScreen extends StatefulWidget {
 class _ManagementScreen extends State<ManagementScreen> {
   int currentIndex = 0;
   bool toggleValue = LocalNoticeService.sendNotification;
+  late SharedPreferences prefs;
+  bool isShowTripButton = false;
 
   @override
   void initState() {
@@ -29,6 +35,12 @@ class _ManagementScreen extends State<ManagementScreen> {
   void askPermissions() async {
     if (await Permission.systemAlertWindow.isDenied) {
       await Permission.systemAlertWindow.request();
+    }
+    prefs = await SharedPreferences.getInstance();
+    if (prefs.containsKey("tripId")) {
+      setState(() {
+        isShowTripButton = true;
+      });
     }
   }
 
@@ -149,6 +161,23 @@ class _ManagementScreen extends State<ManagementScreen> {
 
     return SafeArea(
         child: Scaffold(
+      floatingActionButton: isShowTripButton
+          ? ElevatedButton(
+              onPressed: () async {
+                Map data =
+                    await findTripUsingId(prefs.getString("tripId") ?? "");
+                bool isPickUp = prefs.getBool("isPickUp") ?? true;
+                if (mounted) {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          PickUpScreen(map: data, isPickUp: isPickUp)));
+                }
+              },
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+              child: Text("Current Booking"),
+            )
+          : SizedBox.shrink(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
       body: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

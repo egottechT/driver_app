@@ -1,14 +1,12 @@
 import 'dart:typed_data';
 
 import 'package:driver_app/Utils/commonData.dart';
-import 'package:driver_app/screens/pickup_screens/pickup_screen.dart';
 import 'package:driver_app/service/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class MapScreen extends StatefulWidget {
   final LatLng center;
@@ -25,7 +23,7 @@ class _MapScreenState extends State<MapScreen> {
   Set<Marker> makers = {};
   Uint8List? markIcons;
   List<dynamic> list = [];
-  late SharedPreferences prefs;
+
   bool isLoading = true;
 
   @override
@@ -37,15 +35,6 @@ class _MapScreenState extends State<MapScreen> {
   void readData() async {
     await getUserInformation(
         context, FirebaseAuth.instance.currentUser!.uid.toString());
-    prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey("tripId")) {
-      Map data = await findTripUsingId(prefs.getString("tripId") ?? "");
-      bool isPickUp = prefs.getBool("isPickUp") ?? true;
-      if (mounted) {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => PickUpScreen(map: data, isPickUp: isPickUp)));
-      }
-    }
     setState(() {
       isLoading = false;
     });
