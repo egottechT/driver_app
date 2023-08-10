@@ -18,6 +18,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,7 +40,7 @@ void main() async {
       fatal: false,
     );
   }).sendPort);
-
+  // setDummyPreferences();
   runApp(
     MultiProvider(
       providers: [
@@ -58,6 +59,12 @@ void main() async {
       ),
     ),
   );
+}
+
+void setDummyPreferences() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setBool("isPickUp", false);
+  prefs.setString("tripId", "-NbFD2IzNa_I6yKtVdF8");
 }
 
 final Map<String, Widget Function(BuildContext)> appPageRoutes = {

@@ -23,7 +23,6 @@ class _ManagementScreen extends State<ManagementScreen> {
   int currentIndex = 0;
   bool toggleValue = LocalNoticeService.sendNotification;
   late SharedPreferences prefs;
-  bool isShowTripButton = false;
 
   @override
   void initState() {
@@ -37,11 +36,6 @@ class _ManagementScreen extends State<ManagementScreen> {
       await Permission.systemAlertWindow.request();
     }
     prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey("tripId")) {
-      setState(() {
-        isShowTripButton = true;
-      });
-    }
   }
 
   Widget searchBarWidget(int index, ImageIcon icon, String text) {
@@ -161,22 +155,24 @@ class _ManagementScreen extends State<ManagementScreen> {
 
     return SafeArea(
         child: Scaffold(
-      floatingActionButton: isShowTripButton
-          ? ElevatedButton(
-              onPressed: () async {
-                Map data =
-                    await findTripUsingId(prefs.getString("tripId") ?? "");
-                bool isPickUp = prefs.getBool("isPickUp") ?? true;
-                if (mounted) {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) =>
-                          PickUpScreen(map: data, isPickUp: isPickUp)));
-                }
-              },
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
-              child: Text("Current Booking"),
-            )
-          : SizedBox.shrink(),
+      floatingActionButton: ElevatedButton(
+        onPressed: () async {
+          if (prefs.containsKey("tripId")) {
+            Map data = await findTripUsingId(prefs.getString("tripId") ?? "");
+            bool isPickUp = prefs.getBool("isPickUp") ?? true;
+            if (mounted) {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) =>
+                      PickUpScreen(map: data, isPickUp: isPickUp)));
+            }
+          } else {
+            context.showErrorSnackBar(
+                message: "Currently there is no going booking");
+          }
+        },
+        style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+        child: const Text("Current Booking"),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
       body: Column(
         mainAxisSize: MainAxisSize.min,
