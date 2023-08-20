@@ -109,7 +109,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                 if (widget.isFromStart) {
                   LocationData currentLocation = await getCurrentLocation();
                   if (context.mounted) {
-                    LocalNoticeService.sendNotification = true;
+                    // LocalNoticeService.sendNotification = true;
                     Navigator.pushNamedAndRemoveUntil(
                         context,
                         "/managementScreen",

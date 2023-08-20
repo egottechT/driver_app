@@ -123,6 +123,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   Widget registrationForm() {
+    // firstName.text = "Aryan";
+    // lastName.text = "Bisht";
+    // phoneNumber.text = "9068616413";
+    // state = "None";
+    // franchise = "None";
+    // password.text = "lasjdfl";
+
     return Form(
       key: _ownerFormKey,
       child: Column(

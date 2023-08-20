@@ -30,7 +30,17 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
   @override
   void initState() {
     super.initState();
+    // testingData();
     readData();
+  }
+
+  void testingData(){
+    brandText.text = "Aryan";
+    modelText.text = "Aryan";
+    yearText.text = "Aryan";
+    colorText.text = "Aryan";
+    interiorColorText.text = "Aryan";
+    vehicleNumber.text = "Aryan";
   }
 
   void readData() {
