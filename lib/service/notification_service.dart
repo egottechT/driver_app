@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
+
 import 'package:driver_app/Utils/commonData.dart';
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/screens/pickup_screens/pickup_screen.dart';
@@ -152,6 +153,7 @@ class LocalNoticeService {
                     style: TextStyle(color: Colors.grey),
                   ),
                   onPressed: () {
+                    sendNotification = true;
                     showing = false;
                     Navigator.of(context).pop();
                   },
@@ -267,7 +269,7 @@ class LocalNoticeService {
       String key = event.snapshot.key.toString();
       if (sendNotification) {
         sendNotification = false;
-        customerKey = key;
+        DatabaseUtils.customerKey = key;
         showNotificationSystem(map, context, key);
       }
     });

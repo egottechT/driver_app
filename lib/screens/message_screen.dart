@@ -17,7 +17,7 @@ class _MessageScreenState extends State<MessageScreen> {
   void initState() {
     super.initState();
     readData();
-    listenChangeMessages(readData);
+    DatabaseUtils().listenChangeMessages(readData);
   }
 
   @override
@@ -71,7 +71,7 @@ class _MessageScreenState extends State<MessageScreen> {
                       decoration: InputDecoration(
                           suffixIcon: IconButton(
                               onPressed: () {
-                                uploadChatData(textController.text);
+                                DatabaseUtils().uploadChatData(textController.text);
                                 textController.text = "";
                                 readData();
                               },
@@ -89,7 +89,7 @@ class _MessageScreenState extends State<MessageScreen> {
   }
 
   void readData() async {
-    List<MessageModel> list = await fetchMessageData();
+    List<MessageModel> list = await DatabaseUtils().fetchMessageData();
     setState(() {
       messages = list;
     });

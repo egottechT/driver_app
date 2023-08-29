@@ -42,7 +42,7 @@ class _PickUpScreenState extends State<PickUpScreen>
   void readData() async {
     prefs = await SharedPreferences.getInstance();
     prefs.setBool("isPickUp", widget.isPickUp);
-    prefs.setString("tripId", customerKey);
+    prefs.setString("tripId", DatabaseUtils.customerKey);
     setState(() {
       carType = prefs.getString("car_type") ?? "mini";
     });
@@ -61,8 +61,8 @@ class _PickUpScreenState extends State<PickUpScreen>
           widget.map["destination"]["long"].toDouble());
     }
     polylinePoints = PolylinePoints();
-    checkDataChanges(context);
-    notificationChangeMessages();
+    DatabaseUtils().checkDataChanges(context);
+    DatabaseUtils().notificationChangeMessages();
   }
 
   @override
@@ -101,7 +101,7 @@ class _PickUpScreenState extends State<PickUpScreen>
   void uploadDriverDetails(LocationData currentLocation) async {
     // debugPrint("Inside function");
     try {
-      getUserInfo(context, FirebaseAuth.instance.currentUser!.uid.toString(),
+      DatabaseUtils().getUserInfo(context, FirebaseAuth.instance.currentUser!.uid.toString(),
           currentLocation);
     } catch (e) {
       context.showErrorSnackBar(
@@ -120,11 +120,26 @@ class _PickUpScreenState extends State<PickUpScreen>
         double distance = calculateDistance(startLocation, value);
         if (distance > 40.0) {
           debugPrint("Distance is :- $distance");
-          updateLatLng(value);
+          DatabaseUtils().updateLatLng(value);
 
           double latitude = newLocation.latitude as double;
           double longitude = newLocation.longitude as double;
           startLocation = LatLng(latitude, longitude);
+        }
+        if (distance > 10.0) {
+          double latitude = newLocation.latitude as double;
+          double longitude = newLocation.longitude as double;
+          Marker tmpMarker = Marker(
+            markerId: const MarkerId("My location"),
+            position: LatLng(latitude, longitude),
+            infoWindow:
+                const InfoWindow(title: "My Location", snippet: "My car"),
+            icon: BitmapDescriptor.fromBytes(markIcons!),
+          );
+
+          setState(() {
+            markers.add(tmpMarker);
+          });
         }
       }
     });

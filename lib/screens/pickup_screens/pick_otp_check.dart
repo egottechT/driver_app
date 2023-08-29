@@ -72,12 +72,12 @@ class _PickOtpScreenState extends State<PickOtpScreen> {
                   setState(() {
                     showLoading = true;
                   });
-                  bool otpCheck = await checkTripOtp(otp);
+                  bool otpCheck = await DatabaseUtils().checkTripOtp(otp);
                   setState(() {
                     showLoading = false;
                   });
                   if (otpCheck) {
-                    uploadTripStartData();
+                    DatabaseUtils().uploadTripStartData();
                     if (context.mounted) {
                       Navigator.of(context)
                         ..pop()

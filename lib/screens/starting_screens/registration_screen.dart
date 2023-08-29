@@ -104,7 +104,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           model.state = state;
                           model.franchise = franchise;
                           User? result = FirebaseAuth.instance.currentUser;
-                          addUserToDatabase(
+                          DatabaseUtils().addUserToDatabase(
                               result?.uid.toString() as String, model);
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => const SelectVehicleScreen(
@@ -286,12 +286,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   Future<List<Pair<String, String>>> fetchData() async {
     // Simulate an asynchronous operation
-    List<Pair<String, String>> list = await getFranchiseData(state);
+    List<Pair<String, String>> list = await DatabaseUtils().getFranchiseData(state);
     return list;
   }
 
   Future<List<Pair<String, String>>> fetchCityDealerData() async {
-    List<Pair<String, String>> list = await getCityDealerData();
+    List<Pair<String, String>> list = await DatabaseUtils().getCityDealerData();
     return list;
   }
 }

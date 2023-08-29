@@ -21,7 +21,7 @@ class _RatingScreenState extends State<RatingScreen> {
   }
 
   void readData() async {
-    List<RatingModel> list = await fetchRatingData();
+    List<RatingModel> list = await DatabaseUtils().fetchRatingData();
     // RatingModel model = RatingModel();
     // model.date = DateTime.now().toString();
     // model.customerName = "Aryan";

@@ -126,7 +126,8 @@ Widget bottomPanelLayout(
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => PickOtpScreen(map: map)));
             } else {
-              await updateFinishTrip();
+              await DatabaseUtils().updateFinishTrip();
+              DatabaseUtils().disposeListener();
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => PaymentScreen(map: map)));
             }

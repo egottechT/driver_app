@@ -94,7 +94,7 @@ class _ReviewScreenState extends State<ReviewTripScreen> {
                           )),
                       ElevatedButton(
                           onPressed: () {
-                            uploadRatingUser(
+                            DatabaseUtils().uploadRatingUser(
                                 widget.map,
                                 star,
                                 textEditingController.text,

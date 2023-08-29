@@ -31,7 +31,7 @@ class _DocumentDetailScreenState extends State<DocumentDetailScreen> {
   }
 
   void readData() async {
-    databaseReference
+    DatabaseUtils().databaseReference
         .child("driver")
         .child(FirebaseAuth.instance.currentUser!.uid.toString())
         .child("urls")
@@ -113,8 +113,8 @@ class _DocumentDetailScreenState extends State<DocumentDetailScreen> {
                         setState(() {
                           isLoading = true;
                         });
-                        await uploadDocumentPhoto(widget.documentName);
-                        await uploadPhotoToStorage(file!, widget.documentName);
+                        await DatabaseUtils().uploadDocumentPhoto(widget.documentName);
+                        await DatabaseUtils().uploadPhotoToStorage(file!, widget.documentName);
                         if (context.mounted) {
                           UserModel model = Provider.of<UserModelProvider>(
                                   context,

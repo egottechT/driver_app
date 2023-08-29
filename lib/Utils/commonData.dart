@@ -50,7 +50,7 @@ Map getDummyData() {
     "car": "mini",
     "id": "9Tae9quZkEREdLErYUqUDmhmegk2"
   };
-  uploadDummyData(map);
+  DatabaseUtils().uploadDummyData(map);
   return map;
 }
 

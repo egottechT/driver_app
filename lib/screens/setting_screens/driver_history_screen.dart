@@ -25,7 +25,7 @@ class _DriveHistoryScreenState extends State<DriveHistoryScreen> {
   }
 
   void readData() async {
-    tripList = await fetchHistoryTrip();
+    tripList = await DatabaseUtils().fetchHistoryTrip();
     // tripList = addDummyDate();
     changeInDate();
   }

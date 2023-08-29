@@ -78,7 +78,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     setState(() {
                       imgFile = img;
                     });
-                    uploadPhotoToStorage(img, "profile_pic");
+                    DatabaseUtils().uploadPhotoToStorage(img, "profile_pic");
                   }
                 },
                 child: CircleAvatar(

@@ -114,7 +114,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: ElevatedButton(
               onPressed: () async {
-                await uploadTripHistory(widget.map);
+                await DatabaseUtils().uploadTripHistory(widget.map);
                 if (context.mounted) {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => ReviewTripScreen(map: widget.map)));

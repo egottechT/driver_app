@@ -99,7 +99,7 @@ void showReferAndBox(context, bool isReferAlready) async {
                     changeState(() {
                       isLoading = true;
                     });
-                    await addReferAndEarn(controller.text);
+                    await DatabaseUtils().addReferAndEarn(controller.text);
                     changeState(() {
                       isLoading = false;
                     });

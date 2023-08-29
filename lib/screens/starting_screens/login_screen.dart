@@ -101,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         User? result = await doGmailLogin();
                                         if (result != null) {
                                           bool isExist =
-                                              await checkDatabaseForUser(
+                                              await DatabaseUtils().checkDatabaseForUser(
                                                   result.uid.toString());
                                           if (context.mounted) {
                                             if (isExist) {

@@ -121,7 +121,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                           "car_year": yearText.text,
                           "vehicle_number": vehicleNumber.text,
                         };
-                        await uploadCarDetails(map, context);
+                        await DatabaseUtils().uploadCarDetails(map, context);
                         setState(() {
                           isLoading = false;
                         });

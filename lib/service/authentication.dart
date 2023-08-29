@@ -70,7 +70,7 @@ Future<void> checkOTP(String smsCode,BuildContext context) async {
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
         verificationId: verificationCode, smsCode: smsCode);
     await _auth.signInWithCredential(credential).then((dynamic result) async {
-      bool isExist = await checkDatabaseForUser(result.user.uid.toString());
+      bool isExist = await DatabaseUtils().checkDatabaseForUser(result.user.uid.toString());
       if (context.mounted) {
         if (isExist) {
           Navigator.of(context).pushNamed("/permissionScreen");

@@ -33,7 +33,7 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   void readData() async {
-    await getUserInformation(
+    await DatabaseUtils().getUserInformation(
         context, FirebaseAuth.instance.currentUser!.uid.toString());
     setState(() {
       isLoading = false;
@@ -68,7 +68,7 @@ class _MapScreenState extends State<MapScreen> {
         LocationData location = await getCurrentLocation();
         mapSetupWork(location);
         // Map map = getDummyData();
-        updateLocationForMe(
+        DatabaseUtils().updateLocationForMe(
             LatLng(location.latitude as double, location.longitude as double));
         // getDummyData();
       },

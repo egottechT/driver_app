@@ -187,7 +187,7 @@ class _SelectVehicleScreenState extends State<SelectVehicleScreen> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  uploadCarType(carType, context);
+                  DatabaseUtils().uploadCarType(carType, context);
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => CarDetailScreen(
                             isFromStart: widget.isFromStart,
