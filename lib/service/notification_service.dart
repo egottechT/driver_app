@@ -3,7 +3,7 @@ import 'dart:typed_data';
 
 import 'package:driver_app/Utils/commonData.dart';
 import 'package:driver_app/Utils/constants.dart';
-import 'package:driver_app/screens/pickup_screens/pickup_screen.dart';
+import 'package:driver_app/screens/pickup_screens/status_check_screen.dart';
 import 'package:driver_app/service/database.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -165,11 +165,11 @@ class LocalNoticeService {
                     "ACCEPT",
                     style: TextStyle(color: Colors.black),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
                     debugPrint("Accept clicked");
                     showing = false;
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => PickUpScreen(
+                        builder: (context) => StatusCheckScreen(
                               map: map,
                               isPickUp: true,
                             )));

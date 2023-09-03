@@ -108,17 +108,30 @@ class DatabaseUtils {
     });
   }
 
+  Future<bool> checkAlreadyDriver() async {
+    bool exist = false;
+    await databaseReference
+        .child("trips")
+        .child(customerKey)
+        .child("driver_info")
+        .once()
+        .then((event) {
+      exist = event.snapshot.exists;
+    });
+    return exist;
+  }
+
   Future<void> updateLatLng(LatLng driver) async {
     if (customerKey.isEmpty) {
       return;
     }
 
-    driverInfoListener = databaseReference
+    databaseReference
         .child("trips")
         .child(customerKey)
         .child("driver_info")
-        .onValue
-        .listen((event) {
+        .once()
+        .then((event) {
       if (event.snapshot.exists) {
         databaseReference
             .child("trips")
