@@ -72,21 +72,25 @@ class _PickOtpScreenState extends State<PickOtpScreen> {
                   setState(() {
                     showLoading = true;
                   });
-                  bool otpCheck = await DatabaseUtils().checkTripOtp(otp);
+                  String otpCheck = await DatabaseUtils().checkTripOtp(otp);
                   setState(() {
                     showLoading = false;
                   });
-                  if (otpCheck) {
+                  if (otpCheck == "true") {
                     DatabaseUtils().uploadTripStartData();
                     if (context.mounted) {
                       Navigator.of(context)
                         ..pop()
                         ..pop();
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => PickUpScreen(map: widget.map,isPickUp: false)));
+                          builder: (context) =>
+                              PickUpScreen(map: widget.map, isPickUp: false)));
                     }
-                  }
-                  else{
+                  } else if (otpCheck == "done") {
+                    context.showErrorSnackBar(
+                        message:
+                            "This ride is already taken by some other driver.");
+                  } else {
                     context.showErrorSnackBar(message: "OTP is wrong");
                   }
                 }

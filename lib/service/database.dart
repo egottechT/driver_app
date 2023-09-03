@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:analyzer_plugin/utilities/pair.dart';
+import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/model/message_model.dart';
 import 'package:driver_app/model/raitng_model.dart';
 import 'package:driver_app/model/trip_model.dart';
@@ -33,6 +34,10 @@ class DatabaseUtils {
   Future<void> getUserInformation(BuildContext context, String uid) async {
     UserModel model = UserModel();
     await databaseReference.child("driver").child(uid).once().then((value) {
+      if (value.snapshot.value == null) {
+        context.showErrorSnackBar(message: "Please log-out and Log-in again");
+        return;
+      }
       Map map = value.snapshot.value as Map;
       model = UserModel().getDataFromMap(map);
       model.key = value.snapshot.key.toString();
@@ -133,20 +138,21 @@ class DatabaseUtils {
         .update({"lat": driver.latitude, "long": driver.longitude});
   }
 
-  Future<bool> checkTripOtp(String otp) async {
-    Completer<bool> completer = Completer();
-    // debugPrint("Checking otp");
-    databaseReference
+  Future<String> checkTripOtp(String otp) async {
+    String status = "false";
+
+    await databaseReference
         .child("trips")
         .child(customerKey)
         .child("driver_info")
         .once()
         .then((value) {
       Map map = value.snapshot.value as Map;
-      // debugPrint(((map["otp"] ?? 0) == otp).toString());
-      completer.complete((map["otp"] ?? 0).toString() == otp);
+      String code = (map["otp"] ?? 0).toString();
+      status = (code == otp) ? "true" : "false";
+      status = map["applied"] ?? status;
     });
-    return completer.future;
+    return status;
   }
 
   Future<void> uploadDummyData(Map map) async {
@@ -270,6 +276,11 @@ class DatabaseUtils {
         .child("trips")
         .child(customerKey)
         .update({"tripStarted": true});
+    databaseReference
+        .child("trips")
+        .child(customerKey)
+        .child("driver_info")
+        .update({"applied": "done"});
   }
 
   Future<void> uploadChatData(String msg) async {
