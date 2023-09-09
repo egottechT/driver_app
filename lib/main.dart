@@ -24,7 +24,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await NotificationService().init();
-
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
 
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;

@@ -109,14 +109,16 @@ class _PhoneNumberSetupState extends State<PhoneNumberSetup> {
                   });
                 },
               ),
-        const SizedBox(height: 25,),
-        Text("Find your account details or changed Number?",
+        const SizedBox(
+          height: 25,
+        ),
+        Text(
+          "Find your account details or changed Number?",
           textAlign: TextAlign.left,
           style: TextStyle(
-            fontSize: 16,
+              fontSize: 16,
               decoration: TextDecoration.underline,
-              color: secondaryColor
-          ),
+              color: secondaryColor),
         )
       ],
     );

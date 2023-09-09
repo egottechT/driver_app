@@ -5,6 +5,7 @@ import 'package:driver_app/Utils/commonData.dart';
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/screens/pickup_screens/status_check_screen.dart';
 import 'package:driver_app/service/database.dart';
+import 'package:driver_app/service/location_manager.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_beep/flutter_beep.dart';
@@ -35,6 +36,10 @@ class LocalNoticeService {
     var start = await getCurrentLocation();
 
     final travelTime = await calculateTravelTime(start, destination);
+    final double distance = calculateDistance(start, destination) / 1000.0;
+    if (distance > 2.5) {
+      return;
+    }
     String totalTime = formatDuration(travelTime);
     // String totalTime = "5 im";
     await _createPolylines(start.latitude, start.longitude,

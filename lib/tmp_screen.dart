@@ -11,8 +11,6 @@ class TmpScreen extends StatefulWidget {
 }
 
 class _TmpScreenState extends State<TmpScreen> with WidgetsBindingObserver {
-
-
   @override
   void initState() {
     super.initState();

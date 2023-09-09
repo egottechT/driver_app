@@ -13,8 +13,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String phoneNumber = "+91 94589 42703";
   String email = "aryanbisht@gmail.com";
 
-
-
   ButtonStyle buttonStyle = ElevatedButton.styleFrom(
     backgroundColor: Colors.white,
   );

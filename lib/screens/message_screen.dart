@@ -71,7 +71,8 @@ class _MessageScreenState extends State<MessageScreen> {
                       decoration: InputDecoration(
                           suffixIcon: IconButton(
                               onPressed: () {
-                                DatabaseUtils().uploadChatData(textController.text);
+                                DatabaseUtils()
+                                    .uploadChatData(textController.text);
                                 textController.text = "";
                                 readData();
                               },

@@ -9,14 +9,16 @@ extension ShowSnackBar on BuildContext {
     required String message,
     Color backgroundColor = Colors.green,
   }) {
-    ScaffoldMessenger.of(this)..removeCurrentSnackBar()..showSnackBar(SnackBar(
-      content: Text(
-        message,
-        style: const TextStyle(color: Colors.white),
-        maxLines: 2,
-      ),
-      backgroundColor: backgroundColor,
-    ));
+    ScaffoldMessenger.of(this)
+      ..removeCurrentSnackBar()
+      ..showSnackBar(SnackBar(
+        content: Text(
+          message,
+          style: const TextStyle(color: Colors.white),
+          maxLines: 2,
+        ),
+        backgroundColor: backgroundColor,
+      ));
   }
 
   void showErrorSnackBar({required String message}) {
@@ -25,14 +27,14 @@ extension ShowSnackBar on BuildContext {
 }
 
 String changeToDate(String date) {
-  String? month = date.substring(5,7);
-  String dateText = date.substring(8,10);
+  String? month = date.substring(5, 7);
+  String dateText = date.substring(8, 10);
 
-  if(dateText == "01") {
+  if (dateText == "01") {
     dateText = "${dateText}st";
-  } else if(dateText == "02") {
+  } else if (dateText == "02") {
     dateText = "${dateText}nd";
-  } else if(dateText == "03") {
+  } else if (dateText == "03") {
     dateText = "${dateText}rd";
   } else {
     dateText = "${dateText}th";
@@ -57,8 +59,8 @@ Map<String, String> numberToMonth = {
 };
 
 extension MyDateExtension on DateTime {
-  String getDateOnly(){
-    return "$year-${month.toString().padLeft(2,'0')}-${day.toString().padLeft(2,'0')}";
+  String getDateOnly() {
+    return "$year-${month.toString().padLeft(2, '0')}-${day.toString().padLeft(2, '0')}";
   }
 }
 

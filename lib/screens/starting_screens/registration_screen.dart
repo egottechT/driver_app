@@ -286,7 +286,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   Future<List<Pair<String, String>>> fetchData() async {
     // Simulate an asynchronous operation
-    List<Pair<String, String>> list = await DatabaseUtils().getFranchiseData(state);
+    List<Pair<String, String>> list =
+        await DatabaseUtils().getFranchiseData(state);
     return list;
   }
 

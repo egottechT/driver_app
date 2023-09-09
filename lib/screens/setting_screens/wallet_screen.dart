@@ -28,8 +28,13 @@ class _WalletScreenState extends State<WalletScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text("₹ 502.00",style: TextStyle(fontSize: 25,color: Colors.black),),
-                  SizedBox(height: 10,),
+                  Text(
+                    "₹ 502.00",
+                    style: TextStyle(fontSize: 25, color: Colors.black),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Text("Total Earn"),
                 ],
               ),
@@ -41,10 +46,10 @@ class _WalletScreenState extends State<WalletScreen> {
           ),
           Expanded(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Card(
-                  elevation: 10,
-            child: ListView.builder(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Card(
+              elevation: 10,
+              child: ListView.builder(
                 itemBuilder: (context, index) {
                   return const ListTile(
                     leading: Icon(Icons.currency_rupee),
@@ -54,9 +59,9 @@ class _WalletScreenState extends State<WalletScreen> {
                   );
                 },
                 shrinkWrap: true,
+              ),
             ),
-          ),
-              ))
+          ))
         ],
       ),
     );

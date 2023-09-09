@@ -1,4 +1,3 @@
-
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/provider/otp_listener.dart';
 import 'package:driver_app/service/authentication.dart';
@@ -16,7 +15,7 @@ class OTPVerifyScreen extends StatefulWidget {
 }
 
 class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
-  TextEditingController controller= TextEditingController();
+  TextEditingController controller = TextEditingController();
   String otp = "";
   bool showLoading = false;
 
@@ -32,7 +31,10 @@ class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
         iconTheme: const IconThemeData(
           color: Colors.black, // <-- SEE HERE
         ),
-        title: const Text("Verify Mobile",style: TextStyle(color: Colors.black),),
+        title: const Text(
+          "Verify Mobile",
+          style: TextStyle(color: Colors.black),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
@@ -45,7 +47,10 @@ class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
                 const SizedBox(
                   height: 25,
                 ),
-                Image.asset("assets/icons/phone.png",scale: 1.5,),
+                Image.asset(
+                  "assets/icons/phone.png",
+                  scale: 1.5,
+                ),
                 const SizedBox(
                   height: 15,
                 ),
@@ -92,7 +97,8 @@ class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
               children: [
                 TextButton(
                     onPressed: () {
-                      Navigator.of(context).pushReplacementNamed("/phoneNumberSetup");
+                      Navigator.of(context)
+                          .pushReplacementNamed("/phoneNumberSetup");
                     },
                     child: const Text(
                       "Change Number",

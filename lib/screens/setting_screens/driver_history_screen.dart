@@ -208,7 +208,8 @@ class _DriveHistoryScreenState extends State<DriveHistoryScreen> {
               children: [
                 Text(
                   filterList[index].customerName,
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 16),
                 ),
                 Card(
                   color: primaryColor,
@@ -227,7 +228,8 @@ class _DriveHistoryScreenState extends State<DriveHistoryScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(filterList[index].price,
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
             Text("${filterList[index].distance} KM",
                 style: const TextStyle(color: Colors.grey, fontSize: 12)),
           ],

@@ -158,7 +158,8 @@ class _ManagementScreen extends State<ManagementScreen> {
       floatingActionButton: ElevatedButton(
         onPressed: () async {
           if (prefs.containsKey("tripId")) {
-            Map data = await DatabaseUtils().findTripUsingId(prefs.getString("tripId") ?? "");
+            Map data = await DatabaseUtils()
+                .findTripUsingId(prefs.getString("tripId") ?? "");
             bool isPickUp = prefs.getBool("isPickUp") ?? true;
             if (mounted) {
               Navigator.of(context).push(MaterialPageRoute(

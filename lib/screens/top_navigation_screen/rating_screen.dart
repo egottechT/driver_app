@@ -63,7 +63,9 @@ class _RatingScreenState extends State<RatingScreen> {
                               children: List.generate(
                                 5,
                                 (starIndex) => Icon(
-                                  starIndex < ratingList[index].rating ? Icons.star : Icons.star_border,
+                                  starIndex < ratingList[index].rating
+                                      ? Icons.star
+                                      : Icons.star_border,
                                   color: Colors.orange,
                                   size: 15,
                                 ),
@@ -73,8 +75,7 @@ class _RatingScreenState extends State<RatingScreen> {
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Text(
-                                ratingList[index].description),
+                            child: Text(ratingList[index].description),
                           )
                         ],
                       ),
@@ -91,22 +92,22 @@ class _RatingScreenState extends State<RatingScreen> {
     int averageRating = 0;
     int sumRating = 0;
     List<double> ratingValue = List.generate(6, (index) => 0.0);
-    for(var values in ratingList){
-        ratingValue[values.rating]++;
-        sumRating+=values.rating;
+    for (var values in ratingList) {
+      ratingValue[values.rating]++;
+      sumRating += values.rating;
     }
-    if(ratingList.isNotEmpty){
+    if (ratingList.isNotEmpty) {
       int size = ratingList.length;
-      for(int i=0;i<ratingValue.length;i++){
-        ratingValue[i] = ratingValue[i]/size;
+      for (int i = 0; i < ratingValue.length; i++) {
+        ratingValue[i] = ratingValue[i] / size;
       }
-      averageRating = (sumRating/size).round();
+      averageRating = (sumRating / size).round();
     }
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 30),
+          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 30),
           child: Column(
             children: [
               Text(averageRating.toString()),

@@ -85,7 +85,9 @@ class _ShareAppEarnScreenState extends State<ShareAppEarnScreen> {
                         children: [
                           const Text("Referral Code"),
                           Text(
-                            FirebaseAuth.instance.currentUser!.uid.toString().substring(1,6),
+                            FirebaseAuth.instance.currentUser!.uid
+                                .toString()
+                                .substring(1, 6),
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18),
                           )
@@ -95,7 +97,8 @@ class _ShareAppEarnScreenState extends State<ShareAppEarnScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      String referral = FirebaseAuth.instance.currentUser!.uid.toString();
+                      String referral =
+                          FirebaseAuth.instance.currentUser!.uid.toString();
                       Share.share(referral,
                           subject: 'Share your referral Code');
                     },
@@ -113,7 +116,7 @@ class _ShareAppEarnScreenState extends State<ShareAppEarnScreen> {
                           .setData(userModel);
                     },
                     style:
-                    ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                        ElevatedButton.styleFrom(backgroundColor: Colors.black),
                     child: const Text("Have a referral Code."),
                   )
                 ],

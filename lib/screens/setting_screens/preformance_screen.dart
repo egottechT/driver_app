@@ -11,20 +11,46 @@ class PerformanceScreen extends StatefulWidget {
 }
 
 class _PerformanceScreenState extends State<PerformanceScreen> {
-  List<Pair<String,Icon>> items = [
-    Pair("Your Balance Details",Icon(Icons.storefront_outlined,color: secondaryColor,)),
-    Pair("Booking History & Earning Details",Icon(Icons.book_outlined,color: secondaryColor,)),
-    Pair("Refer and Earn",Icon(Icons.group,color: secondaryColor,)),
-    Pair("Rewards and Incentives",Icon(Icons.stacked_line_chart_rounded,color: secondaryColor,)),
-    Pair("Contact Partner Support,If any Query?",Icon(Icons.call,color: secondaryColor,)),
+  List<Pair<String, Icon>> items = [
+    Pair(
+        "Your Balance Details",
+        Icon(
+          Icons.storefront_outlined,
+          color: secondaryColor,
+        )),
+    Pair(
+        "Booking History & Earning Details",
+        Icon(
+          Icons.book_outlined,
+          color: secondaryColor,
+        )),
+    Pair(
+        "Refer and Earn",
+        Icon(
+          Icons.group,
+          color: secondaryColor,
+        )),
+    Pair(
+        "Rewards and Incentives",
+        Icon(
+          Icons.stacked_line_chart_rounded,
+          color: secondaryColor,
+        )),
+    Pair(
+        "Contact Partner Support,If any Query?",
+        Icon(
+          Icons.call,
+          color: secondaryColor,
+        )),
   ];
   late List<dynamic> functionList;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     functionList = getFunctionList(context);
   }
+
   spaceBetweenWidget({double height = 10}) {
     return SizedBox(
       height: height,
@@ -66,7 +92,6 @@ class _PerformanceScreenState extends State<PerformanceScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
@@ -85,13 +110,15 @@ class _PerformanceScreenState extends State<PerformanceScreen> {
               spaceBetweenWidget(height: 20),
               secondCardView(),
               spaceBetweenWidget(height: 30),
-              ListView.builder(itemBuilder: (context,index){
-
-                return cardViewWithText(items[index].first,functionList[index],items[index].last);
-              },
-              shrinkWrap: true,
-              primary: false,
-              itemCount: items.length,)
+              ListView.builder(
+                itemBuilder: (context, index) {
+                  return cardViewWithText(items[index].first,
+                      functionList[index], items[index].last);
+                },
+                shrinkWrap: true,
+                primary: false,
+                itemCount: items.length,
+              )
             ],
           ),
         ),
@@ -104,36 +131,43 @@ class _PerformanceScreenState extends State<PerformanceScreen> {
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 5),
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 5),
         child: Row(
           children: [
-            Expanded(flex: 2,child: Text(
-              "Your balance manage here, you can take more rides/trips to automatically make a payment",
-              style: TextStyle(overflow: TextOverflow.clip,color: secondaryColor),
-            )),
-            Expanded(flex: 1,child: ElevatedButton(
-              onPressed: (){},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: secondaryColor
-              ),
-              child: Text("Pay ₹$price"),
-            )),
+            Expanded(
+                flex: 2,
+                child: Text(
+                  "Your balance manage here, you can take more rides/trips to automatically make a payment",
+                  style: TextStyle(
+                      overflow: TextOverflow.clip, color: secondaryColor),
+                )),
+            Expanded(
+                flex: 1,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style:
+                      ElevatedButton.styleFrom(backgroundColor: secondaryColor),
+                  child: Text("Pay ₹$price"),
+                )),
           ],
         ),
       ),
     );
   }
 
-  Widget cardViewWithText(String title, dynamic onTap,Icon icon) {
+  Widget cardViewWithText(String title, dynamic onTap, Icon icon) {
     return GestureDetector(
         onTap: onTap,
         child: Card(
           child: ListTile(
-            leading:  Icon(
+            leading: Icon(
               Icons.keyboard_arrow_right,
               color: secondaryColor,
             ),
-            title: Text(title,style: TextStyle(color: secondaryColor),),
+            title: Text(
+              title,
+              style: TextStyle(color: secondaryColor),
+            ),
             trailing: icon,
           ),
         ));

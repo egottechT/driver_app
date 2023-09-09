@@ -152,14 +152,19 @@ class _HelpAndSupportScreenState extends State<HelpAndSupportScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             carDetailRow(),
-            const Text("SEP 16,2023",style: TextStyle(fontSize: 15),),
-            const SizedBox(height: 10,),
+            const Text(
+              "SEP 16,2023",
+              style: TextStyle(fontSize: 15),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                detailSectionOfRid("Distance","Time Status","10.00 Km"),
-                detailSectionOfRid("Ride","Time","11.00 AM"),
-                detailSectionOfRid("Admin","Bill Details","Rs. 400"),
+                detailSectionOfRid("Distance", "Time Status", "10.00 Km"),
+                detailSectionOfRid("Ride", "Time", "11.00 AM"),
+                detailSectionOfRid("Admin", "Bill Details", "Rs. 400"),
               ],
             )
           ],
@@ -183,7 +188,9 @@ class _HelpAndSupportScreenState extends State<HelpAndSupportScreen> {
             Text(
               "Mini Share",
               style: TextStyle(
-                  color: secondaryColor, fontSize: 16, fontWeight: FontWeight.bold),
+                  color: secondaryColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold),
             ),
           ],
         )
@@ -195,12 +202,20 @@ class _HelpAndSupportScreenState extends State<HelpAndSupportScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title,
+        Text(
+          title,
           style: TextStyle(
-            color: secondaryColor, fontSize: 16, ),),
-        const SizedBox(height: 5,),
+            color: secondaryColor,
+            fontSize: 16,
+          ),
+        ),
+        const SizedBox(
+          height: 5,
+        ),
         Text(name),
-        const SizedBox(height: 5,),
+        const SizedBox(
+          height: 5,
+        ),
         Text(value),
       ],
     );

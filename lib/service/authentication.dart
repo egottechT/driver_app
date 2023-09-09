@@ -31,7 +31,7 @@ Future<User?> doGmailLogin() async {
 
 Future<void> signOut(BuildContext context) async {
   final GoogleSignIn googleSignIn = GoogleSignIn();
-  Provider.of<UserModelProvider>(context,listen: false).setData(UserModel());
+  Provider.of<UserModelProvider>(context, listen: false).setData(UserModel());
   try {
     if (!kIsWeb) {
       await googleSignIn.signOut();
@@ -50,13 +50,18 @@ Future<void> signInWithPhoneNumber(String number, BuildContext context) async {
   await _auth.verifyPhoneNumber(
     phoneNumber: number,
     verificationCompleted: (PhoneAuthCredential credential) async {
-      Provider.of<OtpProvider>(context,listen: false).setString(credential.smsCode.toString());
+      Provider.of<OtpProvider>(context, listen: false)
+          .setString(credential.smsCode.toString());
     },
     verificationFailed: (FirebaseAuthException e) {
       debugPrint("verification failed ${e.code}");
     },
     codeSent: (String verificationId, int? resendToken) async {
-      Navigator.push(context,MaterialPageRoute(builder: (BuildContext context)=> OTPVerifyScreen(phoneNumber: number)));
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  OTPVerifyScreen(phoneNumber: number)));
       verificationCode = verificationId;
     },
     codeAutoRetrievalTimeout: (String verificationId) {
@@ -65,22 +70,22 @@ Future<void> signInWithPhoneNumber(String number, BuildContext context) async {
   );
 }
 
-Future<void> checkOTP(String smsCode,BuildContext context) async {
-  try{
+Future<void> checkOTP(String smsCode, BuildContext context) async {
+  try {
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
         verificationId: verificationCode, smsCode: smsCode);
     await _auth.signInWithCredential(credential).then((dynamic result) async {
-      bool isExist = await DatabaseUtils().checkDatabaseForUser(result.user.uid.toString());
+      bool isExist = await DatabaseUtils()
+          .checkDatabaseForUser(result.user.uid.toString());
       if (context.mounted) {
         if (isExist) {
           Navigator.of(context).pushNamed("/permissionScreen");
-        }
-        else {
+        } else {
           Navigator.of(context).pushReplacementNamed("/registrationScreen");
         }
       }
     });
-  }catch(e){
+  } catch (e) {
     debugPrint("Error is:- $e");
     context.showErrorSnackBar(message: "Please enter correct OTP");
   }

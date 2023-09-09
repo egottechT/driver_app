@@ -34,7 +34,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
     readData();
   }
 
-  void testingData(){
+  void testingData() {
     brandText.text = "Aryan";
     modelText.text = "Aryan";
     yearText.text = "Aryan";

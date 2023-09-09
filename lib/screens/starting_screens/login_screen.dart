@@ -93,50 +93,49 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                   ),
                                   ElevatedButton(
-                                    onPressed: () async {
-                                      setState(() {
-                                        showLoading = true;
-                                      });
-                                      try {
-                                        User? result = await doGmailLogin();
-                                        if (result != null) {
-                                          bool isExist =
-                                              await DatabaseUtils().checkDatabaseForUser(
-                                                  result.uid.toString());
-                                          if (context.mounted) {
-                                            if (isExist) {
-                                              Navigator.of(context).pushNamed(
-                                                  "/permissionScreen");
-                                            } else {
-                                              Navigator.of(context).pushNamed(
-                                                  "/registrationScreen");
+                                      onPressed: () async {
+                                        setState(() {
+                                          showLoading = true;
+                                        });
+                                        try {
+                                          User? result = await doGmailLogin();
+                                          if (result != null) {
+                                            bool isExist = await DatabaseUtils()
+                                                .checkDatabaseForUser(
+                                                    result.uid.toString());
+                                            if (context.mounted) {
+                                              if (isExist) {
+                                                Navigator.of(context).pushNamed(
+                                                    "/permissionScreen");
+                                              } else {
+                                                Navigator.of(context).pushNamed(
+                                                    "/registrationScreen");
+                                              }
+                                            }
+                                          } else {
+                                            if (context.mounted) {
+                                              context.showErrorSnackBar(
+                                                  message:
+                                                      "There is some error while LogIn. Please try again later");
                                             }
                                           }
-                                        } else {
-                                          if (context.mounted) {
-                                            context.showErrorSnackBar(
-                                                message:
-                                                    "There is some error while LogIn. Please try again later");
-                                          }
+                                        } catch (e) {
+                                          debugPrint("Some error occured $e");
+                                          context.showErrorSnackBar(
+                                              message:
+                                                  "There is some error while LogIn. Please try again later");
                                         }
-                                      } catch (e) {
-                                        debugPrint("Some error occured $e");
-                                        context.showErrorSnackBar(
-                                            message:
-                                                "There is some error while LogIn. Please try again later");
-                                      }
-                                      setState(() {
-                                        showLoading = false;
-                                      });
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.white,
-                                    ),
+                                        setState(() {
+                                          showLoading = false;
+                                        });
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.white,
+                                      ),
                                       child: Image.asset(
                                         "assets/images/google_icon.png",
                                         height: 30,
-                                      )
-                                  ),
+                                      )),
                                 ],
                               ),
                         const SizedBox(

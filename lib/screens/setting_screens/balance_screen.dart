@@ -74,12 +74,16 @@ class _BalanceScreenState extends State<BalanceScreen> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 10,),
+        const SizedBox(
+          height: 10,
+        ),
         const Text(
           "  Service",
-          style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
         ),
-        const SizedBox(height: 10,),
+        const SizedBox(
+          height: 10,
+        ),
         Card(
           color: secondaryColor,
           child: Padding(
@@ -95,11 +99,13 @@ class _BalanceScreenState extends State<BalanceScreen> {
                 Expanded(
                   flex: 1,
                   child: serviceRowListItem(
-                      Icon(Icons.send_outlined, color: secondaryColor), "Send Money"),
+                      Icon(Icons.send_outlined, color: secondaryColor),
+                      "Send Money"),
                 ),
                 Expanded(
                   flex: 1,
-                  child: serviceRowListItem(Icon(Icons.receipt_long, color: secondaryColor),
+                  child: serviceRowListItem(
+                      Icon(Icons.receipt_long, color: secondaryColor),
                       "Bill payment"),
                 ),
                 Expanded(
@@ -209,36 +215,32 @@ class _BalanceScreenState extends State<BalanceScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           ElevatedButton.icon(
-            onPressed: () {},
-            icon: Icon(
-              Icons.home,
-              color: secondaryColor,
-            ),
-            label: const Text(
-              "ADD YOUR HOME ADDRESS",
-              style: TextStyle(color: Colors.black,),
-            ),
+              onPressed: () {},
+              icon: Icon(
+                Icons.home,
+                color: secondaryColor,
+              ),
+              label: const Text(
+                "ADD YOUR HOME ADDRESS",
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                elevation: 0
-              )
-          ),
+                  backgroundColor: Colors.white, elevation: 0)),
           ElevatedButton.icon(
-            onPressed: () {},
-            icon: Icon(
-              Icons.warehouse_rounded,
-              color: secondaryColor,
-            ),
-            label: const Text(
-              "ADD YOUR WORK/OFFICE ADDRESS",
-              textAlign: TextAlign.left,
-              style: TextStyle(color: Colors.black),
-            ),
+              onPressed: () {},
+              icon: Icon(
+                Icons.warehouse_rounded,
+                color: secondaryColor,
+              ),
+              label: const Text(
+                "ADD YOUR WORK/OFFICE ADDRESS",
+                textAlign: TextAlign.left,
+                style: TextStyle(color: Colors.black),
+              ),
               style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                elevation: 0
-              )
-          ),
+                  backgroundColor: Colors.white, elevation: 0)),
         ],
       ),
     );

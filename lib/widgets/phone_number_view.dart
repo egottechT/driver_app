@@ -40,13 +40,13 @@ class PhoneNumberInput extends StatelessWidget {
         onInputChanged: (PhoneNumber value) {
           onValueChange(value.phoneNumber.toString());
         },
-        countries: const ["IN","US","GB","NL","MR","SL","CG","SO"],
+        countries: const ["IN", "US", "GB", "NL", "MR", "SL", "CG", "SO"],
       ),
     );
   }
 
   TextStyle get _textStyle => const TextStyle(
-    color: Colors.black,
-    fontSize: 18,
-  );
+        color: Colors.black,
+        fontSize: 18,
+      );
 }
