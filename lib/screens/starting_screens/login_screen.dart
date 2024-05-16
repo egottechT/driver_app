@@ -3,6 +3,7 @@ import 'package:driver_app/service/authentication.dart';
 import 'package:driver_app/service/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -141,39 +142,48 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(
                           height: 15,
                         ),
-                        const Expanded(
+                        Expanded(
                             flex: 1,
-                            child: Text.rich(TextSpan(children: <TextSpan>[
-                              TextSpan(
-                                text:
-                                    "By continuing, you agree that you have read and accept our ",
-                                style: TextStyle(
-                                    fontSize: 14, color: Colors.black54),
-                              ),
-                              TextSpan(
-                                text: "T&C ",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black54,
-                                  fontWeight: FontWeight.bold,
-                                  decoration: TextDecoration.underline,
+                            child: InkWell(
+                              onTap: () async {
+                                String url =
+                                    'https://bmet.pro/PrivacyPolicy.html';
+                                if (!await launchUrl(Uri.parse(url))) {
+                                  throw Exception('Could not launch $url');
+                                }
+                              },
+                              child: const Text.rich(TextSpan(children: <TextSpan>[
+                                TextSpan(
+                                  text:
+                                      "By continuing, you agree that you have read and accept our ",
+                                  style: TextStyle(
+                                      fontSize: 14, color: Colors.black54),
                                 ),
-                              ),
-                              TextSpan(
-                                text: "and ",
-                                style: TextStyle(
-                                    fontSize: 14, color: Colors.black54),
-                              ),
-                              TextSpan(
-                                text: "Privacy Policy.",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black54,
-                                  fontWeight: FontWeight.bold,
-                                  decoration: TextDecoration.underline,
+                                TextSpan(
+                                  text: "T&C ",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.bold,
+                                    decoration: TextDecoration.underline,
+                                  ),
                                 ),
-                              ),
-                            ]))),
+                                TextSpan(
+                                  text: "and ",
+                                  style: TextStyle(
+                                      fontSize: 14, color: Colors.black54),
+                                ),
+                                TextSpan(
+                                  text: "Privacy Policy.",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.bold,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ])),
+                            )),
                       ],
                     ))
               ],

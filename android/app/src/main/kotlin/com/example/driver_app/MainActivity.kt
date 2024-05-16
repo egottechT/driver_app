@@ -1,4 +1,4 @@
-package com.example.driver_app
+package com.bmet.driver_app
 
 import io.flutter.embedding.android.FlutterActivity
 

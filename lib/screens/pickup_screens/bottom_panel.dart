@@ -6,8 +6,8 @@ import 'package:driver_app/service/database.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-Widget bottomPanelLayout(
-    Map map, BuildContext context, bool isPickup, String carType) {
+Widget bottomPanelLayout(Map map, BuildContext context, bool isPickup,
+    String carType) {
   return Container(
     color: Colors.grey[200],
     padding: const EdgeInsets.all(10.0),
@@ -39,7 +39,7 @@ Widget bottomPanelLayout(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          "Customer Details",
+                          "Name",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(
@@ -52,7 +52,7 @@ Widget bottomPanelLayout(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          "Call to Customer",
+                          "Call",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(
@@ -111,13 +111,14 @@ Widget bottomPanelLayout(
             ),
             Expanded(
                 child: ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: secondaryColor),
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const MessageScreen()));
-              },
-              child: const Text("Message your customer.."),
-            ))
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: secondaryColor),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const MessageScreen()));
+                  },
+                  child: const Text("Message your customer.."),
+                ))
           ],
         ),
         ElevatedButton(
