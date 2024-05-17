@@ -18,19 +18,19 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget centerCircularWidget() {
     return const Flexible(
         child: Row(
-      children: [
-        SizedBox(
-          width: 150,
-        ),
-        CircularProgressIndicator(
-          color: Colors.blue,
-        ),
-        Flexible(
-            child: SizedBox(
-          width: 150,
-        ))
-      ],
-    ));
+          children: [
+            SizedBox(
+              width: 150,
+            ),
+            CircularProgressIndicator(
+              color: Colors.blue,
+            ),
+            Flexible(
+                child: SizedBox(
+                  width: 150,
+                ))
+          ],
+        ));
   }
 
   @override
@@ -79,66 +79,66 @@ class _LoginScreenState extends State<LoginScreen> {
                         showLoading
                             ? centerCircularWidget()
                             : Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.of(context)
-                                          .pushNamed("/phoneNumberSetup");
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.black),
-                                    child: const Text(
-                                      "Continue with Phone Number",
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                  ),
-                                  ElevatedButton(
-                                      onPressed: () async {
-                                        setState(() {
-                                          showLoading = true;
-                                        });
-                                        try {
-                                          User? result = await doGmailLogin();
-                                          if (result != null) {
-                                            bool isExist = await DatabaseUtils()
-                                                .checkDatabaseForUser(
-                                                    result.uid.toString());
-                                            if (context.mounted) {
-                                              if (isExist) {
-                                                Navigator.of(context).pushNamed(
-                                                    "/permissionScreen");
-                                              } else {
-                                                Navigator.of(context).pushNamed(
-                                                    "/registrationScreen");
-                                              }
-                                            }
-                                          } else {
-                                            if (context.mounted) {
-                                              context.showErrorSnackBar(
-                                                  message:
-                                                      "There is some error while LogIn. Please try again later");
-                                            }
-                                          }
-                                        } catch (e) {
-                                          debugPrint("Some error occured $e");
-                                          context.showErrorSnackBar(
-                                              message:
-                                                  "There is some error while LogIn. Please try again later");
-                                        }
-                                        setState(() {
-                                          showLoading = false;
-                                        });
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.white,
-                                      ),
-                                      child: Image.asset(
-                                        "assets/images/google_icon.png",
-                                        height: 30,
-                                      )),
-                                ],
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context)
+                                    .pushNamed("/phoneNumberSetup");
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.black),
+                              child: const Text(
+                                "Continue with Phone Number",
+                                style: TextStyle(fontSize: 16),
                               ),
+                            ),
+                            ElevatedButton(
+                                onPressed: () async {
+                                  setState(() {
+                                    showLoading = true;
+                                  });
+                                  try {
+                                    User? result = await doGmailLogin();
+                                    if (result != null) {
+                                      bool isExist = await DatabaseUtils()
+                                          .checkDatabaseForUser(
+                                          result.uid.toString());
+                                      if (context.mounted) {
+                                        if (isExist) {
+                                          Navigator.of(context).pushNamed(
+                                              "/permissionScreen");
+                                        } else {
+                                          Navigator.of(context).pushNamed(
+                                              "/registrationScreen");
+                                        }
+                                      }
+                                    } else {
+                                      if (context.mounted) {
+                                        context.showErrorSnackBar(
+                                            message:
+                                            "There is some error while LogIn. Please try again later");
+                                      }
+                                    }
+                                  } catch (e) {
+                                    debugPrint("Some error occured $e");
+                                    context.showErrorSnackBar(
+                                        message:
+                                        "There is some error while LogIn. Please try again later");
+                                  }
+                                  setState(() {
+                                    showLoading = false;
+                                  });
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.white,
+                                ),
+                                child: Image.asset(
+                                  "assets/images/google_icon.png",
+                                  height: 30,
+                                )),
+                          ],
+                        ),
                         const SizedBox(
                           height: 15,
                         ),
@@ -147,15 +147,16 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: InkWell(
                               onTap: () async {
                                 String url =
-                                    'https://bmet.pro/PrivacyPolicy.html';
+                                    'https://docs.google.com/document/d/1jw_tbat4gmOYtWoMHgVmNLjH1Orw9L4PCE7eYWNfT4s/edit?usp=sharing';
                                 if (!await launchUrl(Uri.parse(url))) {
                                   throw Exception('Could not launch $url');
                                 }
                               },
-                              child: const Text.rich(TextSpan(children: <TextSpan>[
+                              child: const Text.rich(TextSpan(children: <
+                                  TextSpan>[
                                 TextSpan(
                                   text:
-                                      "By continuing, you agree that you have read and accept our ",
+                                  "By continuing, you agree that you have read and accept our ",
                                   style: TextStyle(
                                       fontSize: 14, color: Colors.black54),
                                 ),
