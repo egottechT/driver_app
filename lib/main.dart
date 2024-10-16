@@ -54,7 +54,6 @@ void main() async {
           appBarTheme: AppBarTheme(color: secondaryColor),
         ),
         initialRoute: "splash",
-        // home: const SelectVehicleScreen(isFromStart: false,),
       ),
     ),
   );
