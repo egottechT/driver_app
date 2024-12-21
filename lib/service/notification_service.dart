@@ -17,10 +17,7 @@ import 'package:location/location.dart';
 class LocalNoticeService {
   static bool sendNotification = false;
 
-  final databaseReference = FirebaseDatabase(
-          databaseURL:
-              "https://book-my-etaxi-default-rtdb.asia-southeast1.firebasedatabase.app")
-      .ref();
+  final databaseReference = FirebaseDatabase.instance.ref();
 
   Future<LatLng> getCurrentLocation() async {
     Location currentLocation = Location();

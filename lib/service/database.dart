@@ -20,10 +20,7 @@ import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
 class DatabaseUtils {
-  final databaseReference = FirebaseDatabase(
-          databaseURL:
-              "https://book-my-etaxi-default-rtdb.asia-southeast1.firebasedatabase.app")
-      .ref();
+  final databaseReference = FirebaseDatabase.instance.ref();
   final FirebaseStorage storage = FirebaseStorage.instance;
   static String customerKey = "";
   static StreamSubscription<DatabaseEvent>? messageListener,
