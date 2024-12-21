@@ -17,7 +17,7 @@ class SelectVehicleScreen extends StatefulWidget {
 }
 
 class _SelectVehicleScreenState extends State<SelectVehicleScreen> {
-  late String miniDesp, microDesp, primeDesp;
+  late String miniDesp, microDesp, primeDesp, eRickshawDesp, autoDesp;
   late int clickedIndex;
   late String showText;
   String carType = "";
@@ -31,6 +31,10 @@ class _SelectVehicleScreenState extends State<SelectVehicleScreen> {
         clickedIndex = 1;
       } else if (carType == "suv") {
         clickedIndex = 2;
+      } else if (carType == "erickshaw") {
+        clickedIndex = 3;
+      } else if (carType == "auto") {
+        clickedIndex = 4;
       } else {
         clickedIndex = 0;
       }
@@ -46,6 +50,8 @@ class _SelectVehicleScreenState extends State<SelectVehicleScreen> {
         "You are a commercially insured driver.Your vehicle is a mid-size or full size vehicle that comfortably seats 4 passangers or more.";
     primeDesp = miniDesp;
     microDesp = miniDesp;
+    eRickshawDesp = miniDesp;
+    autoDesp = miniDesp;
     showText = microDesp;
   }
 
@@ -84,6 +90,22 @@ class _SelectVehicleScreenState extends State<SelectVehicleScreen> {
       name = "Sedan";
       carIcon = Image.asset(
         "assets/icons/sedan.png",
+        width: 100,
+        height: 50,
+        fit: BoxFit.contain,
+      );
+    } else if (index == 3) {
+      name = "E-Rickshaw";
+      carIcon = Image.asset(
+        "assets/icons/erickshaw.png",
+        width: 100,
+        height: 50,
+        fit: BoxFit.contain,
+      );
+    } else if (index == 4) {
+      name = "Auto";
+      carIcon = Image.asset(
+        "assets/icons/auto.png",
         width: 100,
         height: 50,
         fit: BoxFit.contain,
@@ -171,6 +193,12 @@ class _SelectVehicleScreenState extends State<SelectVehicleScreen> {
                         } else if (index == 1) {
                           showText = miniDesp;
                           carType = "sedan";
+                        } else if (index == 3) {
+                          showText = eRickshawDesp;
+                          carType = "erickshaw";
+                        } else if (index == 4) {
+                          showText = autoDesp;
+                          carType = "auto";
                         } else {
                           showText = primeDesp;
                           carType = "suv";
@@ -180,7 +208,7 @@ class _SelectVehicleScreenState extends State<SelectVehicleScreen> {
                     child: vehicleCardView(index),
                   );
                 },
-                itemCount: 3,
+                itemCount: 5,
               ),
               const SizedBox(
                 height: 50,
