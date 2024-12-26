@@ -1,5 +1,8 @@
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/model/user_model.dart';
+import 'package:driver_app/provider/user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BalanceScreen extends StatefulWidget {
   const BalanceScreen({Key? key}) : super(key: key);
@@ -13,10 +16,15 @@ class _BalanceScreenState extends State<BalanceScreen> {
   bool showCardView = true;
   Color? lightGrey = Colors.grey[200];
 
+  @override
+  void initState() {
+    super.initState();
+    fetchDriverData();
+  }
+
   Widget currentBalance() {
     return Card(
       shape: const RoundedRectangleBorder(
-        //<-- SEE HERE
         side: BorderSide(
           color: Colors.black,
           width: 2,
@@ -25,25 +33,22 @@ class _BalanceScreenState extends State<BalanceScreen> {
       color: lightGrey,
       child: Padding(
         padding: const EdgeInsets.all(15.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Text(
-              "Current Balance",
+              "Current Balance :- ",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(
               height: 5,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(moneyText),
-                const Text(
-                  "ADD ETAXI Money",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                )
-              ],
+            Text(
+              moneyText,
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: Colors.green),
             )
           ],
         ),
@@ -94,11 +99,6 @@ class _BalanceScreenState extends State<BalanceScreen> {
                 Expanded(
                   flex: 1,
                   child: serviceRowListItem(
-                      Icon(Icons.money, color: secondaryColor), "Pay"),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: serviceRowListItem(
                       Icon(Icons.send_outlined, color: secondaryColor),
                       "Send Money"),
                 ),
@@ -106,7 +106,7 @@ class _BalanceScreenState extends State<BalanceScreen> {
                   flex: 1,
                   child: serviceRowListItem(
                       Icon(Icons.receipt_long, color: secondaryColor),
-                      "Bill payment"),
+                      "Recharge"),
                 ),
                 Expanded(
                   flex: 1,
@@ -125,127 +125,6 @@ class _BalanceScreenState extends State<BalanceScreen> {
     );
   }
 
-  Widget lastActivity() {
-    return Card(
-      color: lightGrey,
-      child: const Padding(
-        padding: EdgeInsets.all(10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Last Activity",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("ETaxi"),
-                Text(
-                  "60.72",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                )
-              ],
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("Other"),
-                Text(
-                  "-20.21",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                )
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget cashbackView() {
-    return Visibility(
-      visible: showCardView,
-      child: Card(
-        color: lightGrey,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "Cashback & Discounts",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  IconButton(
-                      onPressed: () {
-                        showCardView = false;
-                      },
-                      icon: Icon(
-                        Icons.cancel_outlined,
-                        color: primaryColor,
-                      )),
-                ],
-              ),
-              Text(
-                "Make your money go step up",
-                style: TextStyle(
-                  color: primaryColor,
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget addressList() {
-    return Card(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          ElevatedButton.icon(
-              onPressed: () {},
-              icon: Icon(
-                Icons.home,
-                color: secondaryColor,
-              ),
-              label: const Text(
-                "ADD YOUR HOME ADDRESS",
-                style: TextStyle(
-                  color: Colors.black,
-                ),
-              ),
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white, elevation: 0)),
-          ElevatedButton.icon(
-              onPressed: () {},
-              icon: Icon(
-                Icons.warehouse_rounded,
-                color: secondaryColor,
-              ),
-              label: const Text(
-                "ADD YOUR WORK/OFFICE ADDRESS",
-                textAlign: TextAlign.left,
-                style: TextStyle(color: Colors.black),
-              ),
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white, elevation: 0)),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -258,15 +137,23 @@ class _BalanceScreenState extends State<BalanceScreen> {
           child: Column(
             children: [
               Image.asset("assets/images/permission_page.png"),
+              SizedBox(
+                height: 25,
+              ),
               currentBalance(),
               serviceList(),
-              lastActivity(),
-              cashbackView(),
-              addressList(),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void fetchDriverData() {
+    UserModel model =
+        Provider.of<UserModelProvider>(context, listen: false).data;
+    setState(() {
+      moneyText = "Rs. ${model.amount.toString()}";
+    });
   }
 }

@@ -51,7 +51,10 @@ void main() async {
         routes: appPageRoutes,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          appBarTheme: AppBarTheme(color: secondaryColor),
+          appBarTheme: AppBarTheme(
+              color: secondaryColor,
+              titleTextStyle: TextStyle(color: Colors.white)),
+          iconTheme: IconThemeData(color: Colors.white),
         ),
         initialRoute: "splash",
       ),

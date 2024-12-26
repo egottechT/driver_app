@@ -28,17 +28,17 @@ List<Pair<String, dynamic>> nameAndFunctionList(BuildContext context) {
       Navigator.of(context).push(
           MaterialPageRoute(builder: (context) => const VerifyEmailScreen()));
     }),
-    Pair("Cash Balance", () {
+    Pair("My Wallet", () {
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => const BalanceScreen()));
     }),
-    Pair("Book My Etaxi Money", () {
-      debugPrint("Etaxi");
-    }),
-    Pair("Refer and Earn", () {
-      Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => const ShareAppEarnScreen()));
-    }),
+    // Pair("Book My Etaxi Money", () {
+    //   debugPrint("Etaxi");
+    // }),
+    // Pair("Refer and Earn", () {
+    //   Navigator.of(context).push(
+    //       MaterialPageRoute(builder: (context) => const ShareAppEarnScreen()));
+    // }),
     Pair("Setting", () {
       Navigator.of(context).push(
           MaterialPageRoute(builder: (context) => const RegistrationScreen()));

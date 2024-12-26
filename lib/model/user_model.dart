@@ -15,6 +15,7 @@ class UserModel {
   String carInteriorColor = "";
   String vehicleNumber = "";
   String carType = "";
+  int amount = 0;
 
   bool referred = false;
   Map documents = documentsValue;
@@ -49,6 +50,8 @@ class UserModel {
     model.carYear = map["car_details"]?["car_year"] ?? "";
     model.vehicleNumber = map["car_details"]?["vehicle_number"] ?? "";
     model.carType = map["car_details"]?["car_type"] ?? "";
+    model.carType = map["car_details"]?["car_type"] ?? "";
+    model.amount = map["amount"] ?? 0;
     return model;
   }
 }
