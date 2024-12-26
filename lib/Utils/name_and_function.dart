@@ -1,5 +1,5 @@
 import 'package:analyzer_plugin/utilities/pair.dart';
-import 'package:driver_app/screens/setting_screens/balance_screen.dart';
+import 'package:driver_app/screens/setting_screens/wallet/balance_screen.dart';
 import 'package:driver_app/screens/setting_screens/car_details_screens/select_vehicle_screen.dart';
 import 'package:driver_app/screens/setting_screens/driver_history_screen.dart';
 import 'package:driver_app/screens/setting_screens/help_and_support_screen.dart';

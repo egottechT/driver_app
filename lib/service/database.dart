@@ -6,6 +6,7 @@ import 'package:analyzer_plugin/utilities/pair.dart';
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/model/message_model.dart';
 import 'package:driver_app/model/raitng_model.dart';
+import 'package:driver_app/model/transaction_model.dart';
 import 'package:driver_app/model/trip_model.dart';
 import 'package:driver_app/model/user_model.dart';
 import 'package:driver_app/provider/user_provider.dart';
@@ -41,6 +42,41 @@ class DatabaseUtils {
     });
     if (context.mounted) {
       Provider.of<UserModelProvider>(context, listen: false).setData(model);
+    }
+  }
+
+  Future<List<TransactionModel>> fetchDriverTransactions() async {
+    try {
+      String uuid = FirebaseAuth.instance.currentUser!.uid.toString();
+      // Reference to the driver's transaction node
+      final DatabaseReference transactionRef =
+          FirebaseDatabase.instance.ref("driver/$uuid/transaction");
+
+      // Fetch the transaction data from Firebase
+      final DataSnapshot snapshot = await transactionRef.get();
+
+      // Initialize an empty list to store transactions
+      List<TransactionModel> transactions = [];
+
+      if (snapshot.exists) {
+        final Map<dynamic, dynamic>? transactionsData =
+            snapshot.value as Map<dynamic, dynamic>?;
+
+        // Convert each transaction entry to a TransactionModel model
+        if (transactionsData != null) {
+          transactions = transactionsData.values.map((entry) {
+            final Map<String, dynamic> transactionJson =
+                Map<String, dynamic>.from(entry);
+            return TransactionModel.fromJson(transactionJson);
+          }).toList();
+        }
+      }
+
+      return transactions;
+    } catch (e) {
+      // Handle any errors that occur
+      print("Error fetching transactions: ${e.toString()}");
+      return [];
     }
   }
 
