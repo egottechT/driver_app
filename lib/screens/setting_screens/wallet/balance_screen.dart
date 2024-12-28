@@ -1,6 +1,7 @@
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/model/user_model.dart';
 import 'package:driver_app/provider/user_provider.dart';
+import 'package:driver_app/screens/setting_screens/wallet/recharge_screen.dart';
 import 'package:driver_app/screens/setting_screens/wallet/transaction_history.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -105,14 +106,18 @@ class _BalanceScreenState extends State<BalanceScreen> {
                   child: serviceRowListItem(
                       Icon(Icons.send_outlined, color: secondaryColor),
                       "Send Money",
-                      () {}),
+                      () {
+                        
+                      }),
                 ),
                 Expanded(
                   flex: 1,
                   child: serviceRowListItem(
                       Icon(Icons.receipt_long, color: secondaryColor),
-                      "Recharge",
-                      () {}),
+                      "Recharge", () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const RechargeScreen()));
+                  }),
                 ),
                 Expanded(
                   flex: 1,
