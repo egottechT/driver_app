@@ -50,6 +50,11 @@ void main() async {
         routes: appPageRoutes,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.white, // Text color for ElevatedButton
+            ),
+          ),
           iconTheme: IconThemeData(color: Colors.white),
         ),
         initialRoute: "splash",
