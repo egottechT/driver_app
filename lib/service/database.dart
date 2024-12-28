@@ -29,6 +29,73 @@ class DatabaseUtils {
       driverInfoListener,
       cancelListener;
 
+  Future<void> updateDriverAmount(
+      String uuid, int incrementBy, String status, bool isAdded) async {
+    try {
+      if (uuid.isEmpty) return;
+      final DatabaseReference driverRef =
+          FirebaseDatabase.instance.ref("driver/$uuid");
+
+      final DataSnapshot snapshot = await driverRef.get();
+
+      if (snapshot.exists) {
+        final Map<dynamic, dynamic>? driverData =
+            snapshot.value as Map<dynamic, dynamic>?;
+        int currentAmount = driverData?['amount'] ?? 0;
+
+        await driverRef.update({'amount': currentAmount + incrementBy});
+        final DatabaseReference transactionRef =
+            driverRef.child("transaction").push();
+        await transactionRef.set({
+          "amount": incrementBy,
+          "status": status,
+          "is_added": isAdded,
+          "date": DateTime.now().toString(),
+        });
+      } else {
+        print("Driver with UUID $uuid not found.");
+      }
+    } catch (e) {
+      print("Error: ${e.toString()}");
+    }
+  }
+
+  Future<String> getDriverUuidByPhoneNumber(String phoneNumber) async {
+    try {
+      // Reference to the Firebase Realtime Database
+      final DatabaseReference databaseRef =
+          FirebaseDatabase.instance.ref("driver");
+
+      // Fetch the driver data once
+      final DataSnapshot snapshot = await databaseRef.get();
+
+      // Check if the snapshot contains data
+      if (snapshot.exists) {
+        final Map<dynamic, dynamic>? driversData =
+            snapshot.value as Map<dynamic, dynamic>?;
+
+        // Iterate over the drivers data
+        if (driversData != null) {
+          for (final uuid in driversData.keys) {
+            final dynamic driverData = driversData[uuid];
+
+            // Check if the driver data contains a matching phone number
+            if (driverData is Map<dynamic, dynamic> &&
+                driverData['phoneNumber'] == phoneNumber) {
+              return uuid; // Return the UUID of the matching driver
+            }
+          }
+        }
+      }
+
+      // If no match is found, return no match message
+      return "No driver match";
+    } catch (e) {
+      // Handle any errors that occur
+      return "Error: ${e.toString()}";
+    }
+  }
+
   Future<void> getUserInformation(BuildContext context, String uid) async {
     UserModel model = UserModel();
     await databaseReference.child("driver").child(uid).once().then((value) {

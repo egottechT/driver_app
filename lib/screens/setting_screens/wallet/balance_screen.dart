@@ -2,6 +2,7 @@ import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/model/user_model.dart';
 import 'package:driver_app/provider/user_provider.dart';
 import 'package:driver_app/screens/setting_screens/wallet/recharge_screen.dart';
+import 'package:driver_app/screens/setting_screens/wallet/send_money_screen.dart';
 import 'package:driver_app/screens/setting_screens/wallet/transaction_history.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -105,10 +106,10 @@ class _BalanceScreenState extends State<BalanceScreen> {
                   flex: 1,
                   child: serviceRowListItem(
                       Icon(Icons.send_outlined, color: secondaryColor),
-                      "Send Money",
-                      () {
-                        
-                      }),
+                      "Send Money", () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const SendMoneyScreen()));
+                  }),
                 ),
                 Expanded(
                   flex: 1,
@@ -144,8 +145,12 @@ class _BalanceScreenState extends State<BalanceScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("BOOK MY ETAXI Money"),
-      ),
+          backgroundColor: primaryColor,
+          iconTheme: const IconThemeData(color: Colors.black),
+          title: const Text(
+            "My Wallet",
+            style: TextStyle(color: Colors.black),
+          )),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
@@ -165,6 +170,7 @@ class _BalanceScreenState extends State<BalanceScreen> {
   }
 
   void fetchDriverData() {
+    print('Fetching the data again');
     UserModel model =
         Provider.of<UserModelProvider>(context, listen: false).data;
     setState(() {

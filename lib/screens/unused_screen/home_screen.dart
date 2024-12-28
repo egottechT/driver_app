@@ -93,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         ElevatedButton(
           onPressed: () {},
-          style: elevatedButtonStyle(backgroundColor: Colors.white),
+          style: elevatedButtonStyle(backgroundColor: Colors.black),
           child: const ListTile(
             title: Text(
               "Start the application",
@@ -107,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         ElevatedButton(
           onPressed: () {},
-          style: elevatedButtonStyle(backgroundColor: Colors.white),
+          style: elevatedButtonStyle(backgroundColor: Colors.black),
           child: const ListTile(
             title: Text(
               "Profile Settings",
