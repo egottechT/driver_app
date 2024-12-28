@@ -1,12 +1,14 @@
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/model/user_model.dart';
 import 'package:driver_app/provider/user_provider.dart';
 import 'package:driver_app/screens/common_widget.dart';
 import 'package:driver_app/service/database.dart';
 import 'package:driver_app/service/notification_service.dart';
+import 'package:driver_app/widgets/elevated_button_style.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:driver_app/widgets/elevated_button_style.dart';
 class ReviewTripScreen extends StatefulWidget {
   final Map map;
 
@@ -94,19 +96,7 @@ class _ReviewScreenState extends State<ReviewTripScreen> {
                             style: TextStyle(color: Colors.black),
                           )),
                       ElevatedButton(
-                          onPressed: () {
-                            DatabaseUtils().uploadRatingUser(
-                                widget.map,
-                                star,
-                                textEditingController.text,
-                                Provider.of<UserModelProvider>(context,
-                                        listen: false)
-                                    .data
-                                    .name);
-                            LocalNoticeService.sendNotification = true;
-                            Navigator.popUntil(context,
-                                ModalRoute.withName('/managementScreen'));
-                          },
+                          onPressed: onPressed,
                           style: elevatedButtonStyle(
                               backgroundColor: Colors.black),
                           child: const Text(
@@ -122,6 +112,32 @@ class _ReviewScreenState extends State<ReviewTripScreen> {
         ),
       ),
     );
+  }
+
+  void onPressed() {
+    DatabaseUtils().uploadRatingUser(
+        widget.map,
+        star,
+        textEditingController.text,
+        Provider.of<UserModelProvider>(context, listen: false).data.name);
+
+    int rechargeValue = int.parse(widget.map["price"]).round();
+    rechargeValue = (0.1 * rechargeValue).round();
+    DatabaseUtils().updateDriverAmount(
+        FirebaseAuth.instance.currentUser!.uid.toString(),
+        -1 * rechargeValue,
+        'Ride Accepted',
+        false);
+
+    UserModel model =
+        Provider.of<UserModelProvider>(context, listen: false).data;
+
+    model.amount -= rechargeValue;
+
+    Provider.of<UserModelProvider>(context, listen: false).setData(model);
+
+    LocalNoticeService.sendNotification = true;
+    Navigator.popUntil(context, ModalRoute.withName('/managementScreen'));
   }
 
   void onStarChange(value) {

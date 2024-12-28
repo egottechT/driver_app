@@ -139,6 +139,12 @@ class DatabaseUtils {
         }
       }
 
+      transactions.sort((a, b) {
+        DateTime dateA = DateTime.parse(a.date);
+        DateTime dateB = DateTime.parse(b.date);
+
+        return dateB.compareTo(dateA);
+      });
       return transactions;
     } catch (e) {
       // Handle any errors that occur
