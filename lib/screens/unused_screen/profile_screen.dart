@@ -1,4 +1,5 @@
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/widgets/elevated_button_style.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -149,7 +150,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               ElevatedButton(
                 onPressed: () {},
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                style: elevatedButtonStyle(backgroundColor: Colors.black),
                 child: const Text("LogOut"),
               )
             ],

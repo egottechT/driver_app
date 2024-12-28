@@ -6,6 +6,7 @@ import 'package:driver_app/service/database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:driver_app/widgets/elevated_button_style.dart';
 class SelectVehicleScreen extends StatefulWidget {
   final bool isFromStart;
 
@@ -221,7 +222,7 @@ class _SelectVehicleScreenState extends State<SelectVehicleScreen> {
                             isFromStart: widget.isFromStart,
                           )));
                 },
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                style: elevatedButtonStyle(backgroundColor: Colors.black),
                 child: const Text("CONTINUE"),
               ),
             ],

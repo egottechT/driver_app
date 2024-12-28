@@ -146,7 +146,7 @@ class _PerformanceScreenState extends State<PerformanceScreen> {
                 child: ElevatedButton(
                   onPressed: () {},
                   style:
-                      ElevatedButton.styleFrom(backgroundColor: secondaryColor),
+                  elevatedButtonStyle(backgroundColor: secondaryColor),
                   child: Text("Pay ₹$price"),
                 )),
           ],

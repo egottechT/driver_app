@@ -6,6 +6,7 @@ import 'package:driver_app/service/database.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'package:driver_app/widgets/elevated_button_style.dart';
 Widget bottomPanelLayout(Map map, BuildContext context, bool isPickup,
     String carType) {
   return Container(
@@ -111,7 +112,7 @@ Widget bottomPanelLayout(Map map, BuildContext context, bool isPickup,
             ),
             Expanded(
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
+                  style: elevatedButtonStyle(
                       backgroundColor: secondaryColor),
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
@@ -133,7 +134,7 @@ Widget bottomPanelLayout(Map map, BuildContext context, bool isPickup,
                   builder: (context) => PaymentScreen(map: map)));
             }
           },
-          style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+          style: elevatedButtonStyle(backgroundColor: Colors.black),
           child: Text(
             isPickup ? "Continue" : "End Trip",
             style: const TextStyle(fontSize: 16),

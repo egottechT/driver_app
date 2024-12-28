@@ -3,6 +3,7 @@ import 'package:driver_app/service/authentication.dart';
 import 'package:driver_app/widgets/phone_number_view.dart';
 import 'package:flutter/material.dart';
 
+import 'package:driver_app/widgets/elevated_button_style.dart';
 class PhoneNumberSetup extends StatefulWidget {
   const PhoneNumberSetup({Key? key}) : super(key: key);
 
@@ -68,7 +69,7 @@ class _PhoneNumberSetupState extends State<PhoneNumberSetup> {
                     }
                   },
                   style:
-                      ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                  elevatedButtonStyle(backgroundColor: Colors.black),
                   child: const Text("Next"),
                 ),
                 const SizedBox(

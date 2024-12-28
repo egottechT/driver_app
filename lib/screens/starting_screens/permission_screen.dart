@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import 'package:driver_app/widgets/elevated_button_style.dart';
 class PermissionScreen extends StatefulWidget {
   const PermissionScreen({Key? key}) : super(key: key);
 
@@ -82,7 +83,7 @@ class _PermissionScreenState extends State<PermissionScreen> {
                   }
                 }
               },
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+              style: elevatedButtonStyle(backgroundColor: Colors.black),
               child: const Text("CONTINUE"),
             ),
           ),

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:driver_app/widgets/elevated_button_style.dart';
 import 'package:driver_app/Utils/commonData.dart';
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/model/user_model.dart';
@@ -107,7 +108,7 @@ class _DocumentDetailScreenState extends State<DocumentDetailScreen> {
                   )
                 : ElevatedButton(
                     style:
-                        ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                    elevatedButtonStyle(backgroundColor: Colors.black),
                     onPressed: () async {
                       if (file != null) {
                         setState(() {

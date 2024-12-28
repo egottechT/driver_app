@@ -6,6 +6,7 @@ import 'package:driver_app/service/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:driver_app/widgets/elevated_button_style.dart';
 class ReviewTripScreen extends StatefulWidget {
   final Map map;
 
@@ -106,7 +107,7 @@ class _ReviewScreenState extends State<ReviewTripScreen> {
                             Navigator.popUntil(context,
                                 ModalRoute.withName('/managementScreen'));
                           },
-                          style: ElevatedButton.styleFrom(
+                          style: elevatedButtonStyle(
                               backgroundColor: Colors.black),
                           child: const Text(
                             "RATE NOW",

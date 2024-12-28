@@ -5,6 +5,7 @@ import 'package:driver_app/screens/setting_screens/car_details_screens/upload_do
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:driver_app/widgets/elevated_button_style.dart';
 import '../../../service/database.dart';
 
 class CarDetailScreen extends StatefulWidget {
@@ -96,10 +97,10 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                 sizeBetweenField(),
                 detailTextFormField("COLOR",
                     textEditingController: colorText, icon: const Icon(null)),
-                sizeBetweenField(),
-                detailTextFormField("INTERIOR COLOR",
-                    textEditingController: interiorColorText,
-                    icon: const Icon(null)),
+                // sizeBetweenField(),
+                // detailTextFormField("INTERIOR COLOR",
+                //     textEditingController: interiorColorText,
+                //     icon: const Icon(null)),
                 sizeBetweenField(),
                 detailTextFormField("Vehicle Number",
                     textEditingController: vehicleNumber,
@@ -107,7 +108,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                 sizeBetweenField(height: 20),
                 ElevatedButton(
                     style:
-                        ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                    elevatedButtonStyle(backgroundColor: Colors.black),
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
                         setState(() {

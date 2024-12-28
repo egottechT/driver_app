@@ -4,6 +4,7 @@ import 'package:driver_app/service/database.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:driver_app/widgets/elevated_button_style.dart';
 class PaymentScreen extends StatefulWidget {
   final Map map;
 
@@ -120,7 +121,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       builder: (context) => ReviewTripScreen(map: widget.map)));
                 }
               },
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+              style: elevatedButtonStyle(backgroundColor: Colors.black),
               child: const Text(
                 "CASH COLLECTED",
                 style: TextStyle(color: Colors.white),

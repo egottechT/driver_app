@@ -10,6 +10,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:driver_app/widgets/elevated_button_style.dart';
 import '../service/database.dart';
 
 class ManagementScreen extends StatefulWidget {
@@ -171,7 +172,7 @@ class _ManagementScreen extends State<ManagementScreen> {
                 message: "Currently there is no going booking");
           }
         },
-        style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+        style: elevatedButtonStyle(backgroundColor: Colors.black),
         child: const Text("Current Booking"),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,

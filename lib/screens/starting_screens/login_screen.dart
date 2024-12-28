@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'package:driver_app/widgets/elevated_button_style.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -86,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Navigator.of(context)
                                     .pushNamed("/phoneNumberSetup");
                               },
-                              style: ElevatedButton.styleFrom(
+                              style: elevatedButtonStyle(
                                   backgroundColor: Colors.black),
                               child: const Text(
                                 "Continue with Phone Number",
@@ -130,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     showLoading = false;
                                   });
                                 },
-                                style: ElevatedButton.styleFrom(
+                                style: elevatedButtonStyle(
                                   backgroundColor: Colors.white,
                                 ),
                                 child: Image.asset(

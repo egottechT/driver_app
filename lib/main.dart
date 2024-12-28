@@ -1,6 +1,5 @@
 import 'dart:isolate';
 
-import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/provider/otp_listener.dart';
 import 'package:driver_app/provider/user_provider.dart';
 import 'package:driver_app/screens/phone_verification_screens/phone_number_setup.dart';
@@ -51,9 +50,6 @@ void main() async {
         routes: appPageRoutes,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          appBarTheme: AppBarTheme(
-              color: secondaryColor,
-              titleTextStyle: TextStyle(color: Colors.white)),
           iconTheme: IconThemeData(color: Colors.white),
         ),
         initialRoute: "splash",

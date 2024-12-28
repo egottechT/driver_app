@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:driver_app/widgets/elevated_button_style.dart';
 import 'package:driver_app/Utils/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -69,7 +70,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+            style: elevatedButtonStyle(backgroundColor: Colors.black),
             child: const Text("BACK"),
           )
         ],
@@ -107,7 +108,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
         timer = Timer.periodic(
             const Duration(seconds: 3), (_) => checkEmailVerified());
       },
-      style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+      style: elevatedButtonStyle(backgroundColor: Colors.black),
       child: const Text("VERIFY"),
     );
   }

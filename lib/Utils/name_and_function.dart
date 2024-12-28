@@ -1,12 +1,9 @@
 import 'package:analyzer_plugin/utilities/pair.dart';
-import 'package:driver_app/screens/setting_screens/wallet/balance_screen.dart';
 import 'package:driver_app/screens/setting_screens/car_details_screens/select_vehicle_screen.dart';
 import 'package:driver_app/screens/setting_screens/driver_history_screen.dart';
 import 'package:driver_app/screens/setting_screens/help_and_support_screen.dart';
-import 'package:driver_app/screens/setting_screens/preformance_screen.dart';
-import 'package:driver_app/screens/setting_screens/verify_email_screen.dart';
+import 'package:driver_app/screens/setting_screens/wallet/balance_screen.dart';
 import 'package:driver_app/screens/setting_screens/wallet_screen.dart';
-import 'package:driver_app/screens/share_app_earn.dart';
 import 'package:driver_app/screens/starting_screens/registration_screen.dart';
 import 'package:driver_app/service/authentication.dart';
 import 'package:flutter/material.dart';
@@ -14,20 +11,20 @@ import 'package:url_launcher/url_launcher.dart';
 
 List<Pair<String, dynamic>> nameAndFunctionList(BuildContext context) {
   List<Pair<String, dynamic>> nameFunctions = [
-    Pair("Performance", () {
-      Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => const PerformanceScreen()));
-    }),
+    // Pair("Performance", () {
+    //   Navigator.of(context).push(
+    //       MaterialPageRoute(builder: (context) => const PerformanceScreen()));
+    // }),
     Pair("Vehicle Information", () {
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => const SelectVehicleScreen(
                 isFromStart: false,
               )));
     }),
-    Pair("Digital KYC Customer Verification", () {
-      Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => const VerifyEmailScreen()));
-    }),
+    // Pair("Digital KYC Customer Verification", () {
+    //   Navigator.of(context).push(
+    //       MaterialPageRoute(builder: (context) => const VerifyEmailScreen()));
+    // }),
     Pair("My Wallet", () {
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => const BalanceScreen()));

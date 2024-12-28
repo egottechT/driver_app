@@ -8,6 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
+import 'package:driver_app/widgets/elevated_button_style.dart';
 class UploadDocumentScreen extends StatefulWidget {
   final bool isFromStart;
 
@@ -121,7 +122,7 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
                       context, ModalRoute.withName("/managementScreen"));
                 }
               },
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+              style: elevatedButtonStyle(backgroundColor: Colors.black),
               child: const Text("Submit"),
             )
           ],

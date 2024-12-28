@@ -1,6 +1,7 @@
 import 'package:driver_app/Utils/constants.dart';
 import 'package:flutter/material.dart';
 
+import 'package:driver_app/widgets/elevated_button_style.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -92,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         ElevatedButton(
           onPressed: () {},
-          style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+          style: elevatedButtonStyle(backgroundColor: Colors.white),
           child: const ListTile(
             title: Text(
               "Start the application",
@@ -106,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         ElevatedButton(
           onPressed: () {},
-          style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+          style: elevatedButtonStyle(backgroundColor: Colors.white),
           child: const ListTile(
             title: Text(
               "Profile Settings",
@@ -139,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         secondRow(),
                         ElevatedButton(
                           onPressed: () {},
-                          style: ElevatedButton.styleFrom(
+                          style: elevatedButtonStyle(
                               backgroundColor: Colors.black),
                           child: const Text("Reset & Cancel"),
                         )

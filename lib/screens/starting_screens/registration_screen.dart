@@ -7,6 +7,7 @@ import 'package:driver_app/widgets/phone_number_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import 'package:driver_app/widgets/elevated_button_style.dart';
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
 
@@ -112,7 +113,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   )));
                         }
                       },
-                      style: ElevatedButton.styleFrom(
+                      style: elevatedButtonStyle(
                           backgroundColor: Colors.black),
                       child: const Text("Next"),
                     )

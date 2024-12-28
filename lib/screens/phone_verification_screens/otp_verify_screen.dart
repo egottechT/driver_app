@@ -4,6 +4,7 @@ import 'package:driver_app/service/authentication.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:driver_app/widgets/elevated_button_style.dart';
 class OTPVerifyScreen extends StatefulWidget {
   final String phoneNumber;
 
@@ -84,7 +85,7 @@ class _OTPVerifyScreenState extends State<OTPVerifyScreen> {
                   });
                 }
               },
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+              style: elevatedButtonStyle(backgroundColor: Colors.black),
               child: showLoading
                   ? const CircularProgressIndicator()
                   : const Text("Submit"),

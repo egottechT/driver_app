@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
+import 'package:driver_app/widgets/elevated_button_style.dart';
 import 'common_widget.dart';
 
 class ShareAppEarnScreen extends StatefulWidget {
@@ -103,7 +104,7 @@ class _ShareAppEarnScreenState extends State<ShareAppEarnScreen> {
                           subject: 'Share your referral Code');
                     },
                     style:
-                        ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                    elevatedButtonStyle(backgroundColor: Colors.black),
                     child: const Text("Share Code"),
                   ),
                   ElevatedButton(
@@ -116,7 +117,7 @@ class _ShareAppEarnScreenState extends State<ShareAppEarnScreen> {
                           .setData(userModel);
                     },
                     style:
-                        ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                    elevatedButtonStyle(backgroundColor: Colors.black),
                     child: const Text("Have a referral Code."),
                   )
                 ],
