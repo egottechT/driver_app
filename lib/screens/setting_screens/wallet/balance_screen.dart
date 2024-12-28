@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class BalanceScreen extends StatefulWidget {
-  const BalanceScreen({Key? key}) : super(key: key);
+  const BalanceScreen({super.key});
 
   @override
   State<BalanceScreen> createState() => _BalanceScreenState();

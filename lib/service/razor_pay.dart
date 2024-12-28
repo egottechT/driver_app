@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:driver_app/model/razor_pay_model.dart';
+import 'package:driver_app/service/database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -9,6 +11,7 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 class RazorPayService {
   static Razorpay? _razorpay;
   static bool paymentSuccess = false;
+  static int amount = 0;
 
   initRazorPay() {
     _razorpay = Razorpay();
@@ -19,7 +22,11 @@ class RazorPayService {
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
     paymentSuccess = true;
-    Fluttertoast.showToast(msg: " Payment Successfully");
+    await DatabaseUtils().updateDriverAmount(
+        FirebaseAuth.instance.currentUser!.uid.toString(),
+        amount,
+        'Money Received',
+        true);
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
@@ -30,7 +37,7 @@ class RazorPayService {
     Fluttertoast.showToast(msg: "Payment Successfully");
   }
 
-  Future<dynamic> createOrder(String amount) async {
+  Future<dynamic> createOrder(String amountText) async {
     const String apiKey = 'rzp_test_MmcpdsOtqGqJJv';
     const String apiSecret = 'FzQzhy4pfDeRqULuDx19ARJe';
 
@@ -41,7 +48,8 @@ class RazorPayService {
     mapHeader['Content-Type'] = "application/x-www-form-urlencoded";
     var map = <String, String>{};
 
-    map['amount'] = "${(num.parse(amount) * 100)}";
+    amount = int.parse(amountText);
+    map['amount'] = "${amount * 100}";
 
     map['currency'] = "INR";
     map['receipt'] = "receipt1";
