@@ -17,8 +17,8 @@ class SendMoneyScreen extends StatefulWidget {
 
 class _SendMoneyScreenState extends State<SendMoneyScreen> {
   final TextEditingController phoneController = TextEditingController();
-
   final TextEditingController moneyController = TextEditingController();
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -29,72 +29,82 @@ class _SendMoneyScreenState extends State<SendMoneyScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextField(
-              controller: phoneController,
-              keyboardType: TextInputType.phone,
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              decoration: InputDecoration(
-                labelText: 'Phone Number',
-                border: OutlineInputBorder(),
+        child: isLoading
+            ? const CircularProgressIndicator()
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  TextField(
+                    controller: phoneController,
+                    keyboardType: TextInputType.phone,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    decoration: InputDecoration(
+                      labelText: 'Phone Number',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  TextField(
+                    controller: moneyController,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    decoration: InputDecoration(
+                      prefixText: '₹ ',
+                      labelText: 'Money',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  Spacer(),
+                  ElevatedButton(
+                    style: elevatedButtonStyle(backgroundColor: secondaryColor),
+                    onPressed: () async {
+                      // Add action for the next button
+
+                      UserModel model =
+                          Provider.of<UserModelProvider>(context, listen: false)
+                              .data;
+
+                      int transferAmount = int.parse(moneyController.text);
+
+                      if (model.amount < transferAmount) {
+                        context.showErrorSnackBar(
+                            message:
+                                'You don\'t have enough money to send this amount to other driver');
+                        return;
+                      }
+
+                      String uuid = await DatabaseUtils()
+                          .getDriverUuidByPhoneNumber(
+                              "+91${phoneController.text}");
+                      if (uuid == 'No driver match') {
+                        context.showErrorSnackBar(
+                            message:
+                                'No driver is available with this phone number');
+                        return;
+                      }
+                      await DatabaseUtils().updateDriverAmount(
+                          uuid, transferAmount, 'Money Received', true);
+
+                      await DatabaseUtils().updateDriverAmount(
+                          FirebaseAuth.instance.currentUser!.uid.toString(),
+                          -1 * transferAmount,
+                          'Money Sent',
+                          false);
+
+                      model.amount -= transferAmount;
+
+                      setState(() {
+                        isLoading = true;
+                      });
+
+                      Provider.of<UserModelProvider>(context, listen: false)
+                          .setData(model);
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('Next'),
+                  ),
+                ],
               ),
-            ),
-            SizedBox(height: 20),
-            TextField(
-              controller: moneyController,
-              keyboardType: TextInputType.number,
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              decoration: InputDecoration(
-                prefixText: '₹ ',
-                labelText: 'Money',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            Spacer(),
-            ElevatedButton(
-              style: elevatedButtonStyle(backgroundColor: secondaryColor),
-              onPressed: () async {
-                // Add action for the next button
-
-                print(
-                    'Phone: ${phoneController.text}, Money: ${moneyController.text}');
-                UserModel model =
-                    Provider.of<UserModelProvider>(context, listen: false).data;
-
-                int transferAmount = int.parse(moneyController.text);
-
-                if (model.amount < transferAmount) {
-                  context.showErrorSnackBar(
-                      message:
-                          'You don\'t have enough money to send this amount to other driver');
-                  return;
-                }
-
-                String uuid = await DatabaseUtils()
-                    .getDriverUuidByPhoneNumber("+91${phoneController.text}");
-                if (uuid == 'No driver match') {
-                  context.showErrorSnackBar(
-                      message: 'No driver is available with this phone number');
-                  return;
-                }
-                await DatabaseUtils().updateDriverAmount(
-                    uuid, transferAmount, 'Money Received', true);
-
-                await DatabaseUtils().updateDriverAmount(
-                    FirebaseAuth.instance.currentUser!.uid.toString(),
-                    -1 * transferAmount,
-                    'Money Sent',
-                    false);
-                model.amount -= transferAmount;
-                Provider.of<UserModelProvider>(context, listen: false)
-                    .setData(model);
-              },
-              child: Text('Next'),
-            ),
-          ],
-        ),
       ),
     );
   }

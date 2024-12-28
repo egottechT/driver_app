@@ -47,7 +47,7 @@ class DatabaseUtils {
         final DatabaseReference transactionRef =
             driverRef.child("transaction").push();
         await transactionRef.set({
-          "amount": incrementBy,
+          "amount": incrementBy.abs(),
           "status": status,
           "is_added": isAdded,
           "date": DateTime.now().toString(),

@@ -15,14 +15,13 @@ class BalanceScreen extends StatefulWidget {
 }
 
 class _BalanceScreenState extends State<BalanceScreen> {
-  String moneyText = "Rs. 500";
+  String moneyText = "Rs. 0";
   bool showCardView = true;
   Color? lightGrey = Colors.grey[200];
 
   @override
   void initState() {
     super.initState();
-    fetchDriverData();
   }
 
   Widget currentBalance() {
@@ -143,6 +142,8 @@ class _BalanceScreenState extends State<BalanceScreen> {
 
   @override
   Widget build(BuildContext context) {
+    fetchDriverData();
+
     return Scaffold(
       appBar: AppBar(
           backgroundColor: primaryColor,
@@ -170,9 +171,8 @@ class _BalanceScreenState extends State<BalanceScreen> {
   }
 
   void fetchDriverData() {
-    print('Fetching the data again');
     UserModel model =
-        Provider.of<UserModelProvider>(context, listen: false).data;
+        Provider.of<UserModelProvider>(context, listen: true).data;
     setState(() {
       moneyText = "Rs. ${model.amount.toString()}";
     });
