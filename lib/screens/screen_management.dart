@@ -4,14 +4,13 @@ import 'package:driver_app/screens/setting_screens/account_screen.dart';
 import 'package:driver_app/screens/top_navigation_screen/earning_screen.dart';
 import 'package:driver_app/screens/top_navigation_screen/map_screen.dart';
 import 'package:driver_app/screens/top_navigation_screen/rating_screen.dart';
+import 'package:driver_app/service/database.dart';
 import 'package:driver_app/service/notification_service.dart';
+import 'package:driver_app/widgets/elevated_button_style.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'package:driver_app/widgets/elevated_button_style.dart';
-import '../service/database.dart';
 
 class ManagementScreen extends StatefulWidget {
   const ManagementScreen({Key? key}) : super(key: key);
@@ -171,6 +170,7 @@ class _ManagementScreen extends State<ManagementScreen> {
             context.showErrorSnackBar(
                 message: "Currently there is no going booking");
           }
+          // LocalNoticeService().testingTrip(context);
         },
         style: elevatedButtonStyle(backgroundColor: Colors.black),
         child: const Text("Current Booking"),

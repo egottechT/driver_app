@@ -1,4 +1,4 @@
-import 'package:bubble_head/bubble.dart';
+// import 'package:bubble_head/bubble.dart';
 import 'package:driver_app/Utils/commonData.dart';
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/screens/pickup_screens/bottom_panel.dart';
@@ -82,7 +82,7 @@ class _PickUpScreenState extends State<PickUpScreen>
     }
   }
 
-  final Bubble _bubble = Bubble(showCloseButton: false);
+  // final Bubble _bubble = Bubble(showCloseButton: false);
 
   @override
   void dispose() {
@@ -92,7 +92,7 @@ class _PickUpScreenState extends State<PickUpScreen>
 
   Future<void> startBubbleHead() async {
     try {
-      await _bubble.startBubbleHead(sendAppToBackground: false);
+      // await _bubble.startBubbleHead(sendAppToBackground: false);
     } catch (exception) {
       debugPrint('Failed to call startBubbleHead ${exception.toString()}');
     }

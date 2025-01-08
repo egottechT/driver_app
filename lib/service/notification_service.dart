@@ -3,16 +3,19 @@ import 'dart:typed_data';
 
 import 'package:driver_app/Utils/commonData.dart';
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/model/user_model.dart';
+import 'package:driver_app/provider/user_provider.dart';
 import 'package:driver_app/screens/pickup_screens/status_check_screen.dart';
 import 'package:driver_app/service/database.dart';
 import 'package:driver_app/service/location_manager.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_beep/flutter_beep.dart';
+// import 'package:flutter_beep/flutter_beep.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:location/location.dart';
+import 'package:provider/provider.dart';
 
 class LocalNoticeService {
   static bool sendNotification = false;
@@ -168,7 +171,21 @@ class LocalNoticeService {
                     style: TextStyle(color: Colors.black),
                   ),
                   onPressed: () async {
+                    UserModel model =
+                        Provider.of<UserModelProvider>(context, listen: false)
+                            .data;
                     debugPrint("Accept clicked");
+                    int rechargeValue = int.parse(map["price"]).round();
+                    rechargeValue = (0.1 * rechargeValue).round();
+                    if (model.amount < rechargeValue) {
+                      context.showErrorSnackBar(
+                          message:
+                              'You don\'t have enough balance in your wallet to accept the ride');
+                      sendNotification = true;
+                      showing = false;
+                      Navigator.of(context).pop();
+                      return;
+                    }
                     showing = false;
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) => StatusCheckScreen(
@@ -184,14 +201,14 @@ class LocalNoticeService {
     makers.add(strtMarker);
     makers.add(destinationMarker);
 
-    FlutterBeep.playSysSound(41);
+    // FlutterBeep.playSysSound(41);
 
     for (int i = 1; i <= 30; i++) {
       if (!showing) {
         return;
       }
       await Future.delayed(const Duration(seconds: 1));
-      FlutterBeep.playSysSound(24);
+      // FlutterBeep.playSysSound(24);
     }
     if (context.mounted) {
       Navigator.of(context).pop();
@@ -267,6 +284,23 @@ class LocalNoticeService {
   Future<void> readData(BuildContext context) async {
     debugPrint("Reading data");
     databaseReference.child('trips').onChildAdded.listen((event) {
+      Map map = event.snapshot.value as Map;
+      String key = event.snapshot.key.toString();
+      if (sendNotification) {
+        sendNotification = false;
+        DatabaseUtils.customerKey = key;
+        showNotificationSystem(map, context, key);
+      }
+    });
+  }
+
+  void testingTrip(context) {
+    databaseReference
+        .child('trips')
+        .child('-OG3_HeHWuzMrUN75UQC')
+        .once()
+        .then((event) {
+      print('Inside here');
       Map map = event.snapshot.value as Map;
       String key = event.snapshot.key.toString();
       if (sendNotification) {

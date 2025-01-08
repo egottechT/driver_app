@@ -62,14 +62,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
-  bubble_head:
-    dependency: "direct main"
-    description:
-      name: bubble_head
-      sha256: b0aa15c68e71224dbea2f883342fb97a5e882cb8419bb3acdde281c92e5409cd
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.4"
   characters:
     dependency: transitive
     description:
@@ -158,6 +150,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.7"
+  eventify:
+    dependency: transitive
+    description:
+      name: eventify
+      sha256: b829429f08586cc2001c628e7499e3e3c2493a1d895fd73b00ecb23351aa5a66
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   fake_async:
     dependency: transitive
     description:
@@ -339,14 +339,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_beep:
-    dependency: "direct main"
-    description:
-      name: flutter_beep
-      sha256: "299bec757177afad07d27126155e0cf3167160ccf2a003645cd71ac014ccd541"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
   flutter_image_compress:
     dependency: "direct main"
     description:
@@ -461,6 +453,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  fluttertoast:
+    dependency: transitive
+    description:
+      name: fluttertoast
+      sha256: "24467dc20bbe49fd63e57d8e190798c4d22cbbdac30e54209d153a15273721d1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "8.2.10"
   geocoding:
     dependency: "direct main"
     description:
@@ -989,6 +989,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.5"
+  razorpay_flutter:
+    dependency: "direct main"
+    description:
+      name: razorpay_flutter
+      sha256: "5ae44cdea5312f8ef830ec04e31f9bdeeb83522ef1f314a25c463dd934c37cad"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.7"
   sanitize_html:
     dependency: transitive
     description:

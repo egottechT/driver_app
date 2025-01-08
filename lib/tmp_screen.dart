@@ -1,4 +1,4 @@
-import 'package:bubble_head/bubble.dart';
+// import 'package:bubble_head/bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -48,11 +48,11 @@ class _TmpScreenState extends State<TmpScreen> with WidgetsBindingObserver {
     }
   }
 
-  final Bubble _bubble = Bubble();
+  // final Bubble _bubble = Bubble();
 
   Future<void> startBubbleHead() async {
     try {
-      await _bubble.startBubbleHead(sendAppToBackground: false);
+      // await _bubble.startBubbleHead(sendAppToBackground: false);
     } catch (exception) {
       debugPrint('Failed to call startBubbleHead ${exception.toString()}');
     }
@@ -60,7 +60,7 @@ class _TmpScreenState extends State<TmpScreen> with WidgetsBindingObserver {
 
   Future<void> stopBubbleHead() async {
     try {
-      await _bubble.stopBubbleHead();
+      // await _bubble.stopBubbleHead();
     } on PlatformException {
       print('Failed to call stopBubbleHead');
     }
