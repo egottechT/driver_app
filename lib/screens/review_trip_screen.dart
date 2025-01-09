@@ -125,7 +125,8 @@ class _ReviewScreenState extends State<ReviewTripScreen> {
         FirebaseAuth.instance.currentUser!.uid.toString(),
         -1 * rechargeValue,
         'Ride Accepted',
-        false);
+        false,
+        "RID");
 
     UserModel model =
         Provider.of<UserModelProvider>(context, listen: false).data;

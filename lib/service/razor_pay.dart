@@ -25,8 +25,9 @@ class RazorPayService {
     await TransactionRepo().updateDriverAmount(
         FirebaseAuth.instance.currentUser!.uid.toString(),
         amount,
-        'Money Received',
-        true);
+        'Recharge',
+        true,
+        "ADD");
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {

@@ -88,13 +88,14 @@ class _SendMoneyScreenState extends State<SendMoneyScreen> {
                         return;
                       }
                       await TransactionRepo().updateDriverAmount(
-                          uuid, transferAmount, 'Money Received', true);
+                          uuid, transferAmount, 'Money Received', true, "REC");
 
                       await TransactionRepo().updateDriverAmount(
                           FirebaseAuth.instance.currentUser!.uid.toString(),
                           -1 * transferAmount,
                           'Money Sent',
-                          false);
+                          false,
+                          "SNT");
 
                       model.amount -= transferAmount;
 
