@@ -25,7 +25,6 @@ class _SendMoneyScreenState extends State<SendMoneyScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Send Money'),
-        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -66,6 +65,12 @@ class _SendMoneyScreenState extends State<SendMoneyScreen> {
 
                       int transferAmount = int.parse(moneyController.text);
 
+                      String phoneNumber = "+91${phoneController.text}";
+                      if (model.phoneNumber == phoneNumber) {
+                        context.showErrorSnackBar(
+                            message: 'Cannot Send to your own phone number');
+                        return;
+                      }
                       if (model.amount < transferAmount) {
                         context.showErrorSnackBar(
                             message:
@@ -74,8 +79,7 @@ class _SendMoneyScreenState extends State<SendMoneyScreen> {
                       }
 
                       String uuid = await DatabaseUtils()
-                          .getDriverUuidByPhoneNumber(
-                              "+91${phoneController.text}");
+                          .getDriverUuidByPhoneNumber(phoneNumber);
                       if (uuid == 'No driver match') {
                         context.showErrorSnackBar(
                             message:
