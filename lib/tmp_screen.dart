@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class TmpScreen extends StatefulWidget {
-  const TmpScreen({Key? key}) : super(key: key);
+  const TmpScreen({super.key});
 
   @override
   State<TmpScreen> createState() => _TmpScreenState();

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:driver_app/widgets/elevated_button_style.dart';
 class PhoneNumberSetup extends StatefulWidget {
-  const PhoneNumberSetup({Key? key}) : super(key: key);
+  const PhoneNumberSetup({super.key});
 
   @override
   State<PhoneNumberSetup> createState() => _PhoneNumberSetupState();

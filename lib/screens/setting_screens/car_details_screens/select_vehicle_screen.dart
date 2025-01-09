@@ -10,8 +10,7 @@ import 'package:provider/provider.dart';
 class SelectVehicleScreen extends StatefulWidget {
   final bool isFromStart;
 
-  const SelectVehicleScreen({Key? key, required this.isFromStart})
-      : super(key: key);
+  const SelectVehicleScreen({super.key, required this.isFromStart});
 
   @override
   State<SelectVehicleScreen> createState() => _SelectVehicleScreenState();

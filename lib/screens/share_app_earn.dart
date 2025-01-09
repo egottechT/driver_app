@@ -10,7 +10,7 @@ import 'package:driver_app/widgets/elevated_button_style.dart';
 import 'common_widget.dart';
 
 class ShareAppEarnScreen extends StatefulWidget {
-  const ShareAppEarnScreen({Key? key}) : super(key: key);
+  const ShareAppEarnScreen({super.key});
 
   @override
   State<ShareAppEarnScreen> createState() => _ShareAppEarnScreenState();

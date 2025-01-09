@@ -13,7 +13,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ManagementScreen extends StatefulWidget {
-  const ManagementScreen({Key? key}) : super(key: key);
+  const ManagementScreen({super.key});
 
   @override
   State<ManagementScreen> createState() => _ManagementScreen();

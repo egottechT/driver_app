@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class DriveHistoryScreen extends StatefulWidget {
-  const DriveHistoryScreen({Key? key}) : super(key: key);
+  const DriveHistoryScreen({super.key});
 
   @override
   State<DriveHistoryScreen> createState() => _DriveHistoryScreenState();

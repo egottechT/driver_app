@@ -8,8 +8,7 @@ import 'package:driver_app/widgets/elevated_button_style.dart';
 class OTPVerifyScreen extends StatefulWidget {
   final String phoneNumber;
 
-  const OTPVerifyScreen({Key? key, required this.phoneNumber})
-      : super(key: key);
+  const OTPVerifyScreen({super.key, required this.phoneNumber});
 
   @override
   State<OTPVerifyScreen> createState() => _OTPVerifyScreenState();

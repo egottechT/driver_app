@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class PaymentScreen extends StatefulWidget {
   final Map map;
 
-  const PaymentScreen({Key? key, required this.map}) : super(key: key);
+  const PaymentScreen({super.key, required this.map});
 
   @override
   State<PaymentScreen> createState() => _PaymentScreenState();

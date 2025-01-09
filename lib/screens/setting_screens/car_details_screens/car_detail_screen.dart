@@ -7,13 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:driver_app/widgets/elevated_button_style.dart';
-import '../../../service/database.dart';
 
 class CarDetailScreen extends StatefulWidget {
   final bool isFromStart;
 
-  const CarDetailScreen({Key? key, required this.isFromStart})
-      : super(key: key);
+  const CarDetailScreen({super.key, required this.isFromStart});
 
   @override
   State<CarDetailScreen> createState() => _CarDetailScreenState();

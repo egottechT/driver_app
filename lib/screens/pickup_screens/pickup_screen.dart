@@ -20,8 +20,7 @@ class PickUpScreen extends StatefulWidget {
   final Map map;
   final bool isPickUp;
 
-  const PickUpScreen({Key? key, required this.map, required this.isPickUp})
-      : super(key: key);
+  const PickUpScreen({super.key, required this.map, required this.isPickUp});
 
   @override
   State<PickUpScreen> createState() => _PickUpScreenState();

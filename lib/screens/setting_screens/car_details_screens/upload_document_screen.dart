@@ -12,8 +12,7 @@ import 'package:driver_app/widgets/elevated_button_style.dart';
 class UploadDocumentScreen extends StatefulWidget {
   final bool isFromStart;
 
-  const UploadDocumentScreen({Key? key, required this.isFromStart})
-      : super(key: key);
+  const UploadDocumentScreen({super.key, required this.isFromStart});
 
   @override
   State<UploadDocumentScreen> createState() => _UploadDocumentScreenState();

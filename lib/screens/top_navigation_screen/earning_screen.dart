@@ -3,7 +3,7 @@ import 'package:driver_app/repository/history_repo.dart';
 import 'package:flutter/material.dart';
 
 class EarningScreen extends StatefulWidget {
-  const EarningScreen({Key? key}) : super(key: key);
+  const EarningScreen({super.key});
 
   @override
   State<EarningScreen> createState() => _EarningScreenState();

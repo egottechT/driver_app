@@ -1,14 +1,13 @@
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/repository/trip_repo.dart';
 import 'package:driver_app/screens/pickup_screens/pickup_screen.dart';
-import 'package:driver_app/service/database.dart';
 import 'package:flutter/material.dart';
 
 import 'package:driver_app/widgets/elevated_button_style.dart';
 class PickOtpScreen extends StatefulWidget {
   final Map map;
 
-  const PickOtpScreen({Key? key, required this.map}) : super(key: key);
+  const PickOtpScreen({super.key, required this.map});
 
   @override
   State<PickOtpScreen> createState() => _PickOtpScreenState();

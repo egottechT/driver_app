@@ -14,8 +14,7 @@ import 'package:provider/provider.dart';
 class DocumentDetailScreen extends StatefulWidget {
   final String documentName;
 
-  const DocumentDetailScreen({Key? key, required this.documentName})
-      : super(key: key);
+  const DocumentDetailScreen({super.key, required this.documentName});
 
   @override
   State<DocumentDetailScreen> createState() => _DocumentDetailScreenState();

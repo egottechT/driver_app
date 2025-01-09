@@ -7,7 +7,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import 'package:driver_app/widgets/elevated_button_style.dart';
 class PermissionScreen extends StatefulWidget {
-  const PermissionScreen({Key? key}) : super(key: key);
+  const PermissionScreen({super.key});
 
   @override
   State<PermissionScreen> createState() => _PermissionScreenState();

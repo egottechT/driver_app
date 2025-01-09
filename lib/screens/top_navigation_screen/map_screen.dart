@@ -12,7 +12,7 @@ import 'package:location/location.dart';
 class MapScreen extends StatefulWidget {
   final LatLng center;
 
-  const MapScreen({Key? key, required this.center}) : super(key: key);
+  const MapScreen({super.key, required this.center});
 
   @override
   State<MapScreen> createState() => _MapScreenState();

@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 class ReviewTripScreen extends StatefulWidget {
   final Map map;
 
-  const ReviewTripScreen({Key? key, required this.map}) : super(key: key);
+  const ReviewTripScreen({super.key, required this.map});
 
   @override
   State<ReviewTripScreen> createState() => _ReviewScreenState();

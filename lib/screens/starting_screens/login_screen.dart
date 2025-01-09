@@ -1,14 +1,13 @@
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/repository/user_repo.dart';
 import 'package:driver_app/service/authentication.dart';
-import 'package:driver_app/service/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:driver_app/widgets/elevated_button_style.dart';
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();

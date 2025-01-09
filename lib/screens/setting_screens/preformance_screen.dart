@@ -5,7 +5,7 @@ import 'package:driver_app/widgets/elevated_button_style.dart';
 import 'package:flutter/material.dart';
 
 class PerformanceScreen extends StatefulWidget {
-  const PerformanceScreen({Key? key}) : super(key: key);
+  const PerformanceScreen({super.key});
 
   @override
   State<PerformanceScreen> createState() => _PerformanceScreenState();

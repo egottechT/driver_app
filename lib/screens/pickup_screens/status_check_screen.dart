@@ -7,8 +7,7 @@ class StatusCheckScreen extends StatefulWidget {
   final Map map;
   final bool isPickUp;
 
-  const StatusCheckScreen({Key? key, required this.map, required this.isPickUp})
-      : super(key: key);
+  const StatusCheckScreen({super.key, required this.map, required this.isPickUp});
 
   // const StatusCheckScreen({Key? key, })
   //     : super(key: key);
