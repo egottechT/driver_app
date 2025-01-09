@@ -1,4 +1,5 @@
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/repository/user_repo.dart';
 import 'package:driver_app/service/authentication.dart';
 import 'package:driver_app/service/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -102,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   try {
                                     User? result = await doGmailLogin();
                                     if (result != null) {
-                                      bool isExist = await DatabaseUtils()
+                                      bool isExist = await UserRepo()
                                           .checkDatabaseForUser(
                                           result.uid.toString());
                                       if (context.mounted) {

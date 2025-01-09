@@ -1,6 +1,6 @@
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/repository/driver_repo.dart';
 import 'package:driver_app/screens/pickup_screens/pickup_screen.dart';
-import 'package:driver_app/service/database.dart';
 import 'package:flutter/material.dart';
 
 class StatusCheckScreen extends StatefulWidget {
@@ -25,7 +25,7 @@ class _StatusCheckScreenState extends State<StatusCheckScreen> {
   }
 
   void readData() async {
-    bool status = await DatabaseUtils().checkAlreadyDriver();
+    bool status = await DriverRepo().checkAlreadyDriver();
     if (status) {
       context.showErrorSnackBar(
           message: "This ride is already taken by some other driver.");

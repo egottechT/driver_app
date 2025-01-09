@@ -1,5 +1,5 @@
 import 'package:driver_app/model/transaction_model.dart';
-import 'package:driver_app/service/database.dart';
+import 'package:driver_app/repository/transaction_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -23,7 +23,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
 
   void fetchtransactionData() async {
     List<TransactionModel> data = [];
-    data = await DatabaseUtils().fetchDriverTransactions();
+    data = await TransactionRepo().fetchDriverTransactions();
     setState(() {
       list = data;
     });

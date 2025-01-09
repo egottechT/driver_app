@@ -1,5 +1,6 @@
 import 'package:driver_app/model/user_model.dart';
 import 'package:driver_app/provider/user_provider.dart';
+import 'package:driver_app/repository/car_repo.dart';
 import 'package:driver_app/screens/common_widget.dart';
 import 'package:driver_app/screens/setting_screens/car_details_screens/upload_document_screen.dart';
 import 'package:flutter/material.dart';
@@ -122,7 +123,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                           "car_year": yearText.text,
                           "vehicle_number": vehicleNumber.text,
                         };
-                        await DatabaseUtils().uploadCarDetails(map, context);
+                        await CarRepo().uploadCarDetails(map, context);
                         setState(() {
                           isLoading = false;
                         });

@@ -1,14 +1,15 @@
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/repository/trip_repo.dart';
 import 'package:driver_app/screens/message_screen.dart';
 import 'package:driver_app/screens/pickup_screens/pick_otp_check.dart';
 import 'package:driver_app/screens/setting_screens/payment_screen.dart';
 import 'package:driver_app/service/database.dart';
+import 'package:driver_app/widgets/elevated_button_style.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:driver_app/widgets/elevated_button_style.dart';
-Widget bottomPanelLayout(Map map, BuildContext context, bool isPickup,
-    String carType) {
+Widget bottomPanelLayout(
+    Map map, BuildContext context, bool isPickup, String carType) {
   return Container(
     color: Colors.grey[200],
     padding: const EdgeInsets.all(10.0),
@@ -112,14 +113,13 @@ Widget bottomPanelLayout(Map map, BuildContext context, bool isPickup,
             ),
             Expanded(
                 child: ElevatedButton(
-                  style: elevatedButtonStyle(
-                      backgroundColor: secondaryColor),
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const MessageScreen()));
-                  },
-                  child: const Text("Message your customer.."),
-                ))
+              style: elevatedButtonStyle(backgroundColor: secondaryColor),
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const MessageScreen()));
+              },
+              child: const Text("Message your customer.."),
+            ))
           ],
         ),
         ElevatedButton(
@@ -128,7 +128,7 @@ Widget bottomPanelLayout(Map map, BuildContext context, bool isPickup,
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => PickOtpScreen(map: map)));
             } else {
-              await DatabaseUtils().updateFinishTrip();
+              await TripRepo().updateFinishTrip();
               DatabaseUtils().disposeListener();
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => PaymentScreen(map: map)));

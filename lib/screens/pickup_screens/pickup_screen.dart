@@ -1,6 +1,8 @@
 // import 'package:bubble_head/bubble.dart';
 import 'package:driver_app/Utils/commonData.dart';
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/repository/trip_repo.dart';
+import 'package:driver_app/repository/user_repo.dart';
 import 'package:driver_app/screens/pickup_screens/bottom_panel.dart';
 import 'package:driver_app/service/database.dart';
 import 'package:driver_app/service/location_manager.dart';
@@ -101,7 +103,7 @@ class _PickUpScreenState extends State<PickUpScreen>
   void uploadDriverDetails(LocationData currentLocation) async {
     // debugPrint("Inside function");
     try {
-      DatabaseUtils().getUserInfo(context,
+      UserRepo().getUserInfo(context,
           FirebaseAuth.instance.currentUser!.uid.toString(), currentLocation);
     } catch (e) {
       context.showErrorSnackBar(
@@ -120,7 +122,7 @@ class _PickUpScreenState extends State<PickUpScreen>
         double distance = calculateDistance(startLocation, value);
         if (distance > 40.0) {
           debugPrint("Distance is :- $distance");
-          DatabaseUtils().updateLatLng(value);
+          TripRepo().updateLatLng(value);
 
           double latitude = newLocation.latitude as double;
           double longitude = newLocation.longitude as double;

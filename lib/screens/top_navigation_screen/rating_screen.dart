@@ -1,6 +1,6 @@
 import 'package:driver_app/model/raitng_model.dart';
+import 'package:driver_app/repository/driver_repo.dart';
 import 'package:driver_app/screens/common_widget.dart';
-import 'package:driver_app/service/database.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -21,7 +21,7 @@ class _RatingScreenState extends State<RatingScreen> {
   }
 
   void readData() async {
-    List<RatingModel> list = await DatabaseUtils().fetchRatingData();
+    List<RatingModel> list = await DriverRepo().fetchRatingData();
     // RatingModel model = RatingModel();
     // model.date = DateTime.now().toString();
     // model.customerName = "Aryan";

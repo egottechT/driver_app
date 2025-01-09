@@ -1,10 +1,10 @@
 import 'package:driver_app/Utils/constants.dart';
+import 'package:driver_app/repository/history_repo.dart';
 import 'package:driver_app/screens/review_trip_screen.dart';
-import 'package:driver_app/service/database.dart';
+import 'package:driver_app/widgets/elevated_button_style.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:driver_app/widgets/elevated_button_style.dart';
 class PaymentScreen extends StatefulWidget {
   final Map map;
 
@@ -115,7 +115,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: ElevatedButton(
               onPressed: () async {
-                await DatabaseUtils().uploadTripHistory(widget.map);
+                await HistoryRepo().uploadTripHistory(widget.map);
                 if (context.mounted) {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => ReviewTripScreen(map: widget.map)));

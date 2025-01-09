@@ -1,11 +1,12 @@
 import 'dart:io';
 
-import 'package:driver_app/widgets/elevated_button_style.dart';
 import 'package:driver_app/Utils/commonData.dart';
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/model/user_model.dart';
 import 'package:driver_app/provider/user_provider.dart';
+import 'package:driver_app/repository/car_repo.dart';
 import 'package:driver_app/service/database.dart';
+import 'package:driver_app/widgets/elevated_button_style.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -107,14 +108,13 @@ class _DocumentDetailScreenState extends State<DocumentDetailScreen> {
                     ),
                   )
                 : ElevatedButton(
-                    style:
-                    elevatedButtonStyle(backgroundColor: Colors.black),
+                    style: elevatedButtonStyle(backgroundColor: Colors.black),
                     onPressed: () async {
                       if (file != null) {
                         setState(() {
                           isLoading = true;
                         });
-                        await DatabaseUtils()
+                        await CarRepo()
                             .uploadDocumentPhoto(widget.documentName);
                         await DatabaseUtils()
                             .uploadPhotoToStorage(file!, widget.documentName);

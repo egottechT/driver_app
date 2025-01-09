@@ -1,7 +1,8 @@
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/model/user_model.dart';
 import 'package:driver_app/provider/user_provider.dart';
-import 'package:driver_app/service/database.dart';
+import 'package:driver_app/repository/driver_repo.dart';
+import 'package:driver_app/repository/transaction_repo.dart';
 import 'package:driver_app/widgets/elevated_button_style.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -78,7 +79,7 @@ class _SendMoneyScreenState extends State<SendMoneyScreen> {
                         return;
                       }
 
-                      String uuid = await DatabaseUtils()
+                      String uuid = await DriverRepo()
                           .getDriverUuidByPhoneNumber(phoneNumber);
                       if (uuid == 'No driver match') {
                         context.showErrorSnackBar(
@@ -86,10 +87,10 @@ class _SendMoneyScreenState extends State<SendMoneyScreen> {
                                 'No driver is available with this phone number');
                         return;
                       }
-                      await DatabaseUtils().updateDriverAmount(
+                      await TransactionRepo().updateDriverAmount(
                           uuid, transferAmount, 'Money Received', true);
 
-                      await DatabaseUtils().updateDriverAmount(
+                      await TransactionRepo().updateDriverAmount(
                           FirebaseAuth.instance.currentUser!.uid.toString(),
                           -1 * transferAmount,
                           'Money Sent',

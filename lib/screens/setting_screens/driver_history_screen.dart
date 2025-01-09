@@ -1,6 +1,6 @@
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/model/trip_model.dart';
-import 'package:driver_app/service/database.dart';
+import 'package:driver_app/repository/history_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -25,7 +25,7 @@ class _DriveHistoryScreenState extends State<DriveHistoryScreen> {
   }
 
   void readData() async {
-    tripList = await DatabaseUtils().fetchHistoryTrip();
+    tripList = await HistoryRepo().fetchHistoryTrip();
     // tripList = addDummyDate();
     changeInDate();
   }

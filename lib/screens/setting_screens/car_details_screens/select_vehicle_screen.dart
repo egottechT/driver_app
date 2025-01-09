@@ -1,12 +1,12 @@
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/model/user_model.dart';
 import 'package:driver_app/provider/user_provider.dart';
+import 'package:driver_app/repository/car_repo.dart';
 import 'package:driver_app/screens/setting_screens/car_details_screens/car_detail_screen.dart';
-import 'package:driver_app/service/database.dart';
+import 'package:driver_app/widgets/elevated_button_style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:driver_app/widgets/elevated_button_style.dart';
 class SelectVehicleScreen extends StatefulWidget {
   final bool isFromStart;
 
@@ -216,7 +216,7 @@ class _SelectVehicleScreenState extends State<SelectVehicleScreen> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  DatabaseUtils().uploadCarType(carType, context);
+                  CarRepo().uploadCarType(carType, context);
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => CarDetailScreen(
                             isFromStart: widget.isFromStart,

@@ -1,13 +1,14 @@
 import 'package:analyzer_plugin/utilities/pair.dart';
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/model/user_model.dart';
+import 'package:driver_app/repository/dealer_repo.dart';
+import 'package:driver_app/repository/user_repo.dart';
 import 'package:driver_app/screens/setting_screens/car_details_screens/select_vehicle_screen.dart';
-import 'package:driver_app/service/database.dart';
+import 'package:driver_app/widgets/elevated_button_style.dart';
 import 'package:driver_app/widgets/phone_number_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'package:driver_app/widgets/elevated_button_style.dart';
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
 
@@ -105,7 +106,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           model.state = state;
                           model.franchise = franchise;
                           User? result = FirebaseAuth.instance.currentUser;
-                          DatabaseUtils().addUserToDatabase(
+                          UserRepo().addUserToDatabase(
                               result?.uid.toString() as String, model);
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => const SelectVehicleScreen(
@@ -113,8 +114,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   )));
                         }
                       },
-                      style: elevatedButtonStyle(
-                          backgroundColor: Colors.black),
+                      style: elevatedButtonStyle(backgroundColor: Colors.black),
                       child: const Text("Next"),
                     )
                   ],
@@ -288,12 +288,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Future<List<Pair<String, String>>> fetchData() async {
     // Simulate an asynchronous operation
     List<Pair<String, String>> list =
-        await DatabaseUtils().getFranchiseData(state);
+        await DealerRepo().getFranchiseData(state);
     return list;
   }
 
   Future<List<Pair<String, String>>> fetchCityDealerData() async {
-    List<Pair<String, String>> list = await DatabaseUtils().getCityDealerData();
+    List<Pair<String, String>> list = await DealerRepo().getCityDealerData();
     return list;
   }
 }

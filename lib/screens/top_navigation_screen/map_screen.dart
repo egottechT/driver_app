@@ -1,7 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:driver_app/Utils/commonData.dart';
-import 'package:driver_app/service/database.dart';
+import 'package:driver_app/repository/trip_repo.dart';
+import 'package:driver_app/repository/user_repo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,7 +34,7 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   void readData() async {
-    await DatabaseUtils().getUserInformation(
+    await UserRepo().getUserInformation(
         context, FirebaseAuth.instance.currentUser!.uid.toString());
     setState(() {
       isLoading = false;
@@ -68,7 +69,7 @@ class _MapScreenState extends State<MapScreen> {
         LocationData location = await getCurrentLocation();
         mapSetupWork(location);
         // Map map = getDummyData();
-        DatabaseUtils().updateLocationForMe(
+        TripRepo().updateLocationForMe(
             LatLng(location.latitude as double, location.longitude as double));
         // getDummyData();
       },

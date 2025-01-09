@@ -1,6 +1,6 @@
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/Utils/name_and_function.dart';
-import 'package:driver_app/service/database.dart';
+import 'package:driver_app/repository/driver_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -99,7 +99,7 @@ void showReferAndBox(context, bool isReferAlready) async {
                     changeState(() {
                       isLoading = true;
                     });
-                    await DatabaseUtils().addReferAndEarn(controller.text);
+                    await DriverRepo().addReferAndEarn(controller.text);
                     changeState(() {
                       isLoading = false;
                     });

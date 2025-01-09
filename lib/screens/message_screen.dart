@@ -1,4 +1,5 @@
 import 'package:driver_app/model/message_model.dart';
+import 'package:driver_app/repository/chat_repo.dart';
 import 'package:driver_app/service/database.dart';
 import 'package:flutter/material.dart';
 
@@ -71,8 +72,7 @@ class _MessageScreenState extends State<MessageScreen> {
                       decoration: InputDecoration(
                           suffixIcon: IconButton(
                               onPressed: () {
-                                DatabaseUtils()
-                                    .uploadChatData(textController.text);
+                                ChatRepo().uploadChatData(textController.text);
                                 textController.text = "";
                                 readData();
                               },
@@ -90,7 +90,7 @@ class _MessageScreenState extends State<MessageScreen> {
   }
 
   void readData() async {
-    List<MessageModel> list = await DatabaseUtils().fetchMessageData();
+    List<MessageModel> list = await ChatRepo().fetchMessageData();
     setState(() {
       messages = list;
     });

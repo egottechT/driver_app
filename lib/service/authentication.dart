@@ -2,8 +2,8 @@ import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/model/user_model.dart';
 import 'package:driver_app/provider/otp_listener.dart';
 import 'package:driver_app/provider/user_provider.dart';
+import 'package:driver_app/repository/user_repo.dart';
 import 'package:driver_app/screens/phone_verification_screens/otp_verify_screen.dart';
-import 'package:driver_app/service/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +44,7 @@ Future<void> signOut(BuildContext context) async {
 
 String verificationCode = "";
 String phoneNumber = "";
+
 Future<void> signInWithPhoneNumber(String number, BuildContext context) async {
   phoneNumber = number;
 
@@ -75,8 +76,8 @@ Future<void> checkOTP(String smsCode, BuildContext context) async {
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
         verificationId: verificationCode, smsCode: smsCode);
     await _auth.signInWithCredential(credential).then((dynamic result) async {
-      bool isExist = await DatabaseUtils()
-          .checkDatabaseForUser(result.user.uid.toString());
+      bool isExist =
+          await UserRepo().checkDatabaseForUser(result.user.uid.toString());
       if (context.mounted) {
         if (isExist) {
           Navigator.of(context).pushNamed("/permissionScreen");

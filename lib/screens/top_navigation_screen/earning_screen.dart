@@ -1,5 +1,5 @@
 import 'package:driver_app/model/trip_model.dart';
-import 'package:driver_app/service/database.dart';
+import 'package:driver_app/repository/history_repo.dart';
 import 'package:flutter/material.dart';
 
 class EarningScreen extends StatefulWidget {
@@ -19,7 +19,7 @@ class _EarningScreenState extends State<EarningScreen> {
   }
 
   void readData() async {
-    List<TripModel> list = await DatabaseUtils().fetchHistoryTrip();
+    List<TripModel> list = await HistoryRepo().fetchHistoryTrip();
     // TripModel model = TripModel();
     // model.dateTime = DateTime.now().toString();
     // model.price = "200";
