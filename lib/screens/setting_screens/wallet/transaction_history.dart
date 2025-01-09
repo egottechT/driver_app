@@ -18,10 +18,10 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    fetchtransactionData();
+    fetchTransactionData();
   }
 
-  void fetchtransactionData() async {
+  void fetchTransactionData() async {
     List<TransactionModel> data = [];
     data = await TransactionRepo().fetchDriverTransactions();
     setState(() {
@@ -39,18 +39,44 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
           itemCount: list.length,
           itemBuilder: (context, index) {
             TransactionModel model = list[index];
+            Color color = model.isAdded ? Colors.green : Colors.red;
 
             return Card(
               color: Colors.grey[300],
               child: ListTile(
-                leading: Icon(model.isAdded ? Icons.add : Icons.minimize,
-                    color: model.isAdded ? Colors.green : Colors.red),
+                leading: Icon(
+                  model.isAdded ? Icons.add : Icons.minimize,
+                  color: color,
+                ),
                 title: Text(model.status),
-                subtitle: Text(formatDate(model.date)),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  // Align text to the start
+                  children: [
+                    Text(formatDate(model.date)),
+                    // Original subtitle
+                    SizedBox(height: 4),
+                    Text(
+                      "Order-ID: ${model.orderID}",
+                      // Second additional field
+                      style: TextStyle(fontSize: 12, color: Colors.black54),
+                    ),
+                    Text(
+                      "Avl. Balance: ${model.currentBalance}",
+                      // First additional field
+                      style: TextStyle(fontSize: 12, color: Colors.black54),
+                    ),
+
+                    Text(
+                      "Name:- ${model.userName}",
+                      // Third additional field
+                      style: TextStyle(fontSize: 12, color: Colors.black54),
+                    ),
+                  ],
+                ),
                 trailing: Text(
                   "Rs. ${model.amount.toString()}",
-                  style: TextStyle(
-                      color: model.isAdded ? Colors.green : Colors.red),
+                  style: TextStyle(color: color),
                 ),
               ),
             );

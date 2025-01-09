@@ -20,12 +20,16 @@ class TransactionRepo {
         await driverRef.update({'amount': currentAmount + incrementBy});
         final DatabaseReference transactionRef =
             driverRef.child("transaction").push();
+
+        String orderIdKey =
+            orderId + (transactionRef.key?.substring(0, 6) ?? "");
+
         await transactionRef.set({
           "amount": incrementBy.abs(),
           "status": status,
           "is_added": isAdded,
           "date": DateTime.now().toString(),
-          "order_id": "$orderId-${transactionRef.key ?? ""}",
+          "order_id": orderIdKey,
           "current_balance": currentAmount + incrementBy,
           "user_name": userName
         });
