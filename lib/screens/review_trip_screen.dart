@@ -126,7 +126,8 @@ class _ReviewScreenState extends State<ReviewTripScreen> {
         -1 * rechargeValue,
         'Ride Accepted',
         false,
-        "RID");
+        "RID",
+        widget.map['title'] ?? "Customer");
 
     UserModel model =
         Provider.of<UserModelProvider>(context, listen: false).data;

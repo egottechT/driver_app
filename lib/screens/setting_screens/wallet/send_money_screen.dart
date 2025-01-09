@@ -79,23 +79,29 @@ class _SendMoneyScreenState extends State<SendMoneyScreen> {
                         return;
                       }
 
-                      String uuid = await DriverRepo()
+                      Map<String, String> uuid = await DriverRepo()
                           .getDriverUuidByPhoneNumber(phoneNumber);
-                      if (uuid == 'No driver match') {
+                      if (uuid['name'] == 'No driver match') {
                         context.showErrorSnackBar(
                             message:
                                 'No driver is available with this phone number');
                         return;
                       }
                       await TransactionRepo().updateDriverAmount(
-                          uuid, transferAmount, 'Money Received', true, "REC");
+                          uuid['uuid'] ?? "",
+                          transferAmount,
+                          'Money Received',
+                          true,
+                          "REC",
+                          model.name);
 
                       await TransactionRepo().updateDriverAmount(
                           FirebaseAuth.instance.currentUser!.uid.toString(),
                           -1 * transferAmount,
                           'Money Sent',
                           false,
-                          "SNT");
+                          "SNT",
+                          uuid['name'] ?? "No Name");
 
                       model.amount -= transferAmount;
 

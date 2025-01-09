@@ -12,7 +12,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class DriverRepo {
   final databaseReference = FirebaseDatabase.instance.ref();
 
-  Future<String> getDriverUuidByPhoneNumber(String phoneNumber) async {
+  Future<Map<String, String>> getDriverUuidByPhoneNumber(
+      String phoneNumber) async {
     try {
       // Reference to the Firebase Realtime Database
       final DatabaseReference databaseRef =
@@ -34,17 +35,22 @@ class DriverRepo {
             // Check if the driver data contains a matching phone number
             if (driverData is Map<dynamic, dynamic> &&
                 driverData['phoneNumber'] == phoneNumber) {
-              return uuid; // Return the UUID of the matching driver
+              final String name =
+                  driverData['name'] ?? "Unknown"; // Extract the name
+              return {
+                'uuid': uuid.toString(),
+                'name': name,
+              };
             }
           }
         }
       }
 
       // If no match is found, return no match message
-      return "No driver match";
+      return {"name": "No driver match"};
     } catch (e) {
       // Handle any errors that occur
-      return "Error: ${e.toString()}";
+      return {"name": "Error: ${e.toString()}"};
     }
   }
 

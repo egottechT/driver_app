@@ -4,7 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 
 class TransactionRepo {
   Future<void> updateDriverAmount(String uuid, int incrementBy, String status,
-      bool isAdded, String orderId) async {
+      bool isAdded, String orderId, String userName) async {
     try {
       if (uuid.isEmpty) return;
       final DatabaseReference driverRef =
@@ -27,7 +27,7 @@ class TransactionRepo {
           "date": DateTime.now().toString(),
           "order_id": "$orderId-${transactionRef.key ?? ""}",
           "current_balance": currentAmount + incrementBy,
-          "user_name": "Ar"
+          "user_name": userName
         });
       } else {
         print("Driver with UUID $uuid not found.");

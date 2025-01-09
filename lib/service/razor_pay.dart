@@ -27,7 +27,8 @@ class RazorPayService {
         amount,
         'Recharge',
         true,
-        "ADD");
+        "ADD",
+        "Self");
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
