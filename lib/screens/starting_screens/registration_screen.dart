@@ -1,6 +1,7 @@
 import 'package:analyzer_plugin/utilities/pair.dart';
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/model/user_model.dart';
+import 'package:driver_app/provider/user_provider.dart';
 import 'package:driver_app/repository/dealer_repo.dart';
 import 'package:driver_app/repository/user_repo.dart';
 import 'package:driver_app/screens/setting_screens/car_details_screens/select_vehicle_screen.dart';
@@ -8,6 +9,7 @@ import 'package:driver_app/widgets/elevated_button_style.dart';
 import 'package:driver_app/widgets/phone_number_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -20,11 +22,35 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final _ownerFormKey = GlobalKey<FormState>();
   TextEditingController firstName = TextEditingController();
   TextEditingController lastName = TextEditingController();
-  TextEditingController password = TextEditingController();
-  TextEditingController referralController = TextEditingController();
+
+  // TextEditingController password = TextEditingController();
+  // TextEditingController referralController = TextEditingController();
   TextEditingController phoneNumber = TextEditingController();
   String state = "None";
   String franchise = "None";
+
+  @override
+  void initState() {
+    super.initState();
+    // fetchUserData();
+  }
+
+  void fetchUserData() {
+    UserModelProvider provider =
+        Provider.of<UserModelProvider>(context, listen: false);
+    UserModel model = provider.data;
+
+    List<String> parts = model.name.trim().split(' ');
+
+    // Check the number of parts in the name
+    if (parts.length == 1) {
+      firstName.text = parts[0];
+    } else {
+      // Combine all parts after the first as the last name
+      firstName.text = parts[0];
+      lastName.text = parts.sublist(1).join(' ');
+    }
+  }
 
   String? nullValidator(dynamic value) {
     if (value == null || value!.isEmpty) {
@@ -255,27 +281,27 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           const SizedBox(
             height: 10,
           ),
-          TextFormField(
-            style: _textStyle,
-            keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(
-                labelText: 'REFERRAL CODE',
-                hintText: '(OPTIONAL) REFERRAL CODE'),
-            controller: referralController,
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          TextFormField(
-              style: _textStyle,
-              decoration: const InputDecoration(
-                labelText: 'Password',
-              ),
-              controller: password,
-              validator: nullValidator,
-              textInputAction: TextInputAction.next,
-              keyboardType: TextInputType.visiblePassword,
-              obscureText: true),
+          // TextFormField(
+          //   style: _textStyle,
+          //   keyboardType: TextInputType.emailAddress,
+          //   decoration: const InputDecoration(
+          //       labelText: 'REFERRAL CODE',
+          //       hintText: '(OPTIONAL) REFERRAL CODE'),
+          //   controller: referralController,
+          // ),
+          // const SizedBox(
+          //   height: 10,
+          // ),
+          // TextFormField(
+          //     style: _textStyle,
+          //     decoration: const InputDecoration(
+          //       labelText: 'Password',
+          //     ),
+          //     controller: password,
+          //     validator: nullValidator,
+          //     textInputAction: TextInputAction.next,
+          //     keyboardType: TextInputType.visiblePassword,
+          //     obscureText: true),
         ],
       ),
     );

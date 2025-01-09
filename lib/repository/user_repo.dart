@@ -45,7 +45,7 @@ class UserRepo {
       await databaseReference
           .child("driver")
           .child(name)
-          .set(UserModel().toMap(model));
+          .update(UserModel().toMap(model));
     } catch (e) {
       debugPrint(e.toString());
     }
