@@ -30,6 +30,13 @@ class LocalNoticeService {
 
   void showNotificationSystem(Map map, BuildContext context, String key) async {
     bool showing = true;
+    UserModel model =
+        Provider.of<UserModelProvider>(context, listen: false).data;
+
+    if (model.carType != map['car']) {
+      print('--> Car type doesn\'t Match');
+      return;
+    }
 
     var destination = LatLng(
         map["pick-up"]["lat"].toDouble(), map["pick-up"]["long"].toDouble());
