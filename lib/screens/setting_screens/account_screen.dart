@@ -8,6 +8,7 @@ import 'package:driver_app/model/user_model.dart';
 import 'package:driver_app/provider/user_provider.dart';
 import 'package:driver_app/service/database.dart';
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -20,11 +21,24 @@ class AccountScreen extends StatefulWidget {
 class _AccountScreenState extends State<AccountScreen> {
   late List<Pair<String, dynamic>> values;
   File? imgFile;
+  String versionNumber = "";
+
+  Future<void> getAppVersion() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+
+    String version = packageInfo.version;
+
+    print('App Version: $version');
+    setState(() {
+      versionNumber = version;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     values = nameAndFunctionList(context);
+    getAppVersion();
   }
 
   @override
@@ -50,7 +64,9 @@ class _AccountScreenState extends State<AccountScreen> {
               },
               itemCount: values.length,
               shrinkWrap: true,
-            )
+            ),
+            SizedBox(height: 25),
+            Text('Version: $versionNumber')
           ],
         ),
       ),
