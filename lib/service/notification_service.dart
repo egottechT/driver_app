@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:driver_app/Utils/commonData.dart';
 import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/model/user_model.dart';
@@ -210,12 +211,15 @@ class LocalNoticeService {
 
     // FlutterBeep.playSysSound(41);
 
+    AudioPlayer audioPlayer = AudioPlayer();
+    audioPlayer.setVolume(1.5);
     for (int i = 1; i <= 30; i++) {
       if (!showing) {
         return;
       }
       await Future.delayed(const Duration(seconds: 1));
-      // FlutterBeep.playSysSound(24);
+
+      await audioPlayer.play(AssetSource('icons/beep.mp3'));
     }
     if (context.mounted) {
       Navigator.of(context).pop();
