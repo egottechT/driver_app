@@ -73,6 +73,4 @@ class TripRepo {
         .child("driver_info")
         .update({"applied": "done"});
   }
-
-
 }

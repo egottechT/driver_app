@@ -22,8 +22,7 @@ class CarRepo {
         .child("car_type")
         .set(carType);
 
-    await UserRepo().getUserInformation(
-        context, FirebaseAuth.instance.currentUser!.uid.toString());
+    await UserRepo().getUserInformation(context);
   }
 
   Future<void> uploadCarDetails(
@@ -34,7 +33,6 @@ class CarRepo {
         .child("car_details")
         .update(map);
 
-    await UserRepo().getUserInformation(
-        context, FirebaseAuth.instance.currentUser!.uid.toString());
+    await UserRepo().getUserInformation(context);
   }
 }

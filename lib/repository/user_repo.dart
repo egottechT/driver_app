@@ -2,6 +2,7 @@ import 'package:driver_app/Utils/constants.dart';
 import 'package:driver_app/model/user_model.dart';
 import 'package:driver_app/provider/user_provider.dart';
 import 'package:driver_app/repository/driver_repo.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -11,8 +12,10 @@ import 'package:provider/provider.dart';
 class UserRepo {
   final databaseReference = FirebaseDatabase.instance.ref();
 
-  Future<void> getUserInformation(BuildContext context, String uid) async {
+  Future<void> getUserInformation(BuildContext context) async {
     UserModel model = UserModel();
+    // String uid = 'x79zp4zvAKZ4AqFyR0O6RKTz3DN2';
+    String uid = FirebaseAuth.instance.currentUser!.uid.toString();
     await databaseReference.child("driver").child(uid).once().then((value) {
       if (value.snapshot.value == null) {
         context.showErrorSnackBar(message: "Please log-out and Log-in again");

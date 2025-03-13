@@ -18,9 +18,9 @@ class SelectVehicleScreen extends StatefulWidget {
 
 class _SelectVehicleScreenState extends State<SelectVehicleScreen> {
   late String miniDesp, microDesp, primeDesp, eRickshawDesp, autoDesp;
-  late int clickedIndex;
+  int clickedIndex = 0;
   late String showText;
-  String carType = "";
+  String carType = "mini";
 
   void readData() {
     UserModel model =
