@@ -46,6 +46,13 @@
             {
               "client_id": "709692300821-4bmpccgvpo33ccdj1gdjgfeivl7hjbqu.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "709692300821-rhdsd0jgltgm5dn1k0h5ai638rlt1egg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bmet.customerapp"
+              }
             }
           ]
         }
@@ -91,6 +98,13 @@
             {
               "client_id": "709692300821-4bmpccgvpo33ccdj1gdjgfeivl7hjbqu.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "709692300821-rhdsd0jgltgm5dn1k0h5ai638rlt1egg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bmet.customerapp"
+              }
             }
           ]
         }

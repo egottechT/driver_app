@@ -315,11 +315,15 @@ class _PickUpScreenState extends State<PickUpScreen>
     double destinationLatitude,
     double destinationLongitude,
   ) async {
+    PolylineRequest request = PolylineRequest(
+      origin: PointLatLng(startLatitude, startLongitude),
+      destination: PointLatLng(destinationLatitude, destinationLongitude),
+      mode: TravelMode.driving,
+    );
+
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      mapApiKey, // Google Maps API Key
-      PointLatLng(startLatitude, startLongitude),
-      PointLatLng(destinationLatitude, destinationLongitude),
-      travelMode: TravelMode.driving,
+      request: request,
+      googleApiKey: mapApiKey, // Google Maps API Key
     );
 
     // Adding the coordinates to the list

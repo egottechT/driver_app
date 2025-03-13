@@ -1,5 +1,6 @@
 import 'dart:isolate';
 
+import 'package:driver_app/firebase_options.dart';
 import 'package:driver_app/provider/otp_listener.dart';
 import 'package:driver_app/provider/user_provider.dart';
 import 'package:driver_app/screens/phone_verification_screens/phone_number_setup.dart';
@@ -21,7 +22,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await NotificationService().init();
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
 
