@@ -1,0 +1,25 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "book-my-etaxi",
+          "appId": "1:709692300821:android:44701ce37cbf921929381c",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "book-my-etaxi",
+          "configurations": {
+            "android": "1:709692300821:android:44701ce37cbf921929381c",
+            "ios": "1:709692300821:ios:04c785ffc3f871fe29381c",
+            "macos": "1:709692300821:ios:04c785ffc3f871fe29381c",
+            "web": "1:709692300821:web:c1a98ddd1a2730a229381c",
+            "windows": "1:709692300821:web:0f69eb28b04ddb6429381c"
+          }
+        }
+      }
+    }
+  }
+}
